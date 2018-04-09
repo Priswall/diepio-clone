@@ -4,13 +4,10 @@
 		<title>Connection Testing</title>
 	</head>
 	<body>
-		<h3>State: <span id="state">0</span></h3>
 		<script>
 		      var wsUri = "127.0.0.1";
-       		      var output;
 		
 		      function init() {
-		         output = document.getElementById("output");
 		         testWebSocket();
 		      }
 		
@@ -53,7 +50,7 @@
 		         pre.innerHTML = message; output.appendChild(pre);
 		      }
 				
-		      window.addEventListener("load", init, false);
+		      init();
 		</script>
 	</body>
 </html>
