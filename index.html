@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Connection Testing</title>
+	</head>
+	<body>
+		<script>
+		var socket = new WebSocket("127.0.0.1");
+		var state = document.createElement("h3");
+		
+		if(socket.readyState === WebSocket.OPEN){
+			state.value = socket.readyState;
+			document.body.appendChild(state);
+		}
+		</script>
+	</body>
+</html>
