@@ -6,12 +6,54 @@
 	<body>
 		<h3>State: <span id="state">0</span></h3>
 		<script>
-		var socket = new WebSocket("127.0.0.1");
-		var state = document.getElementById("state");
+		      var wsUri = "ws://echo.websocket.org/";
+       		      var output;
 		
-		socket.onopen = function(){
-			state.value = socket.readyState;
-		}
+		      function init() {
+		         output = document.getElementById("output");
+		         testWebSocket();
+		      }
+		
+		      function testWebSocket() {
+		         websocket = new WebSocket(wsUri);
+			
+		         websocket.onopen = function(evt) {
+		            onOpen(evt)
+		         };
+			
+		         websocket.onclose = function(evt) {
+		            onClose(evt)
+		         };
+			
+		         websocket.onerror = function(evt) {
+		            onError(evt)
+		         };
+		      }
+		
+		      function onOpen(evt) {
+		         writeToScreen("CONNECTED");
+        		 doSend("WebSocket rocks");
+      		      }
+		
+      		      function onClose(evt) {
+      		         writeToScreen("DISCONNECTED");
+      		      }
+		
+		      function onError(evt) {
+		         writeToScreen('<span style = "color: red;">ERROR:</span> ' + evt.data);
+		      } 
+		
+		      function doSend(message) {
+		         writeToScreen("SENT: " + message); websocket.send(message);
+		      }
+		
+		      function writeToScreen(message) {
+		         var pre = document.createElement("p"); 
+		         pre.style.wordWrap = "break-word"; 
+		         pre.innerHTML = message; output.appendChild(pre);
+		      }
+				
+		      window.addEventListener("load", init, false);
 		</script>
 	</body>
 </html>
