@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<script>
-		      var wsUri = "wss://127.0.0.1:8080";
+		      var wsUri = "wss://127.0.0.1";
 		
 		      function init() {
 		         testWebSocket();
@@ -47,7 +47,7 @@
 		      function writeToScreen(message) {
 		         var pre = document.createElement("p"); 
 		         pre.style.wordWrap = "break-word"; 
-		         pre.innerHTML = message; output.appendChild(pre);
+		         pre.innerHTML = message; document.body.appendChild(pre);
 		      }
 				
 		      init();
