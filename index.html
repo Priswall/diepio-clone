@@ -4,13 +4,13 @@
 		<title>Connection Testing</title>
 	</head>
 	<body>
+		<h3>State: <span id="state">0</span></h3>
 		<script>
 		var socket = new WebSocket("127.0.0.1");
-		var state = document.createElement("h3");
+		var state = document.getElementById("state");
 		
-		if(socket.readyState === WebSocket.OPEN){
+		socket.onopen = function(){
 			state.value = socket.readyState;
-			document.body.appendChild(state);
 		}
 		</script>
 	</body>
