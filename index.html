@@ -83,6 +83,10 @@
 				
 			    c.fillStyle = "white";
 			    c.fillRect(0, 0, canvas.width, canvas.height);
+				
+			    c.save();
+			    c.translate(camx, camy);
+				
 			    c.lineWidth = 5;
 			    c.strokeStyle = "rgb(200, 200, 200)";
 			    for (var i = 0; i < 200; i++) {
@@ -100,10 +104,12 @@
 				tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))) * (180 / Math.PI));
 				tanks[i].r++;
 				}
-				c.strokeStyle = "rgb(0, 0, 0)";
-				c.strokeText(mousex + ", " + mousey, 50, 50);
+				
+				c.restore();
+				
 				window.requestAnimationFrame(draw);
 			}
+			
 			window.requestAnimationFrame(draw);
 			window.addEventListener("mousemove", function(e) {
 				mousex = e.clientX;
