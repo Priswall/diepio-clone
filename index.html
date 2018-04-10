@@ -77,6 +77,10 @@
 			}
 			tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 1, 1));
 			function draw() {
+				
+			    camx = (canvas.width / 2) + player.x;
+			    camy = (canvas.height / 2) + player.y;
+				
 			    c.fillStyle = "white";
 			    c.fillRect(0, 0, canvas.width, canvas.height);
 			    c.lineWidth = 5;
