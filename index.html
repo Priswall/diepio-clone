@@ -22,43 +22,111 @@
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 			var c = canvas.getContext("2d");
-			
-			function draw() {
-				c.fillStyle = "white";
-				c.fillRect(0, 0, canvas.width, canvas.height);
-				
-				c.lineWidth = 5;
-				
-				c.strokeStyle = "rgb(200, 200, 200)";
-				for(var i = 0; i < 200; i++){
-				
-					c.beginPath();
-					c.moveTo(-3000, i * 30);
-					c.lineTo(3000, i * 30);
-					c.stroke();
-					
-					c.beginPath();
-					c.moveTo(i * 30, -3000);
-					c.lineTo(i * 30, 3000);
-					c.stroke();
-				
-				}
-				
+			var tanks = [];
+			var camx = 0;
+			var camy = 0;
+
+			function tank(x, y, r, t, n, xp, lvl, id, inv) {
+
+			    this.x = x;
+			    this.y = y;
+			    this.r = r;
+			    this.t = t;
+			    this.n = n;
+			    this.xp = xp;
+			    this.lvl = lvl;
+			    this.id = id;
+			    this.inv = inv;
+
+			    this.update = function(r) {
+
+				this.r = r;
+
+			    }
+
+			    this.show = function() {
+
+				c.save();
+				c.translate(this.x, this.y);
+				c.rotate(this.r / 180);
+
 				c.fillStyle = "rgb(200, 200, 200)";
 				c.strokeStyle = "rgb(150, 150, 150)";
-				c.fillRect((canvas.width / 2) - 10, canvas.height / 2, 20, 60);
-				c.strokeRect((canvas.width / 2) - 10, canvas.height / 2, 20, 60);
-				c.fillStyle = "rgb(150, 150, 250)";
-				c.strokeStyle = "rgb(100, 100, 200)";
+				c.fillRect(-10, 0, 20, 55);
+				c.strokeRect(-10, 0, 20, 55);
+
+				c.resetTransform();
+				c.translate(this.x, this.y);
+
+				switch (this.t) {
+				    case 0:
+					c.fillStyle = "rgb(150, 150, 250)";
+					c.strokeStyle = "rgb(100, 100, 200)";
+					break;
+				    case 1:
+					c.fillStyle = "rgb(250, 150, 150)";
+					c.strokeStyle = "rgb(200, 100, 100)";
+					break;
+				    case 2:
+					c.fillStyle = "rgb(150, 250, 150)";
+					c.strokeStyle = "rgb(100, 200, 100)";
+					break;
+				    case 3:
+					c.fillStyle = "rgb(250, 150, 250)";
+					c.strokeStyle = "rgb(200, 100, 200)";
+					break;
+				}
 				c.beginPath();
-				c.arc(canvas.width / 2, canvas.height / 2, 30, 0, 2 * Math.PI);
+				c.arc(0, 0, 30, 0, 2 * Math.PI);
 				c.fill();
 				c.stroke();
-				
+
+				c.restore();
+
+			    }
+
+			}
+
+			tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 1, 1));
+
+			function draw() {
+			    c.fillStyle = "white";
+			    c.fillRect(0, 0, canvas.width, canvas.height);
+
+			    c.lineWidth = 5;
+
+			    c.strokeStyle = "rgb(200, 200, 200)";
+			    for (var i = 0; i < 200; i++) {
+
+				c.beginPath();
+				c.moveTo(-3000, i * 30);
+				c.lineTo(3000, i * 30);
+				c.stroke();
+
+				c.beginPath();
+				c.moveTo(i * 30, -3000);
+				c.lineTo(i * 30, 3000);
+				c.stroke();
+
+			 	}
+
+				for (var i = tanks.length - 1; i >= 0; i--) {
+				tanks[i].show();
+				tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))) * (180 / Math.PI));
+				tanks[i].r++;
+				}
+
+				c.strokeStyle = "rgb(0, 0, 0)";
+				c.strokeText(mousex + ", " + mousey, 50, 50);
+
 				window.requestAnimationFrame(draw);
 			}
-			
+
 			window.requestAnimationFrame(draw);
+			window.addEventListener("mousemove", function(e) {
+				mousex = e.clientX;
+			 	mousey = e.clientY;
+			});
 			
 		</script>
 	</body>
