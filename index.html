@@ -4,53 +4,60 @@
 		<title>Connection Testing</title>
 	</head>
 	<body>
+		<style>
+			
+			html, body, canvas {
+			
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			
+			}
+			
+		</style>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
 		<script>
-		      var wsUri = "ws://127.0.0.1";
-		
-		      function init() {
-		         testWebSocket();
-		      }
-		
-		      function testWebSocket() {
-		         websocket = new WebSocket(wsUri);
 			
-		         websocket.onopen = function(evt) {
-		            onOpen(evt)
-		         };
+			var canvas = document.getElementById("canvas");
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			var c = canvas.getContext("2d");
 			
-		         websocket.onclose = function(evt) {
-		            onClose(evt)
-		         };
-			
-		         websocket.onerror = function(evt) {
-		            onError(evt)
-		         };
-		      }
-		
-		      function onOpen(evt) {
-		         writeToScreen("CONNECTED");
-        		 doSend("WebSocket rocks");
-      		      }
-		
-      		      function onClose(evt) {
-      		         writeToScreen("DISCONNECTED");
-      		      }
-		
-		      function onError(evt) {
-		         writeToScreen('<span style = "color: red;">ERROR:</span> ' + evt.data);
-		      } 
-		
-		      function doSend(message) {
-		         writeToScreen("SENT: " + message); websocket.send(message);
-		      }
-		
-		      function writeToScreen(message) {
-		         var pre = document.createElement("p"); 
-		         pre.style.wordWrap = "break-word"; 
-		         pre.innerHTML = message; document.body.appendChild(pre);
-		      }
+			function draw() {
+				c.fillStyle = "white";
+				c.fillRect(0, 0, canvas.width, canvas.height);
 				
-		      init();
+				c.strokeWeight(5);
+				
+				c.strokeStyle = "rgb(150, 150, 150)";
+				for(var i = 0; i < 50; i++){
+				
+					c.beginPath();
+					c.moveTo(-1000, i * 20);
+					c.lineTo(1000, i * 20);
+					c.stroke();
+					
+					c.beginPath();
+					c.moveTo(i * 20, -1000);
+					c.lineTo(i * 20, 1000);
+					c.stroke();
+				
+				}
+				
+				c.fillStyle = "rgb(250, 250, 250)";
+				c.strokeStyle = "rgb(200, 200, 200)";
+				c.fillRec((canvas.width / 2) - 15, canvas.height / 2, 30, 100);
+				c.strokeRec((canvas.width / 2) - 15, canvas.height / 2, 30, 100);
+				c.fillStyle = "rgb(50, 50, 250)";
+				c.strokeStyle = "rgb(0, 0, 200)";
+				c.fillArc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI);
+				c.strokeArc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI);
+				
+				window.requestAnimationFrame(draw);
+			}
+			
+			window.requestAnimationFrame(draw);
+			
 		</script>
 	</body>
 </html>
