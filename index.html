@@ -27,9 +27,7 @@
 			var camy = 0;
 			var mousex = 0;
 			var mousey = 0;
-
 			function tank(x, y, r, t, n, xp, lvl, id, inv) {
-
 			    this.x = x;
 			    this.y = y;
 			    this.r = r;
@@ -39,27 +37,19 @@
 			    this.lvl = lvl;
 			    this.id = id;
 			    this.inv = inv;
-
 			    this.update = function(r) {
-
 				this.r = r;
-
-			    }
-
+			    };
 			    this.show = function() {
-
 				c.save();
 				c.translate(this.x, this.y);
 				c.rotate(this.r / 180);
-
 				c.fillStyle = "rgb(200, 200, 200)";
 				c.strokeStyle = "rgb(150, 150, 150)";
 				c.fillRect(-10, 0, 20, 55);
 				c.strokeRect(-10, 0, 20, 55);
-
 				c.resetTransform();
 				c.translate(this.x, this.y);
-
 				switch (this.t) {
 				    case 0:
 					c.fillStyle = "rgb(150, 150, 250)";
@@ -82,48 +72,34 @@
 				c.arc(0, 0, 30, 0, 2 * Math.PI);
 				c.fill();
 				c.stroke();
-
 				c.restore();
-
-			    }
-
+			    };
 			}
-
 			tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 1, 1));
-
 			function draw() {
 			    c.fillStyle = "white";
 			    c.fillRect(0, 0, canvas.width, canvas.height);
-
 			    c.lineWidth = 5;
-
 			    c.strokeStyle = "rgb(200, 200, 200)";
 			    for (var i = 0; i < 200; i++) {
-
 				c.beginPath();
 				c.moveTo(-3000, i * 30);
 				c.lineTo(3000, i * 30);
 				c.stroke();
-
 				c.beginPath();
 				c.moveTo(i * 30, -3000);
 				c.lineTo(i * 30, 3000);
 				c.stroke();
-
 			 	}
-
 				for (var i = tanks.length - 1; i >= 0; i--) {
 				tanks[i].show();
 				tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))) * (180 / Math.PI));
 				tanks[i].r++;
 				}
-
 				c.strokeStyle = "rgb(0, 0, 0)";
 				c.strokeText(mousex + ", " + mousey, 50, 50);
-
 				window.requestAnimationFrame(draw);
 			}
-
 			window.requestAnimationFrame(draw);
 			window.addEventListener("mousemove", function(e) {
 				mousex = e.clientX;
