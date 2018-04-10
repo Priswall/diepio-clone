@@ -22,14 +22,22 @@
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 			var c = canvas.getContext("2d");
+			var mouseIsPressed = false;
+			var mouseClicked = false;
 			var tanks = [];
+			var keys = [];
 			var camx = 0;
 			var camy = 0;
 			var mousex = 0;
 			var mousey = 0;
+			
 			function tank(x, y, r, t, n, xp, lvl, id, inv) {
 			    this.x = x;
 			    this.y = y;
+			    this.velx = 0;
+			    this.vely = 0;
+			    this.acc = 0.2;
+			    this.maxSpeed = 3;
 			    this.r = r;
 			    this.t = t;
 			    this.n = n;
@@ -37,43 +45,64 @@
 			    this.lvl = lvl;
 			    this.id = id;
 			    this.inv = inv;
+				
 			    this.update = function(r) {
-				this.r = r;
+					this.r = r;
+
+					if(keys[87] && !keys[83]) {this.vely -= this.acc;}
+					if(keys[83] && !keys[87]) {this.vely += this.acc;}
+					if(keys[65] && !keys[68]) {this.velx -= this.acc;}
+					if(keys[68] && !keys[65]) {this.velx += this.acc;}
+
+					if(!keys[87] && !keys[83]) {
+						if(this.vely < 0) {this.vely += this.acc;}
+						if(this.vely > 0) {this.vely -= this.acc;}
+						
+						if(Math.abs(this.vely) <= this.acc) {this.vely = 0;}
+					}
+					if(!keys[65] && !keys[68]) {
+						if(this.velx < 0) {this.velx += this.acc;}
+						if(this.velx > 0) {this.velx -= this.acc;}
+						
+						if(Math.abs(this.velx) <= this.acc) {this.velx = 0;}
+					}
 			    };
+				
 			    this.show = function() {
-				c.save();
-				c.translate(this.x, this.y);
-				c.rotate(this.r / 180);
-				c.fillStyle = "rgb(200, 200, 200)";
-				c.strokeStyle = "rgb(150, 150, 150)";
-				c.fillRect(-10, 0, 20, 55);
-				c.strokeRect(-10, 0, 20, 55);
-				switch (this.t) {
-				    case 0:
-					c.fillStyle = "rgb(150, 150, 250)";
-					c.strokeStyle = "rgb(100, 100, 200)";
-					break;
-				    case 1:
-					c.fillStyle = "rgb(250, 150, 150)";
-					c.strokeStyle = "rgb(200, 100, 100)";
-					break;
-				    case 2:
-					c.fillStyle = "rgb(150, 250, 150)";
-					c.strokeStyle = "rgb(100, 200, 100)";
-					break;
-				    case 3:
-					c.fillStyle = "rgb(250, 150, 250)";
-					c.strokeStyle = "rgb(200, 100, 200)";
-					break;
-				}
-				c.beginPath();
-				c.arc(0, 0, 30, 0, 2 * Math.PI);
-				c.fill();
-				c.stroke();
-				c.restore();
-			    };
+					c.save();
+					c.translate(this.x, this.y);
+					c.rotate(this.r / 180);
+					c.fillStyle = "rgb(200, 200, 200)";
+					c.strokeStyle = "rgb(150, 150, 150)";
+					c.fillRect(-10, 0, 20, 55);
+					c.strokeRect(-10, 0, 20, 55);
+					switch (this.t) {
+						case 0:
+						c.fillStyle = "rgb(150, 150, 250)";
+						c.strokeStyle = "rgb(100, 100, 200)";
+						break;
+						case 1:
+						c.fillStyle = "rgb(250, 150, 150)";
+						c.strokeStyle = "rgb(200, 100, 100)";
+						break;
+						case 2:
+						c.fillStyle = "rgb(150, 250, 150)";
+						c.strokeStyle = "rgb(100, 200, 100)";
+						break;
+						case 3:
+						c.fillStyle = "rgb(250, 150, 250)";
+						c.strokeStyle = "rgb(200, 100, 200)";
+						break;
+					}
+					c.beginPath();
+					c.arc(0, 0, 30, 0, 2 * Math.PI);
+					c.fill();
+					c.stroke();
+					c.restore();
+				};
 			}
 			tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 1, 1));
+			
 			function draw() {
 				
 			    camx = (canvas.width / 2) + tanks[0].x;
@@ -88,31 +117,33 @@
 			    c.lineWidth = 5;
 			    c.strokeStyle = "rgb(200, 200, 200)";
 			    for (var i = 0; i < 200; i++) {
-				c.beginPath();
-				c.moveTo(-3000, i * 30);
-				c.lineTo(3000, i * 30);
-				c.stroke();
-				c.beginPath();
-				c.moveTo(i * 30, -3000);
-				c.lineTo(i * 30, 3000);
-				c.stroke();
+					c.beginPath();
+					c.moveTo(-3000, i * 30);
+					c.lineTo(3000, i * 30);
+					c.stroke();
+					c.beginPath();
+					c.moveTo(i * 30, -3000);
+					c.lineTo(i * 30, 3000);
+					c.stroke();
 			 	}
 				for (var i = tanks.length - 1; i >= 0; i--) {
-				tanks[i].show();
-				tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))) * (180 / Math.PI));
-				tanks[i].r++;
+					tanks[i].show();
+					tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
 				}
 				
 				c.restore();
 				
+				mouseClicked = false;
 				window.requestAnimationFrame(draw);
+				
 			}
 			
 			window.requestAnimationFrame(draw);
-			window.addEventListener("mousemove", function(e) {
-				mousex = e.clientX;
-			 	mousey = e.clientY;
-			});
+			window.addEventListener("mousemove", function(e) {mousex = e.clientX; mousey = e.clientY;});
+			window.addEventListener("mousedown", function() {mouseIsPressed = true;});
+			window.addEventListener("mouseup", function() {mouseIsPressed = false; mouseClicked = true;});
+			window.addEventListener("keydown", function(e) {keys[e.keyCode] = true;});
+			window.addEventListener("keyup", function(e) {keys[e.keyCode] = false;});
 			
 		</script>
 	</body>
