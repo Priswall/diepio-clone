@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Connection Testing</title>
+		<title>peip.io</title>
 	</head>
 	<body>
 		<style>
@@ -66,6 +66,11 @@
 						
 						if(Math.abs(this.velx) <= this.acc) {this.velx = 0;}
 					}
+					
+					this.x += this.velx;
+					this.y += this.vely;
+				    
+				    
 			    };
 				
 			    this.show = function() {
@@ -134,10 +139,10 @@
 				c.restore();
 				
 				c.fillStyle = "red";
-				if(keys[87]) {c.fillRect(10, 40, 30, 30);}
-				if(keys[83]) {c.fillRect(40, 50, 30, 30);}
-				if(keys[65]) {c.fillRect(40, 40, 30, 30);}
-				if(keys[68]) {c.fillRect(40, 90, 30, 30);}
+				if(keys[87]) {c.fillRect(50, 10, 30, 30);}
+				if(keys[83]) {c.fillRect(50, 50, 30, 30);}
+				if(keys[65]) {c.fillRect(10, 50, 30, 30);}
+				if(keys[68]) {c.fillRect(90, 50, 30, 30);}
 				
 				mouseClicked = false;
 				window.requestAnimationFrame(draw);
