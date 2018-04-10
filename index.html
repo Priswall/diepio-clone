@@ -29,17 +29,17 @@
 				
 				c.lineWidth = 5;
 				
-				c.strokeStyle = "rgb(150, 150, 150)";
-				for(var i = 0; i < 50; i++){
+				c.strokeStyle = "rgb(200, 200, 200)";
+				for(var i = 0; i < 200; i++){
 				
 					c.beginPath();
-					c.moveTo(-1000, i * 20);
-					c.lineTo(1000, i * 20);
+					c.moveTo(-3000, i * 30);
+					c.lineTo(3000, i * 30);
 					c.stroke();
 					
 					c.beginPath();
-					c.moveTo(i * 20, -1000);
-					c.lineTo(i * 20, 1000);
+					c.moveTo(i * 30, -3000);
+					c.lineTo(i * 30, 3000);
 					c.stroke();
 				
 				}
