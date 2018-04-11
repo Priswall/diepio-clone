@@ -10,6 +10,14 @@
             
             var ws = new WebSocket("wss://cloud.achex.ca/5569");
             
+            ws.onopen = function() {
+            
+                var p = document.createElement("h3");
+                p.value = "Connection Successful";
+                document.body.appendChild(p);
+            
+            };
+            
             ws.onerror = function(e) {
             
                 alert("Error: " + e.data);
