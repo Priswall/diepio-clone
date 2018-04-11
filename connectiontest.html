@@ -12,9 +12,7 @@
             
             ws.onopen = function() {
             
-                var p = document.createElement("h3");
-                p.innerHTML = "Connection Successful";
-                document.body.appendChild(p);
+                alert("Connection Successful");
             
             };
             
@@ -27,7 +25,7 @@
             function sendMessage() {
             
                 var pp = document.getElementById("input").innerHTML;
-                
+                alert(pp);
                 ws.send(pp);
             
             }
