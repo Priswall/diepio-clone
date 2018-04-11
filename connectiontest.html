@@ -12,7 +12,7 @@
             
             ws.onopen = function() {
             
-                alert("Connection Established");
+                document.body.write("<p>Connection Established</p>");
             
             };
             
@@ -24,7 +24,9 @@
             
             function sendMessage() {
             
-                alert(document.getElementById("input").value);
+                var p = document.getElementById("input").value;
+                
+                ws.send(p);
             
             }
             
