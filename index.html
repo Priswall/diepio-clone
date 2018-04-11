@@ -115,14 +115,14 @@
 					
 					if(mouseIsPressed || keys[32]) {
 					
-						if(this.cooldown === this.reload) {
+						//if(this.cooldown === this.reload) {
 						
 							bullets.push(new bullet(this.x + Math.sin(this.r) * 60 - 10, this.y - Math.cos(this.r) * 60 - 10, this.x + Math.sin(this.r) * 70 - 10, this.y - Math.cos(this.r) * 70 - 10), 5, 0, this.t, this.bulletS, this.bulletD, this.bulletP);
 							
 							this.cooldown = 0;
 							this.timetill = millis;
 						
-						}
+						//}
 						
 						if(this.cooldown !== this.reload) {
 						
