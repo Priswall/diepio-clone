@@ -26,10 +26,67 @@
 			var mouseClicked = false;
 			var tanks = [];
 			var keys = [];
+			var bullets = [];
 			var camx = 0;
 			var camy = 0;
 			var mousex = 0;
 			var mousey = 0;
+			
+			function bullet(x, y, dx, dy, r, id, t, s, d, p) {
+			
+				this.x = x;
+				this.y = y;
+				this.dx = this.x - dx;
+				this.dy = this.y - dy;
+				this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+				this.r = r;
+				this.id = id;
+				this.t = t;
+				this.s = s;
+				this.d = d;
+				this.p = p;
+				
+				this.update = function() {
+				
+					this.x -= (this.dx / this.mag) * this.s;
+					this.y -= (this.dy / this.mag) * this.s;
+					
+					this.p -= 0.1;
+				
+				};
+				
+				this.show = function() {
+				
+					switch(this.id) {
+					
+						case 0:
+							switch (this.t) {
+								case 0:
+								c.fillStyle = "rgb(150, 150, 250)";
+								c.strokeStyle = "rgb(100, 100, 200)";
+								break;
+								case 1:
+								c.fillStyle = "rgb(250, 150, 150)";
+								c.strokeStyle = "rgb(200, 100, 100)";
+								break;
+								case 2:
+								c.fillStyle = "rgb(150, 250, 150)";
+								c.strokeStyle = "rgb(100, 200, 100)";
+								break;
+								case 3:
+								c.fillStyle = "rgb(250, 150, 250)";
+								c.strokeStyle = "rgb(200, 100, 200)";
+								break;
+							}
+							c.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+							c.fill();
+							c.stroke();
+					
+					}
+				
+				};
+			
+			}
 			
 			function tank(x, y, r, t, n, xp, lvl, id, inv) {
 			    this.x = x;
@@ -38,6 +95,9 @@
 			    this.vely = 0;
 			    this.acc = 0.2;
 			    this.maxSpeed = 3;
+				this.bulletP = 3;
+				this.bulletS = 3;
+				this.bulletD = 3;
 			    this.r = r;
 			    this.t = t;
 			    this.n = n;
@@ -126,6 +186,7 @@
 				
 			    c.lineWidth = 5;
 			    c.strokeStyle = "rgb(200, 200, 200)";
+				
 			    for (var i = 0; i < 200; i++) {
 					c.beginPath();
 					c.moveTo(-3000, i * 30);
@@ -136,9 +197,21 @@
 					c.lineTo(i * 30, 3000);
 					c.stroke();
 			 	}
-				for (var i = tanks.length - 1; i >= 0; i--) {
+				
+				for(var i = bullets.length - 1; i >= 0; i--) {
+				
+					bullets[i].show();
+					bullets[i].update();
+					
+					if(bullets[i].p <= 0) {
+						bullets.splice(i, 1);
+					}
+				
+				}
+				
+				for(var i = tanks.length - 1; i >= 0; i--) {
 					tanks[i].show();
-					tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
+					tanks[i].update(Math.atan2(-(tanks[i].x - (-mousex - camx)), (tanks[i].y - (-mousey - camy))));
 				}
 				
 				c.restore();
@@ -153,7 +226,7 @@
 				
 				c.fillStyle = "black";
 				
-				c.fillText(tanks[0].x + ", " + tanks[0].y + ", " + tanks[0].r, 100, 65);
+				c.fillText(tanks[0].x + ", " + tanks[0].y, 100, 65);
 				
 				window.requestAnimationFrame(draw);
 				
