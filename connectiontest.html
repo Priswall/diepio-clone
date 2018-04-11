@@ -29,6 +29,12 @@
             
             }
             
+            ws.onclose = function(evt){ 
+                
+                alert("Disconnected");
+            
+            };
+            
             ws.onmessage(e) {
             
                 document.body.write("<h3>" + e.data + "</h3>");
