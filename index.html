@@ -31,6 +31,7 @@
 			var camy = 0;
 			var mousex = 0;
 			var mousey = 0;
+			var millis = 0;
 			
 			function bullet(x, y, dx, dy, r, id, t, s, d, p) {
 			
@@ -93,11 +94,12 @@
 			    this.y = y;
 			    this.velx = 0;
 			    this.vely = 0;
-			    this.acc = 0.2;
+			    this.acc = 0.1;
 			    this.maxSpeed = 3;
 				this.bulletP = 3;
 				this.bulletS = 3;
 				this.bulletD = 3;
+				this.Reload = 500;
 			    this.r = r;
 			    this.t = t;
 			    this.n = n;
@@ -105,8 +107,35 @@
 			    this.lvl = lvl;
 			    this.id = id;
 			    this.inv = inv;
+				this.reload = this.Reload;
+				this.cooldown = this.reload;
+				this.timetill = 0;
 				
 			    this.update = function(r) {
+					
+					if(mouseIsPressed) {
+					
+						if(this.cooldown === this.reload) {
+						
+							bullets.push(new bullet(this.x + Math.sin(this.r) * 60 - 10, this.y - Math.cos(this.r) * 60 - 10, this.x + Math.sin(this.r) * 70 - 10, this.y - Math.cos(this.r) * 70 - 10), 5, 0, this.t, this.bulletS, this.bulletD, this.bulletP);
+							
+							this.cooldown = 0;
+							this.timetill = millis;
+						
+						}
+						
+						if(this.cooldown !== this.reload) {
+						
+							if(this.cooldown < this.reload) {
+								this.cooldown = millis - this.timetill;
+							} else {
+								this.cooldown = this.reload;
+							}
+								
+						}
+					
+					}
+					
 					this.r = r;
 
 					if(keys[87] && !keys[83]) {this.vely -= this.acc;}
@@ -175,6 +204,9 @@
 			
 			function draw() {
 				
+				millis = new Date();
+				millis = millis.getTime();
+				
 			    camx = (canvas.width / 2) - tanks[0].x;
 			    camy = (canvas.height / 2) - tanks[0].y;
 				
@@ -226,7 +258,7 @@
 				
 				c.fillStyle = "black";
 				
-				c.fillText(tanks[0].x + ", " + tanks[0].y, 100, 65);
+				c.fillText(millis, 100, 65);
 				
 				window.requestAnimationFrame(draw);
 				
