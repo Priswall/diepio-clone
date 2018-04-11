@@ -27,7 +27,7 @@
                 var pp = document.getElementById("input").value;
                 alert(pp);
                 ws.clients.forEach(function each(client) {
-                    client.send(data);
+                    client.send(pp);
                 });
             
             }
