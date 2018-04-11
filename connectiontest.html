@@ -40,9 +40,7 @@
             
             ws.onmessage = function(e) {
             
-                var ppp = document.createElement("h3");
-                ppp.innerHTML = e.data;
-                document.body.appendChild(ppp);
+                alert(typeOf e.data);
             
             };
             
