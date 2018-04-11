@@ -62,19 +62,19 @@
 					
 						case 0:
 							switch (this.t) {
-								case 0:
+							    case 0:
 								c.fillStyle = "rgb(150, 150, 250)";
 								c.strokeStyle = "rgb(100, 100, 200)";
 								break;
-								case 1:
+							    case 1:
 								c.fillStyle = "rgb(250, 150, 150)";
 								c.strokeStyle = "rgb(200, 100, 100)";
 								break;
-								case 2:
+							    case 2:
 								c.fillStyle = "rgb(150, 250, 150)";
 								c.strokeStyle = "rgb(100, 200, 100)";
 								break;
-								case 3:
+							    case 3:
 								c.fillStyle = "rgb(250, 150, 250)";
 								c.strokeStyle = "rgb(200, 100, 200)";
 								break;
@@ -96,10 +96,10 @@
 			    this.vely = 0;
 			    this.acc = 0.1;
 			    this.maxSpeed = 3;
-				this.bulletP = 3;
-				this.bulletS = 3;
-				this.bulletD = 3;
-				this.Reload = 500;
+			    this.bulletP = 3;
+			    this.bulletS = 3;
+			    this.bulletD = 3;
+			    this.Reload = 500;
 			    this.r = r;
 			    this.t = t;
 			    this.n = n;
@@ -113,7 +113,7 @@
 				
 			    this.update = function(r) {
 					
-					if(mouseIsPressed) {
+					if(mouseIsPressed || keys[32]) {
 					
 						if(this.cooldown === this.reload) {
 						
@@ -258,7 +258,7 @@
 				
 				c.fillStyle = "black";
 				
-				c.fillText(millis, 100, 65);
+				c.fillText(tanks[0].cooldown, 100, 65);
 				
 				window.requestAnimationFrame(draw);
 				
