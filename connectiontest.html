@@ -14,13 +14,13 @@
             
                 alert("Connection Established");
             
-            }
+            };
             
             ws.onerror = function(e) {
             
                 alert("Error: " + e.data);
             
-            }
+            };
             
             function sendMessage() {
             
@@ -34,11 +34,11 @@
             
             };
             
-            ws.onmessage(e) {
+            ws.onmessage = function(e) {
             
                 alert(e.data);
             
-            }
+            };
             
         </script>
     </body>
