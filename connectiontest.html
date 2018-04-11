@@ -12,13 +12,13 @@
             
             ws.onopen = function() {
             
-                document.body.write("<p>Connection Established</p>");
+                alert("Connection Established");
             
             }
             
             ws.onerror = function(e) {
             
-                document.body.write("<h2 style='color: red'>Error: " + e.data + "</h2>");
+                alert("Error: " + e.data);
             
             }
             
@@ -37,7 +37,7 @@
             
             ws.onmessage(e) {
             
-                document.body.write("<h3>" + e.data + "</h3>");
+                alert(e.data);
             
             }
             
