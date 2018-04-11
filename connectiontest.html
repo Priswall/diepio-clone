@@ -6,6 +6,7 @@
     <body>
         <input id="input"></input>
         <button onclick="sendMessage()">Send</button>
+        <button onclick="clientAmt()">Clients</button>
         <script>
             
             var ws = new WebSocket("wss://demos.kaazing.com/echo");
@@ -15,6 +16,13 @@
                 alert("Connection Successful");
             
             };
+            
+            function clientAmt() {
+            
+                alert(ws.clients);
+                alert(ws.clients.length);
+            
+            }
             
             ws.onerror = function(e) {
             
