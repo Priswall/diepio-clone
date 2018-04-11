@@ -144,8 +144,8 @@
 					c.rotate(this.r);
 					c.fillStyle = "rgb(200, 200, 200)";
 					c.strokeStyle = "rgb(150, 150, 150)";
-					c.fillRect(-10, 0, 20, 55);
-					c.strokeRect(-10, 0, 20, 55);
+					c.fillRect(-10, 55, 20, 0);
+					c.strokeRect(-10, 55, 20, 0);
 					switch (this.t) {
 						case 0:
 						c.fillStyle = "rgb(150, 150, 250)";
@@ -211,7 +211,7 @@
 				
 				for(var i = tanks.length - 1; i >= 0; i--) {
 					tanks[i].show();
-					tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y + (-mousey - camy))));
+					tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
 				}
 				
 				c.restore();
