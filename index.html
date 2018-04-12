@@ -27,11 +27,79 @@
 			var tanks = [];
 			var keys = [];
 			var bullets = [];
+			var shapes = [];
 			var camx = 0;
 			var camy = 0;
 			var mousex = 0;
 			var mousey = 0;
 			var millis = 0;
+			
+			function shape(x, y, id) {
+			
+				this.x = x;
+				this.y = y;
+				this.id = id;
+				this.r = Math.random() / 2;
+				this.rot = 0;
+				this.velx = Math.random() / 2;
+				this.vely = Math.random() / 2;
+				
+				this.update = function() {
+				
+					this.x -= this.velx;
+					this.y -= this.vely;
+					this.rot -= this.r;
+				
+				};
+				
+				this.show = function() {
+				
+					c.save();
+					c.translate(this.x, this.y);
+					c.rotate(this.rot);
+					
+					switch(this.id) {
+					
+						case 0:
+							c.fillStyle = "rgb(250, 250, 150)";
+							c.strokeStyle = "rgb(200, 200, 100)";
+							c.fillRect(-15, -15, 30, 30);
+							c.strokeRect(-15, -15, 30, 30);
+							break;
+					
+						case 1:
+							c.fillStyle = "rgb(250, 150, 150)";
+							c.strokeStyle = "rgb(200, 100, 100)";
+							c.beginPath();
+							c.moveTo(-17, 17);
+							c.lineTo(0, -17);
+							c.lineTo(17, 17);
+							c.lineTo(-17, 17);
+							c.fill();
+							c.stroke();
+							break;
+					
+						case 2:
+							c.fillStyle = "rgb(150, 150, 250)";
+							c.strokeStyle = "rgb(100, 100, 200)";
+							c.beginPath();
+							c.moveTo(-25, 25);
+							c.lineTo(25, 25);
+							c.lineTo(40, -20);
+							c.lineTo(0, -45);
+							c.lineTo(-40, -20);
+							c.lineTo(-25, 25);
+							c.fill();
+							c.stroke();
+							break;
+					
+					}
+					
+					c.restore();
+				
+				};
+			
+			}
 			
 			function bullet(x, y, dx, dy, r, id, t, s, d, p) {
 			
@@ -214,6 +282,12 @@
 			    camx = (canvas.width / 2) - tanks[0].x;
 			    camy = (canvas.height / 2) - tanks[0].y;
 				
+				for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
+				
+					shapes.push(new shape(Math.round(Math.random() * 6000) - 3000), Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 2));
+				
+				}
+				
 			    c.fillStyle = "white";
 			    c.fillRect(0, 0, canvas.width, canvas.height);
 				
@@ -233,6 +307,13 @@
 					c.lineTo(i * 30, 3000);
 					c.stroke();
 			 	}
+				
+				for(var i = shapes.length - 1; i >= 0; i--) {
+				
+					shapes[i].show();
+					shapes[i].update();
+				
+				}
 				
 				for(var i = bullets.length - 1; i >= 0; i--) {
 				
