@@ -117,7 +117,7 @@
 					
 						if(this.cooldown === this.reload) {
 						
-							bullets.push(new bullet(this.x + Math.sin(this.r) * 60 - 10, this.y - Math.cos(this.r) * 60 - 10, this.x + Math.sin(this.r) * 70 - 10, this.y - Math.cos(this.r) * 70 - 10, 5, 0, this.t, this.bulletS, this.bulletD, this.bulletP);
+							bullets.push(new bullet(this.x + Math.sin(this.r) * 60 - 10, this.y - Math.cos(this.r) * 60 - 10, this.x + Math.sin(this.r) * 70 - 10, this.y - Math.cos(this.r) * 70 - 10, 5, 0, this.t, this.bulletS, this.bulletD, this.bulletP));
 							
 							this.cooldown = 0;
 							this.timetill = millis;
@@ -234,12 +234,12 @@
 				
 				for(var i = bullets.length - 1; i >= 0; i--) {
 				
-					//bullets[i].show();
-					//bullets[i].update();
+					bullets[i].show();
+					bullets[i].update();
 					
-					//if(bullets[i].p <= 0) {
-					//	bullets.splice(i, 1);
-					//}
+					if(bullets[i].p <= 0) {
+						bullets.splice(i, 1);
+					}
 				
 				}
 				
