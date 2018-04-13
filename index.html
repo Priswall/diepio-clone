@@ -101,7 +101,7 @@
 			},
 
 			sniper: {
-				knockback: 5,
+				knockback: 3,
 				reload: 1000,
 				bspeed: 5,
 				bdamage: 3,
@@ -588,10 +588,10 @@
 			this.vely = 0;
 			this.acc = 0.075;
 			this.maxSpeed = 3;
-			this.knockback = tankstats.basic.knockback;
-			this.bulletP = tankstats.basic.bpenetration;
-			this.bulletS = tankstats.basic.bspeed;
-			this.bulletD = tankstats.basic.bdamage;
+			this.knockback = tankstats.sniper.knockback;
+			this.bulletP = tankstats.sniper.bpenetration;
+			this.bulletS = tankstats.sniper.bspeed;
+			this.bulletD = tankstats.sniper.bdamage;
 			this.r = r;
 			this.t = t;
 			this.n = n;
@@ -599,7 +599,7 @@
 			this.lvl = lvl;
 			this.id = id;
 			this.inv = inv;
-			this.reload = tankstats.basic.reload;
+			this.reload = tankstats.sniper.reload;
 			this.reloading = false;
 			this.cooldown = this.reload;
 			this.timetill = 0;
@@ -669,6 +669,10 @@
 						switch(this.id) {
 
 							case 0:
+								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+								break;
+
+							case 1:
 								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
 								break;
 
@@ -747,7 +751,7 @@
 				switch(this.id) {
 
 					case 0:
-						c.fillRect(-9, 0, 18, -45 * (1 - (this.reload - this.cooldown) / 3000));
+						c.fillRect(-9, 0, 18, -45 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
 						c.beginPath();
 						c.moveTo(-9, 0);
 						c.lineTo(-9, -45 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
@@ -759,6 +763,22 @@
 						c.beginPath();
 						c.moveTo(9, 0);
 						c.lineTo(9, -45 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						break;
+
+					case 1:
+						c.fillRect(-9, 0, 18, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.beginPath();
+						c.moveTo(-9, 0);
+						c.lineTo(-9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(-9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.lineTo(9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(9, 0);
+						c.lineTo(9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
 						c.stroke();
 						break;
 
@@ -810,7 +830,7 @@
 				c.restore();
 			};
 		}
-		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, 1));
+		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 1, 1));
 
 		for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
 
@@ -949,8 +969,8 @@
 			c.textAlign = "center";
 			c.textBaseline = "middle";
 			c.lineWidth = 1;
-			c.fillText(tanks[0].lvl, canvas.width / 2, canvas.height - 25);
-			c.strokeText(tanks[0].lvl, canvas.width / 2, canvas.height - 25);
+			c.fillText(tanks[0].lvl + " | " + xp, canvas.width / 2, canvas.height - 25);
+			c.strokeText(tanks[0].lvl + " | " + xp, canvas.width / 2, canvas.height - 25);
 			c.font = "bold 25px Arial";
 			c.fillText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
 			c.strokeText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
@@ -993,3 +1013,4 @@
 </body>
 
 </html>
+w
