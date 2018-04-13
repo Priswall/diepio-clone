@@ -22,7 +22,6 @@
 			}
 			
 		</style>
-        <p>vfdvfdvfdvdfvfdvdfvdfvdfvdfvdfvdfvfdvdf</p>
 		<canvas id="canvas" width="800px" height="600px"></canvas>
 		<script>
 			
@@ -31,7 +30,6 @@
 			canvas.height = window.innerHeight;
 			var c = canvas.getContext("2d");
             c.lineCap = "round";
-            c.font = "30px Verdana";
 			var mouseIsPressed = false;
 			var mouseClicked = false;
 			var autofire = false;
@@ -92,6 +90,7 @@
             var tankstats = {
               
                 basic : {
+                    knockback : 1,
                     reload : 500,
                     bspeed : 3,
                     bdamage : 3,
@@ -100,6 +99,7 @@
                 },
               
                 sniper : {
+                    knockback : 3,
                     reload : 1000,
                     bspeed : 5,
                     bdamage : 3,
@@ -108,6 +108,7 @@
                 },
               
                 twin : {
+                    knockback : 1,
                     reload : 250,
                     bspeed : 0,
                     bdamage : 3,
@@ -116,6 +117,7 @@
                 },
               
                 flankguard : {
+                    knockback : 0,
                     reload : 500,
                     bspeed : 1,
                     bdamage : 3,
@@ -124,6 +126,7 @@
                 },
               
                 machinegun : {
+                    knockback : 2,
                     reload : 150,
                     bspeed : 3,
                     bdamage : 3,
@@ -132,11 +135,21 @@
                 },
               
                 flamethrower : {
+                    knockback : 0.5,
                     reload : 0,
                     bspeed : 4,
-                    bdamage : -5,
+                    bdamage : 0.5,
                     bpenetration : 1,
                     spread : 20
+                },
+              
+                overseer : {
+                    knockback : 0,
+                    reload : 3000,
+                    bspeed : 3,
+                    bdamage : 5,
+                    bpenetration : 3,
+                    spread : 0
                 },
               
             };
@@ -156,14 +169,40 @@
 				this.rot = 0;
 				this.velx = Math.random() / 10;
 				this.vely = Math.random() / 10;
+                this.pushx = 0;
+                this.pushy = 0;
+                this.acc = 0.002;
 				
 				this.update = function() {
 				
 					this.x -= this.velx;
 					this.y -= this.vely;
 					this.rot -= this.r;
+                    
+                    if(this.pushx > 0) {
+                      
+                        this.pushx -= this.acc;
+                      
+                    }
+                    if(this.pushy > 0) {
+                      
+                        this.pushy -= this.acc;
+                      
+                    }
 				
 				};
+              
+                this.gothit = function(other) {
+                  
+                  switch(other.constructor.name){
+                      
+                    case "shape":
+                      this.pushx -= other.xvel * 50;
+                      this.pushy -= other.yvel * 50;
+                      
+                  }
+                  
+                }
 				
 				this.show = function() {
 				
@@ -283,17 +322,36 @@
 				this.r = r;
 				this.id = id;
 				this.t = t;
-				this.s = s;
+				this.ms = s;
+                this.xs = 0;
+                this.ys = 0;
 				this.d = d;
 				this.p = p;
 				
 				this.update = function() {
-				
-					this.x -= (this.dx / this.mag) * this.s;
-					this.y -= (this.dy / this.mag) * this.s;
 					
-					this.p -= 0.01;
-				
+                    if(this.id != 1){
+                        this.x -= (this.dx / this.mag) * this.ms;
+                        this.y -= (this.dy / this.mag) * this.ms;
+                      
+                        this.p -= 0.01;
+                    } else {
+                        this.xs = Math.abs(this.x - this.dx) / 20;
+                        if (this.xs > this.ms) this.xs = this.ms;
+                        if(Math.abs(this.x - this.dx) > 7) {
+                          this.x -= (this.dx / this.mag) * this.xs;
+                        }
+                      
+                        this.ys = Math.abs(this.y - this.dy) / 20;
+                        if (this.ys > this.ms) this.ys = this.ms;
+                        if(Math.abs(this.y - this.dy) > 7) {
+                          this.y -= (this.dy / this.mag) * this.ys;
+                        }
+                      
+                        this.dx = this.x - (-camx + mousex);
+                        this.dy = this.y - (-camy + mousey);
+                        this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+                    }
 				};
 				
 				this.show = function() {
@@ -303,6 +361,29 @@
 					switch(this.id) {
 					
 						case 0:
+							switch (this.t) {
+							    case 0:
+								c.fillStyle = "rgb(100, 200, 250)";
+								c.strokeStyle = "rgb(50, 150, 200)";
+								break;
+							    case 1:
+								c.fillStyle = "rgb(250, 150, 150)";
+								c.strokeStyle = "rgb(200, 100, 100)";
+								break;
+							    case 2:
+								c.fillStyle = "rgb(150, 250, 150)";
+								c.strokeStyle = "rgb(100, 200, 100)";
+								break;
+							    case 3:
+								c.fillStyle = "rgb(250, 150, 250)";
+								c.strokeStyle = "rgb(200, 100, 200)";
+								break;
+							}
+							c.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+							c.fill();
+							c.stroke();
+					
+						case 1:
 							switch (this.t) {
 							    case 0:
 								c.fillStyle = "rgb(100, 200, 250)";
@@ -338,6 +419,7 @@
 			    this.vely = 0;
 			    this.acc = 0.05;
 			    this.maxSpeed = 3;
+                this.knockback = tankstats.basic.knockback;
 			    this.bulletP = tankstats.basic.bpenetration;
 			    this.bulletS = tankstats.basic.bspeed;
 			    this.bulletD = tankstats.basic.bdamage;
@@ -377,17 +459,34 @@
 						if(this.velx < 0) {this.velx += this.acc;}
 						if(this.velx > 0) {this.velx -= this.acc;}
 						
-						if(Math.abs(this.velx) <= this.acc) {this.velx = 0;}
+						if(Math.abs(this.velx) < this.acc) {this.velx = 0;}
 					}
 					
 					this.x += this.velx;
 					this.y += this.vely;
 					
-					if(mouseIsPressed || keys[32]) {
+					if(mouseIsPressed || keys[32] || autofire) {
 					
 						if(this.cooldown === this.reload && !this.reloading) {
+                          
+                            switch(this.id){
 						
-							bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP));
+                              case 0:
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP));
+                                break;
+                              
+                              case 6:
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP));
+                                break;
+                                
+                            }
+                          
+                            this.dx = Math.sin(this.r);
+                            this.dy = -Math.cos(this.r);
+                            this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+                          
+                            this.velx -= ((this.dx / this.mag) * this.knockback);
+                            this.vely -= ((this.dy / this.mag) * this.knockback);
 							
                             this.reloading = true;
 							
@@ -475,6 +574,11 @@
 				
 				millis = new Date();
 				millis = millis.getTime();
+              
+                if(autospin){
+                  mousex = (canvas.width / 2) + Math.sin(millis / 1500) * 200;
+                  mousey = (canvas.height / 2) + Math.cos(millis / 1500) * 200;
+                }
 				
 			    camx = (canvas.width / 2) - tanks[0].x;
 			    camy = (canvas.height / 2) - tanks[0].y;
@@ -505,6 +609,21 @@
 				
 					shapes[i].show();
 					shapes[i].update();
+                  
+                    for(var j = shapes.length - 1; j >= 0; j--) {
+                      
+                        if(i !== j){
+                          
+                            if(Math.abs(shapes[i].x - shapes[j].x) < 50 && Math.abs(shapes[i].y - shapes[j].y) < 50){
+                              
+                                shapes[i].gothit(shapes[j]);
+                                shapes[j].gothit(shapes[i]);
+                              
+                            }
+                          
+                        }
+                      
+                    }
 				
 				}
 				
@@ -527,21 +646,21 @@
 				c.restore();
 				
 				mouseClicked = false;
-				
-				c.fillStyle = "black";
-				
-				c.fillText(tanks[0].x.toFixed() + ", " + tanks[0].y.toFixed(), 100, 65);
-				
+              
+                c.beginPath();
+                c.arc(mousex, mousey, 5, 0, 2 * Math.PI);
+                c.fill();
+              
 				window.requestAnimationFrame(draw);
 				
 			}
 			
 			window.requestAnimationFrame(draw);
-			window.addEventListener("mousemove", function(e) {mousex = e.clientX; mousey = e.clientY;});
+			window.addEventListener("mousemove", function(e) {if(!autospin){mousex = e.clientX; mousey = e.clientY;}});
 			window.addEventListener("mousedown", function() {mouseIsPressed = true;});
 			window.addEventListener("mouseup", function() {mouseIsPressed = false; mouseClicked = true;});
 			window.addEventListener("keydown", function(e) {keys[e.keyCode] = true;});
-			window.addEventListener("keyup", function(e) {keys[e.keyCode] = false;});
+			window.addEventListener("keyup", function(e) {if(keys[69]){if(!autofire)autofire=true;else autofire=false;}if(keys[67]){if(!autospin)autospin=true;else autospin=false;}keys[e.keyCode] = false;});
 			
 		</script>
 	</body>
