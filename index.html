@@ -22,8 +22,11 @@
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 			var c = canvas.getContext("2d");
+			c.lineCap = "round";
 			var mouseIsPressed = false;
 			var mouseClicked = false;
+			var autofire = false;
+			var autospin = false;
 			var tanks = [];
 			var keys = [];
 			var bullets = [];
@@ -39,10 +42,10 @@
 				this.x = x;
 				this.y = y;
 				this.id = id;
-				this.r = Math.random() / 2;
+				this.r = 0.01 - Math.random() / 50;
 				this.rot = 0;
-				this.velx = Math.random() / 2;
-				this.vely = Math.random() / 2;
+				this.velx = Math.random() / 10;
+				this.vely = Math.random() / 10;
 				
 				this.update = function() {
 				
@@ -63,33 +66,92 @@
 						case 0:
 							c.fillStyle = "rgb(250, 250, 150)";
 							c.strokeStyle = "rgb(200, 200, 100)";
+                        
 							c.fillRect(-15, -15, 30, 30);
-							c.strokeRect(-15, -15, 30, 30);
+							
+							c.beginPath();
+							c.moveTo(-15, -15);
+							c.lineTo(15, -15);
+							c.stroke();
+							
+							c.beginPath();
+							c.moveTo(15, -15);
+							c.lineTo(15, 15);
+							c.stroke();
+							
+							c.beginPath();
+							c.moveTo(15, 15);
+							c.lineTo(-15, 15);
+							c.stroke();
+                        
+							c.beginPath();
+							c.moveTo(-15, 15);
+							c.lineTo(-15, -15);
+							c.stroke();
 							break;
 					
 						case 1:
 							c.fillStyle = "rgb(250, 150, 150)";
 							c.strokeStyle = "rgb(200, 100, 100)";
+                        
 							c.beginPath();
-							c.moveTo(-17, 17);
-							c.lineTo(0, -17);
-							c.lineTo(17, 17);
-							c.lineTo(-17, 17);
-							c.fill();
-							c.stroke();
+							c.moveTo(-26, 15);
+							c.lineTo(0, -30);
+							c.lineTo(26, 15);
+                            c.fill();
+                        
+							c.beginPath();
+							c.moveTo(26, 15);
+							c.lineTo(0, -30);
+                            c.stroke();
+                        
+							c.beginPath();
+							c.moveTo(0, -30);
+							c.lineTo(-26, 15);
+                            c.stroke();
+                        
+							c.beginPath();
+							c.moveTo(-26, 15);
+							c.lineTo(26, 15);
+                            c.stroke();
 							break;
 					
 						case 2:
 							c.fillStyle = "rgb(150, 150, 250)";
 							c.strokeStyle = "rgb(100, 100, 200)";
+                        
 							c.beginPath();
-							c.moveTo(-25, 25);
-							c.lineTo(25, 25);
-							c.lineTo(40, -20);
-							c.lineTo(0, -45);
-							c.lineTo(-40, -20);
-							c.lineTo(-25, 25);
+							c.moveTo(0, 40);
+							c.lineTo(38, 12);
+							c.lineTo(24, -32);
+							c.lineTo(-24, -32);
+							c.lineTo(-38, 12);
+							c.lineTo(0, 40);
 							c.fill();
+                        
+							c.beginPath();
+							c.moveTo(0, 40);
+							c.lineTo(38, 12);
+							c.stroke();
+                        
+							c.beginPath();
+							c.moveTo(38, 12);
+							c.lineTo(24, -32);
+							c.stroke();
+                        
+							c.beginPath();
+							c.moveTo(24, -32);
+							c.lineTo(-24, -32);
+							c.stroke();
+                        
+							c.beginPath();
+							c.moveTo(-24, -32);
+							c.lineTo(-38, 12);
+							c.stroke();
+                        
+							c.beginPath();
+							c.moveTo(-38, 12);
+							c.lineTo(0, 40);
 							c.stroke();
 							break;
 					
@@ -169,7 +231,6 @@
 			    this.bulletP = 3;
 			    this.bulletS = 3;
 			    this.bulletD = 3;
-			    this.Reload = 500;
 			    this.r = r;
 			    this.t = t;
 			    this.n = n;
@@ -177,7 +238,8 @@
 			    this.lvl = lvl;
 			    this.id = id;
 			    this.inv = inv;
-				this.reload = this.Reload;
+				this.reload = 500;
+                this.reloading = false;
 				this.cooldown = this.reload;
 				this.timetill = 0;
 				
@@ -185,27 +247,36 @@
 					
 					if(mouseIsPressed || keys[32]) {
 					
-						if(this.cooldown === this.reload) {
+						if(this.cooldown === this.reload && !this.reloading) {
 						
 							bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP));
 							
-							this.cooldown = 0;
-							this.timetill = millis;
+                            this.reloading = true;
 							
 							return;
 						
 						}
-						
-						if(this.cooldown !== this.reload) {
-						
-							if(this.cooldown < this.reload) {
-								this.cooldown = millis - this.timetill;
-							} else {
-								this.cooldown = this.reload;
-							}
-								
-						}
 					
+					}
+                  
+                    if(this.reloading){
+						this.cooldown -= 100;
+						this.timetill = millis;
+                    }
+                  
+                    if(this.cooldown <= 0){
+                        this.cooldown = 0;
+                        this.reloading = false;
+                    }
+						
+					if(this.cooldown !== this.reload && !this.reloading) {
+						
+						if(this.cooldown < this.reload) {
+							this.cooldown = millis - this.timetill;
+						} else {
+							this.cooldown = this.reload;
+						}
+								
 					}
 					
 					this.r = r;
@@ -245,8 +316,19 @@
 					c.rotate(this.r);
 					c.fillStyle = "rgb(200, 200, 200)";
 					c.strokeStyle = "rgb(150, 150, 150)";
-					c.fillRect(-10, 0, 20, -55);
-					c.strokeRect(-10, 0, 20, -55);
+					c.fillRect(-10, 0, 20, -55 * (1 - (this.reload - this.cooldown) / 3000));
+                    c.beginPath();
+                    c.moveTo(-10, 0);
+                    c.lineTo(-10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.stroke();
+                    c.beginPath();
+                    c.moveTo(-10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.lineTo(10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.stroke();
+                    c.beginPath();
+                    c.moveTo(10, 0);
+                    c.lineTo(10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.stroke();
 					switch (this.t) {
 						case 0:
 						c.fillStyle = "rgb(150, 150, 250)";
@@ -273,6 +355,12 @@
 				};
 			}
 			tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 1, 1));
+          
+			for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
+				
+				shapes.push(new shape(Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 2)));
+				
+			}
 			
 			function draw() {
 				
@@ -281,12 +369,6 @@
 				
 			    camx = (canvas.width / 2) - tanks[0].x;
 			    camy = (canvas.height / 2) - tanks[0].y;
-				
-				for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
-				
-					shapes.push(new shape(Math.round(Math.random() * 6000) - 3000), Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 2));
-				
-				}
 				
 			    c.fillStyle = "white";
 			    c.fillRect(0, 0, canvas.width, canvas.height);
@@ -333,17 +415,11 @@
 				
 				c.restore();
 				
-				c.fillStyle = "red";
-				if(keys[87]) {c.fillRect(50, 10, 30, 30);}
-				if(keys[83]) {c.fillRect(50, 50, 30, 30);}
-				if(keys[65]) {c.fillRect(10, 50, 30, 30);}
-				if(keys[68]) {c.fillRect(90, 50, 30, 30);}
-				
 				mouseClicked = false;
 				
 				c.fillStyle = "black";
 				
-				c.fillText(bullets.length, 100, 65);
+				c.fillText(tanks[0].x.toFixed() + ", " + tanks[0].y.toFixed(), 100, 65);
 				
 				window.requestAnimationFrame(draw);
 				
