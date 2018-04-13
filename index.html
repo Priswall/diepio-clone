@@ -22,8 +22,7 @@
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 			var c = canvas.getContext("2d");
-			c.lineCap = "round";
-            c.lineWidth = 5;
+            c.lineCap = "round";
 			var mouseIsPressed = false;
 			var mouseClicked = false;
 			var autofire = false;
@@ -32,6 +31,107 @@
 			var keys = [];
 			var bullets = [];
 			var shapes = [];
+          
+            var xpamt = [
+                0,
+                4,
+                13,
+                28,
+                50,
+                78,
+                113,
+                157,
+                211,
+                272,
+                350,
+                437,
+                536,
+                653,
+                784,
+                938,
+                1109,
+                1301,
+                1516,
+                1757,
+                2026,
+                2325,
+                2653,
+                3017,
+                3416,
+                3854,
+                4334,
+                4857,
+                5428,
+                6048,
+                6720,
+                7448,
+                8235,
+                9084,
+                9998,
+                10981,
+                12036,
+                13167,
+                14377,
+                15671,
+                17053,
+                18526,
+                20094,
+                21762,
+                23545
+            ];
+          
+            var tankstats = {
+              
+                basic : {
+                    reload : 500,
+                    bspeed : 3,
+                    bdamage : 3,
+                    bpenetration : 1,
+                    spread : 5
+                },
+              
+                sniper : {
+                    reload : 1000,
+                    bspeed : 5,
+                    bdamage : 3,
+                    bpenetration : 3,
+                    spread : 2
+                },
+              
+                twin : {
+                    reload : 250,
+                    bspeed : 0,
+                    bdamage : 3,
+                    bpenetration : 3,
+                    spread : 5
+                },
+              
+                flankguard : {
+                    reload : 500,
+                    bspeed : 1,
+                    bdamage : 3,
+                    bpenetration : 3,
+                    spread : 5
+                },
+              
+                machinegun : {
+                    reload : 150,
+                    bspeed : 3,
+                    bdamage : 3,
+                    bpenetration : 3,
+                    spread : 10
+                },
+              
+                flamethrower : {
+                    reload : 0,
+                    bspeed : 4,
+                    bdamage : -5,
+                    bpenetration : 1,
+                    spread : 20
+                },
+              
+            };
+          
 			var camx = 0;
 			var camy = 0;
 			var mousex = 0;
@@ -68,26 +168,26 @@
 							c.fillStyle = "rgb(250, 250, 150)";
 							c.strokeStyle = "rgb(200, 200, 100)";
                         
-							c.fillRect(-15, -15, 30, 30);
+							c.fillRect(-18, -18, 36, 36);
 							
 							c.beginPath();
-							c.moveTo(-15, -15);
-							c.lineTo(15, -15);
+							c.moveTo(-18, -18);
+							c.lineTo(18, -18);
 							c.stroke();
 							
 							c.beginPath();
-							c.moveTo(15, -15);
-							c.lineTo(15, 15);
+							c.moveTo(18, -18);
+							c.lineTo(18, 18);
 							c.stroke();
 							
 							c.beginPath();
-							c.moveTo(15, 15);
-							c.lineTo(-15, 15);
+							c.moveTo(18, 18);
+							c.lineTo(-18, 18);
 							c.stroke();
                         
 							c.beginPath();
-							c.moveTo(-15, 15);
-							c.lineTo(-15, -15);
+							c.moveTo(-18, 18);
+							c.lineTo(-18, -18);
 							c.stroke();
 							break;
 					
@@ -96,63 +196,63 @@
 							c.strokeStyle = "rgb(200, 100, 100)";
                         
 							c.beginPath();
-							c.moveTo(-26, 15);
-							c.lineTo(0, -30);
-							c.lineTo(26, 15);
+							c.moveTo(-20, 12);
+							c.lineTo(0, -23);
+							c.lineTo(20, 12);
                             c.fill();
                         
 							c.beginPath();
-							c.moveTo(26, 15);
-							c.lineTo(0, -30);
+							c.moveTo(20, 12);
+							c.lineTo(0, -23);
                             c.stroke();
                         
 							c.beginPath();
-							c.moveTo(0, -30);
-							c.lineTo(-26, 15);
+							c.moveTo(0, -23);
+							c.lineTo(-20, 12);
                             c.stroke();
                         
 							c.beginPath();
-							c.moveTo(-26, 15);
-							c.lineTo(26, 15);
+							c.moveTo(-20, 12);
+							c.lineTo(20, 12);
                             c.stroke();
 							break;
 					
 						case 2:
 							c.fillStyle = "rgb(150, 150, 250)";
-							c.strokeStyle = "rgb(100, 100, 200)";
+							c.strokeStyle = "rgb(120, 120, 200)";
                         
 							c.beginPath();
-							c.moveTo(0, 40);
-							c.lineTo(38, 12);
-							c.lineTo(24, -32);
-							c.lineTo(-24, -32);
-							c.lineTo(-38, 12);
-							c.lineTo(0, 40);
+							c.moveTo(0, 30);
+							c.lineTo(29, 9);
+							c.lineTo(18, -24);
+							c.lineTo(-18, -24);
+							c.lineTo(-29, 9);
+							c.lineTo(0, 30);
 							c.fill();
                         
 							c.beginPath();
-							c.moveTo(0, 40);
-							c.lineTo(38, 12);
+							c.moveTo(0, 30);
+							c.lineTo(29, 9);
 							c.stroke();
                         
 							c.beginPath();
-							c.moveTo(38, 12);
-							c.lineTo(24, -32);
+							c.moveTo(29, 9);
+							c.lineTo(18, -24);
 							c.stroke();
                         
 							c.beginPath();
-							c.moveTo(24, -32);
-							c.lineTo(-24, -32);
+							c.moveTo(18, -24);
+							c.lineTo(-18, -24);
 							c.stroke();
                         
 							c.beginPath();
-							c.moveTo(-24, -32);
-							c.lineTo(-38, 12);
+							c.moveTo(-18, -24);
+							c.lineTo(-29, 9);
 							c.stroke();
                         
 							c.beginPath();
-							c.moveTo(-38, 12);
-							c.lineTo(0, 40);
+							c.moveTo(-29, 9);
+							c.lineTo(0, 30);
 							c.stroke();
 							break;
 					
@@ -196,8 +296,8 @@
 						case 0:
 							switch (this.t) {
 							    case 0:
-								c.fillStyle = "rgb(150, 150, 250)";
-								c.strokeStyle = "rgb(100, 100, 200)";
+								c.fillStyle = "rgb(100, 200, 250)";
+								c.strokeStyle = "rgb(50, 150, 200)";
 								break;
 							    case 1:
 								c.fillStyle = "rgb(250, 150, 150)";
@@ -229,9 +329,9 @@
 			    this.vely = 0;
 			    this.acc = 0.1;
 			    this.maxSpeed = 3;
-			    this.bulletP = 3;
-			    this.bulletS = 3;
-			    this.bulletD = 3;
+			    this.bulletP = tankstats.basic.bpenetration;
+			    this.bulletS = tankstats.basic.bspeed;
+			    this.bulletD = tankstats.basic.bdamage;
 			    this.r = r;
 			    this.t = t;
 			    this.n = n;
@@ -239,7 +339,7 @@
 			    this.lvl = lvl;
 			    this.id = id;
 			    this.inv = inv;
-				this.reload = 500;
+				this.reload = tankstats.basic.reload;
                 this.reloading = false;
 				this.cooldown = this.reload;
 				this.timetill = 0;
@@ -317,23 +417,23 @@
 					c.rotate(this.r);
 					c.fillStyle = "rgb(200, 200, 200)";
 					c.strokeStyle = "rgb(150, 150, 150)";
-					c.fillRect(-10, 0, 20, -55 * (1 - (this.reload - this.cooldown) / 3000));
+					c.fillRect(-9, 0, 18, -45 * (1 - (this.reload - this.cooldown) / 3000));
                     c.beginPath();
-                    c.moveTo(-10, 0);
-                    c.lineTo(-10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.moveTo(-9, 0);
+                    c.lineTo(-9, -45 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
                     c.stroke();
                     c.beginPath();
-                    c.moveTo(-10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-                    c.lineTo(10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.moveTo(-9, -45 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.lineTo(9, -45 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
                     c.stroke();
                     c.beginPath();
-                    c.moveTo(10, 0);
-                    c.lineTo(10, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                    c.moveTo(9, 0);
+                    c.lineTo(9, -45 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
                     c.stroke();
 					switch (this.t) {
 						case 0:
-						c.fillStyle = "rgb(150, 150, 250)";
-						c.strokeStyle = "rgb(100, 100, 200)";
+						c.fillStyle = "rgb(100, 200, 250)";
+						c.strokeStyle = "rgb(50, 150, 200)";
 						break;
 						case 1:
 						c.fillStyle = "rgb(250, 150, 150)";
@@ -349,13 +449,13 @@
 						break;
 					}
 					c.beginPath();
-					c.arc(0, 0, 30, 0, 2 * Math.PI);
+					c.arc(0, 0, 25, 0, 2 * Math.PI);
 					c.fill();
 					c.stroke();
 					c.restore();
 				};
 			}
-			tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 1, 1));
+			tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 0, 1));
           
 			for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
 				
@@ -371,21 +471,24 @@
 			    camx = (canvas.width / 2) - tanks[0].x;
 			    camy = (canvas.height / 2) - tanks[0].y;
 				
-			    c.fillStyle = "white";
+			    c.fillStyle = "rgb(220, 220, 220)";
 			    c.fillRect(0, 0, canvas.width, canvas.height);
 				
 			    c.strokeStyle = "rgb(200, 200, 200)";
+                c.lineWidth = 1;
 				
-			    for (var i = 0; i < canvas.width / 25; i++) {
+			    for (var i = 0; i < canvas.width / 20; i++) {
 					c.beginPath();
-					c.moveTo(0, (i * 30) - tanks[0].y % 30);
-					c.lineTo(canvas.width, (i * 30) - tanks[0].y % 30);
+					c.moveTo(0, (i * 25) - tanks[0].y % 25);
+					c.lineTo(canvas.width, (i * 25) - tanks[0].y % 25);
 					c.stroke();
 					c.beginPath();
-					c.moveTo((i * 30) - tanks[0].x % 30, 0);
-					c.lineTo((i * 30) - tanks[0].x % 30, canvas.height);
+					c.moveTo((i * 25) - tanks[0].x % 25, 0);
+					c.lineTo((i * 25) - tanks[0].x % 25, canvas.height);
 					c.stroke();
 			 	}
+              
+                c.lineWidth = 3;
 				
 			    c.save();
 			    c.translate(camx, camy);
