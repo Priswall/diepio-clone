@@ -23,6 +23,7 @@
 			canvas.height = window.innerHeight;
 			var c = canvas.getContext("2d");
 			c.lineCap = "round";
+            c.lineWidth = 5;
 			var mouseIsPressed = false;
 			var mouseClicked = false;
 			var autofire = false;
@@ -373,22 +374,21 @@
 			    c.fillStyle = "white";
 			    c.fillRect(0, 0, canvas.width, canvas.height);
 				
-			    c.save();
-			    c.translate(camx, camy);
-				
-			    c.lineWidth = 5;
 			    c.strokeStyle = "rgb(200, 200, 200)";
 				
-			    for (var i = 0; i < 200; i++) {
+			    for (var i = 0; i < canvas.width / 25; i++) {
 					c.beginPath();
-					c.moveTo(-3000, i * 30);
-					c.lineTo(3000, i * 30);
+					c.moveTo(0, (i * 30) - tanks[0].y % 30);
+					c.lineTo(canvas.width, (i * 30) - tanks[0].y % 30);
 					c.stroke();
 					c.beginPath();
-					c.moveTo(i * 30, -3000);
-					c.lineTo(i * 30, 3000);
+					c.moveTo((i * 30) - tanks[0].x % 30, 0);
+					c.lineTo((i * 30) - tanks[0].x % 30, canvas.height);
 					c.stroke();
 			 	}
+				
+			    c.save();
+			    c.translate(camx, camy);
 				
 				for(var i = shapes.length - 1; i >= 0; i--) {
 				
