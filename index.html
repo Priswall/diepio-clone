@@ -266,13 +266,13 @@
 				switch(other.constructor.name) {
 
 					case "shape":
-						this.pushx += other.velx * 5;
-						this.pushy += other.vely * 5;
+						this.pushx += other.velx * 2;
+						this.pushy += other.vely * 2;
 						break;
 
 					case "bullet":
-						this.pushx += (other.dx / other.mag) * (other.knockback + 1);
-						this.pushy += (other.dy / other.mag) * (other.knockback + 1);
+						this.pushx += (other.dx / other.mag) * other.knockback;
+						this.pushy += (other.dy / other.mag) * other.knockback;
 						this.dh += other.d;
 						break;
 
