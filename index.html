@@ -146,7 +146,7 @@
             },
 
             overseer: {
-                knockback: 0,
+                knockback: 1,
                 reload: 3000,
                 bspeed: 3,
                 bdamage: 5,
@@ -263,8 +263,8 @@
                         break;
 
                     case "bullet":
-                        this.pushx += (other.dx / other.mag) * other.ms;
-                        this.pushy += (other.dy / other.mag) * other.ms;
+                        this.pushx += (other.dx / other.mag) * other.knockback;
+                        this.pushy += (other.dy / other.mag) * other.knockback;
                         this.dh += other.d;
                         break;
 
@@ -920,8 +920,8 @@
             c.fillText(tanks[0].lvl, canvas.width / 2, canvas.height - 25);
             c.strokeText(tanks[0].lvl, canvas.width / 2, canvas.height - 25);
             c.font = "bold 25px Arial";
-            c.fillText(classes[tanks[0].id], canvas.width / 2, canvas.height - 50);
-            c.strokeText(classes[tanks[0].id], canvas.width / 2, canvas.height - 50);
+            c.fillText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
+            c.strokeText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
 
             mouseClicked = false;
 
