@@ -171,12 +171,14 @@
 				this.vely = Math.random() / 10;
                 this.pushx = 0;
                 this.pushy = 0;
-                this.acc = 0.002;
+                this.acc = 0.1;
 				
 				this.update = function() {
 				
 					this.x -= this.velx;
 					this.y -= this.vely;
+					this.x -= this.pushx;
+					this.y -= this.pushy;
 					this.rot -= this.r;
                     
                     if(this.pushx > 0) {
@@ -189,6 +191,25 @@
                         this.pushy -= this.acc;
                       
                     }
+                    
+                    if(this.pushx < 0) {
+                      
+                        this.pushx += this.acc;
+                      
+                    }
+                    if(this.pushy < 0) {
+                      
+                        this.pushy += this.acc;
+                      
+                    }
+                  
+                    if(Math.abs(this.pushx) < this.acc) {
+                        this.pushx = 0;
+                    }
+                  
+                    if(Math.abs(this.pushy) < this.acc) {
+                        this.pushy = 0;
+                    }
 				
 				};
               
@@ -197,8 +218,14 @@
                   switch(other.constructor.name){
                       
                     case "shape":
-                      this.pushx -= other.xvel * 50;
-                      this.pushy -= other.yvel * 50;
+                      this.pushx += other.xvel * 5;
+                      this.pushy += other.yvel * 5;
+                      break;
+                      
+                    case "bullet":
+                      this.pushx += (other.dx / other.mag) * other.ms;
+                      this.pushy += (other.dy / other.mag) * other.ms;
+                      break;
                       
                   }
                   
@@ -417,7 +444,7 @@
 			    this.y = y;
 			    this.velx = 0;
 			    this.vely = 0;
-			    this.acc = 0.05;
+			    this.acc = 0.075;
 			    this.maxSpeed = 3;
                 this.knockback = tankstats.basic.knockback;
 			    this.bulletP = tankstats.basic.bpenetration;
@@ -620,6 +647,17 @@
                                 shapes[j].gothit(shapes[i]);
                               
                             }
+                          
+                        }
+                      
+                    }
+                  
+                    for(var j = bullets.length - 1; j >= 0; j--){
+                      
+                        if(Math.abs(shapes[i].x - bullets[j].x) < 18 + bullets[j].r && Math.abs(shapes[i].y - bullets[j].y) < 18 + bullets[j].r){
+                          
+                            shapes[i].gothit(bullets[j]);
+                            bullets[j].p--;
                           
                         }
                       
