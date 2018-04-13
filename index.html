@@ -39,6 +39,7 @@
         var keys = [];
         var bullets = [];
         var shapes = [];
+        var classes = ["Basic Tank", "Sniper", "Twin", "Flank", "Machine Gun", "Flamethrower", "Manager"];
 
         var xpamt = [
             0,
@@ -174,16 +175,19 @@
                 case 0:
                     this.H = 5;
                     this.h = 5;
+                    this.xp = 10;
                     break;
 
                 case 1:
                     this.H = 15;
                     this.h = 15;
+                    this.xp = 25;
                     break;
 
                 case 2:
                     this.H = 30;
                     this.h = 30;
+                    this.xp = 130;
                     break;
             }
             this.r = 0.01 - Math.random() / 50;
@@ -241,6 +245,11 @@
                 if (this.h <= 0) {
                     this.dead = true;
                 }
+              
+                if(this.x < -3115) {this.x = -3115;}
+                if(this.y < -3200) {this.y = -3200;}
+                if(this.x > 3200) {this.x = 3200;}
+                if(this.y > 3200) {this.y = 3200;}
 
             };
 
@@ -444,6 +453,11 @@
                         this.dead = true;
 
                     }
+              
+                    if(this.x < -3115) {this.x = -3115;}
+                    if(this.y < -3200) {this.y = -3200;}
+                    if(this.x > 3200) {this.x = 3200;}
+                    if(this.y > 3200) {this.y = 3200;}
 
                     this.rot = Math.atan2(-(this.x - (mousex - camx)), (this.y - (mousey - camy)));
 
@@ -547,14 +561,16 @@
         function tank(x, y, r, t, n, xp, lvl, id, inv) {
             this.x = x;
             this.y = y;
+            this.lvl = 1;
+            this.xp = 0;
             this.velx = 0;
             this.vely = 0;
             this.acc = 0.075;
             this.maxSpeed = 3;
-            this.knockback = tankstats.overseer.knockback;
-            this.bulletP = tankstats.overseer.bpenetration;
-            this.bulletS = tankstats.overseer.bspeed;
-            this.bulletD = tankstats.overseer.bdamage;
+            this.knockback = tankstats.basic.knockback;
+            this.bulletP = tankstats.basic.bpenetration;
+            this.bulletS = tankstats.basic.bspeed;
+            this.bulletD = tankstats.basic.bdamage;
             this.r = r;
             this.t = t;
             this.n = n;
@@ -562,7 +578,7 @@
             this.lvl = lvl;
             this.id = id;
             this.inv = inv;
-            this.reload = tankstats.overseer.reload;
+            this.reload = tankstats.basic.reload;
             this.reloading = false;
             this.cooldown = this.reload;
             this.timetill = 0;
@@ -675,6 +691,16 @@
                     }
 
                 }
+              
+                if(this.x < -3115) {this.x = -3115;this.velx = 0;}
+                if(this.y < -3200) {this.y = -3200;this.velx = 0;}
+                if(this.x > 3200) {this.x = 3200;this.vely = 0;}
+                if(this.y > 3200) {this.y = 3200;this.vely = 0;}
+              
+                if(this.xp > xpamt[this.lvl]) {
+                    this.xp -= xpamt[this.lvl];
+                    this.lvl++;
+                }
 
             };
 
@@ -751,7 +777,7 @@
                 c.restore();
             };
         }
-        tanks.push(new tank(50, 50, 0, 0, "test", 0, 0, 6, 1));
+        tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, 1));
 
         for (var i = 0; i < 1000 - (shapes.length - 1); i++) {
 
@@ -772,11 +798,19 @@
             camx = (canvas.width / 2) - tanks[0].x;
             camy = (canvas.height / 2) - tanks[0].y;
 
-            c.fillStyle = "rgb(220, 220, 220)";
+            c.strokeStyle = "rgb(180, 180, 180)";
+            c.lineWidth = 1;
+
+            c.fillStyle = "rgb(200, 200, 200, 1)";
             c.fillRect(0, 0, canvas.width, canvas.height);
 
-            c.strokeStyle = "rgb(200, 200, 200)";
-            c.lineWidth = 1;
+            c.save();
+            c.translate(camx, camy);
+
+            c.fillStyle = "rgb(220, 220, 220, 1)";
+            c.fillRect(-2915, -3000, 6000, 6000);
+          
+            c.resetTransform();
 
             for (var i = 0; i < canvas.width / 20; i++) {
                 c.beginPath();
@@ -788,11 +822,9 @@
                 c.lineTo((i * 25) - tanks[0].x % 25, canvas.height);
                 c.stroke();
             }
+            c.translate(camx, camy);
 
             c.lineWidth = 3;
-
-            c.save();
-            c.translate(camx, camy);
 
             for (var i = shapes.length - 1; i >= 0; i--) {
 
@@ -827,6 +859,7 @@
 
                 if (shapes[i].a <= 0) {
 
+                    tanks[0].xp += shapes[i].xp;
                     shapes.splice(i, 1);
 
                 }
@@ -850,12 +883,47 @@
             }
 
             c.restore();
+          
+            c.lineWidth = 20;
+            c.strokeStyle = "rgb(100, 100, 100)";
+            c.beginPath();
+            c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
+            c.lineTo((canvas.width / 2) + 250, canvas.height - 25);
+            c.stroke();
+            c.lineWidth = 14;
+            c.strokeStyle = "rgb(150, 150, 150)";
+            c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
+            c.lineTo((canvas.width / 2) + 250, canvas.height - 25);
+            c.stroke();
+          
+            var xp = tanks[0].xp;
+            if(xp > 100) {
+                xp = 100;
+            }
+            if(xp < 0) {
+                xp = 1;
+            }
+          
+            c.lineWidth = 14;
+            c.strokeStyle = "rgb(250, 250, 150)";
+            c.beginPath();
+            c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
+            c.lineTo(xp * (((canvas.width / 2) + 250) / xpamt[tanks[0].lvl]), canvas.height - 25);
+            c.stroke();
+          
+            c.font = "bold 15px Arial";
+            c.fillStyle = "white";
+            c.strokeStyle = "black";
+            c.textAlign = "center";
+            c.textBaseline = "middle";
+            c.lineWidth = 1;
+            c.fillText(tanks[0].lvl, canvas.width / 2, canvas.height - 25);
+            c.strokeText(tanks[0].lvl, canvas.width / 2, canvas.height - 25);
+            c.font = "bold 25px Arial";
+            c.fillText(classes[tanks[0].id], canvas.width / 2, canvas.height - 50);
+            c.strokeText(classes[tanks[0].id], canvas.width / 2, canvas.height - 50);
 
             mouseClicked = false;
-
-            c.beginPath();
-            c.arc(mousex, mousey, 5, 0, 2 * Math.PI);
-            c.fill();
 
             window.requestAnimationFrame(draw);
 
