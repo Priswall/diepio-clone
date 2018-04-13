@@ -866,20 +866,34 @@
 
             }
 
+            for (var i = tanks.length - 1; i >= 0; i--) {
+                tanks[i].show();
+                tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
+            }
+
             for (var i = bullets.length - 1; i >= 0; i--) {
 
                 bullets[i].show();
                 bullets[i].update();
 
+                for (var j = bullets.length - 1; j >= 0; j--) {
+                    
+                    if(i !== j) {
+                    
+                        if(Math.abs(bullets[i].x - bullets[j].x) < 10 && Math.abs(bullets[i].y - bullets[j].y) < 10) {
+                        
+                            
+                        
+                        }
+                    
+                    }
+                    
+                }
+
                 if (bullets[i].a <= 0) {
                     bullets.splice(i, 1);
                 }
 
-            }
-
-            for (var i = tanks.length - 1; i >= 0; i--) {
-                tanks[i].show();
-                tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
             }
 
             c.restore();
