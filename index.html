@@ -268,12 +268,14 @@
 					case "shape":
 						//this.pushx += other.xvel * 5;
 						//this.pushy += other.yvel * 5;
+						console.log(other.xvel * 5);
+						console.log(other.yvel * 5);
+						console.log(this.pushx + ", " + this.pushy);
 						break;
 
 					case "bullet":
 						this.pushx += (other.dx / other.mag) * (other.knockback + 1);
 						this.pushy += (other.dy / other.mag) * (other.knockback + 1);
-						console.log(this.pushx + ", " + this.pushy);
 						this.dh += other.d;
 						break;
 
