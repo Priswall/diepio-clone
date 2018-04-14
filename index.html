@@ -183,10 +183,10 @@
 					this.xp = 130;
 					break;
 			}
-			this.r = 0.01 - Math.random() / 50;
+			this.r = (Math.random() / 30) - 0.015;
 			this.rot = 0;
-			this.velx = Math.random() / 10;
-			this.vely = Math.random() / 10;
+			this.velx = (Math.random() / 2) - 0.25;
+			this.vely = (Math.random() / 2) - 0.25;
 			this.pushx = 0;
 			this.pushy = 0;
 			this.acc = 0.1;
@@ -259,8 +259,9 @@
 				switch(other.constructor.name) {
 
 					case "shape":
-						this.pushx -= other.velx;
-						this.pushy -= other.vely;
+                        var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
+                        this.pushx = Math.sin(pr) * 2;
+                        this.pushy = Math.cos(pr + 3.1416) * 2;
 						break;
 
 					case "bullet":
