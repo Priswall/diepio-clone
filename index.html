@@ -36,6 +36,7 @@
 		var c = canvas.getContext("2d");
 		c.lineCap = "round";
 		var mouseIsPressed = false;
+        var mouseUP = false;
 		var mouseClicked = false;
 		var autofire = false;
 		var autospin = false;
@@ -111,11 +112,11 @@
 
 			twin: {
 				knockback: 3,
-				reload: 250,
+				reload: 200,
 				bspeed: 5,
 				bdamage: 3,
 				bpenetration: 3,
-				spread: 5
+				spread: 3
 			},
 
 			flankguard: {
@@ -128,7 +129,7 @@
 			machinegun: {
 				knockback: 3,
 				reload: 150,
-				bspeed: 3,
+				bspeed: 5,
 				spread: 10
 			},
 
@@ -581,10 +582,10 @@
 			this.vely = 0;
 			this.acc = 0.075;
 			this.maxSpeed = 3;
-			this.knockback = tankstats.flankguard.knockback;
-			this.spread = tankstats.flankguard.spread;
-			this.bulletS = tankstats.flankguard.bspeed;
-			this.reload = tankstats.flankguard.reload;
+			this.knockback = tankstats.basic.knockback;
+			this.spread = tankstats.basic.spread;
+			this.bulletS = tankstats.basic.bspeed;
+			this.reload = tankstats.basic.reload;
 			this.bulletP = 1;
 			this.bulletD = 3;
 			this.r = r;
@@ -676,7 +677,7 @@
 								break;
 
 							case 1:
-								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) * ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) * ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
                                 this.reloading = true;
 
                                 this.dx = Math.sin(this.r);
@@ -689,7 +690,13 @@
 								break;
 
 							case 2:
-								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                if(!this.bullet) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 0.29) * 50, this.y - Math.cos(this.r + 0.29) * 50, (this.x + Math.sin(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.bullet = 1;
+                                } else {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 0.29) * 50, this.y - Math.cos(this.r - 0.29) * 50, (this.x + Math.sin(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));                                  
+                                    this.bullet = 0;
+                                }
                                 this.reloading = true;
 
                                 this.dx = Math.sin(this.r);
@@ -739,11 +746,11 @@
                                 }
 
                                 this.dx = Math.sin(this.r);
-                                this.dy = -Math.cos(this.r);
+                                this.dy = Math.cos(this.r + 3.1416);
                                 this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
 
-                                this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
-                                this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 3));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 3));
                             
 								break;
 
@@ -801,6 +808,8 @@
 					this.xp -= xpamt[this.lvl];
 					this.lvl++;
 				}
+              
+                if(mouseUP) {this.bullet = 0;}
 
 			};
 
@@ -846,32 +855,69 @@
 						break;
 
 					case 2:
-						c.fillRect(-24, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.beginPath();
-						c.moveTo(-24, 0);
-						c.lineTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(-3, 0);
-						c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.fillRect(3, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.beginPath();
-						c.moveTo(3, 0);
-						c.lineTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(24, 0);
-						c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
+                    
+                        if(!this.bullet) {
+                          
+                            c.fillRect(-24, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.beginPath();
+                            c.moveTo(-24, 0);
+                            c.lineTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-3, 0);
+                            c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                    
+                            c.fillRect(3, 0, 20, -50);
+                            c.beginPath();
+                            c.moveTo(3, 0);
+                            c.lineTo(3, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(3, -50);
+                            c.lineTo(24, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(24, 0);
+                            c.lineTo(24, -50);
+                            c.stroke();
+                          
+                        } else {
+                          
+                            c.fillRect(-24, 0, 20, -50);
+                            c.beginPath();
+                            c.moveTo(-24, 0);
+                            c.lineTo(-24, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-24, -50);
+                            c.lineTo(-3, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-3, 0);
+                            c.lineTo(-3, -50);
+                            c.stroke();
+                    
+                            c.fillRect(3, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.beginPath();
+                            c.moveTo(3, 0);
+                            c.lineTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(24, 0);
+                            c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                          
+                        }
+                    
 						break;
 
 					case 3:
@@ -925,7 +971,6 @@
 						c.lineTo(20, -40);
 						c.lineTo(5, 0);
 						c.stroke();
-						break;
 						break;
 
 					case 5:
@@ -990,7 +1035,7 @@
 				c.restore();
 			};
 		}
-		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 3, 1));
+		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, 1));
 
 		for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
 
@@ -1097,13 +1142,8 @@
 			c.restore();
 
 			c.lineWidth = 20;
-			c.strokeStyle = "rgb(100, 100, 100)";
+			c.strokeStyle = "rgba(50, 50, 50, 0.8)";
 			c.beginPath();
-			c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
-			c.lineTo((canvas.width / 2) + 250, canvas.height - 25);
-			c.stroke();
-			c.lineWidth = 14;
-			c.strokeStyle = "rgb(150, 150, 150)";
 			c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
 			c.lineTo((canvas.width / 2) + 250, canvas.height - 25);
 			c.stroke();
@@ -1136,6 +1176,7 @@
 			c.strokeText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
 
 			mouseClicked = false;
+            mouseUP = false;
 
 			window.requestAnimationFrame(draw);
 
@@ -1153,6 +1194,7 @@
 		});
 		window.addEventListener("mouseup", function() {
 			mouseIsPressed = false;
+            mouseUP = true;
 			mouseClicked = true;
 		});
 		window.addEventListener("keydown", function(e) {
