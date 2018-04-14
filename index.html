@@ -29,7 +29,1190 @@
 		}
 	</style>
 	<canvas id="canvas" width="800px" height="600px"></canvas>
-	<script src="index.js"></script>
+	<script src="index.js">
+		var canvas = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		var c = canvas.getContext("2d");
+		c.lineCap = "round";
+		var mouseIsPressed = false;
+        var mouseUP = false;
+		var mouseClicked = false;
+		var autofire = false;
+		var autospin = false;
+		var tanks = [];
+		var keys = [];
+		var bullets = [];
+		var shapes = [];
+		var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Flamethrower", "Manager"];
+
+		var xpamt = [
+			0,
+			4,
+			13,
+			28,
+			50,
+			78,
+			113,
+			157,
+			211,
+			272,
+			350,
+			437,
+			536,
+			653,
+			784,
+			938,
+			1109,
+			1301,
+			1516,
+			1757,
+			2026,
+			2325,
+			2653,
+			3017,
+			3416,
+			3854,
+			4334,
+			4857,
+			5428,
+			6048,
+			6720,
+			7448,
+			8235,
+			9084,
+			9998,
+			10981,
+			12036,
+			13167,
+			14377,
+			15671,
+			17053,
+			18526,
+			20094,
+			21762,
+			23545
+		];
+
+		var tankstats = {
+
+			basic: {
+				knockback: 3,
+				reload: 500,
+				bspeed: 5,
+				spread: 5
+			},
+
+			sniper: {
+				knockback: 1,
+				reload: 1000,
+				bspeed: 5,
+				spread: 2
+			},
+
+			twin: {
+				knockback: 3,
+				reload: 200,
+				bspeed: 5,
+				bdamage: 3,
+				bpenetration: 3,
+				spread: 3
+			},
+
+			flankguard: {
+				knockback: 3,
+				reload: 500,
+				bspeed: 5,
+				spread: 2
+			},
+
+			machinegun: {
+				knockback: 3,
+				reload: 150,
+				bspeed: 5,
+				spread: 10
+			},
+
+			flamethrower: {
+				knockback: 1,
+				reload: 0,
+				bspeed: 4,
+				spread: 20
+			},
+
+			overseer: {
+				knockback: 2,
+				reload: 3000,
+				bspeed: 3,
+				spread: 0
+			},
+
+		};
+
+		var camx = 0;
+		var camy = 0;
+		var mousex = 0;
+		var mousey = 0;
+		var millis = 0;
+
+		function shape(x, y, id) {
+
+			this.x = x;
+			this.y = y;
+			this.s = 1;
+			this.a = 1;
+			this.dead = false;
+			this.id = id;
+			this.dh = 0;
+			switch(this.id) {
+				case 0:
+					this.H = 5;
+					this.h = 5;
+					this.xp = 10;
+					break;
+
+				case 1:
+					this.H = 15;
+					this.h = 15;
+					this.xp = 25;
+					break;
+
+				case 2:
+					this.H = 30;
+					this.h = 30;
+					this.xp = 130;
+					break;
+			}
+			this.r = (Math.random() / 30) - 0.015;
+			this.rot = 0;
+			this.velx = (Math.random() / 2) - 0.25;
+			this.vely = (Math.random() / 2) - 0.25;
+			this.pushx = 0;
+			this.pushy = 0;
+			this.acc = 0.1;
+
+			this.update = function() {
+
+				this.die();
+
+				this.x -= this.velx;
+				this.y -= this.vely;
+
+				this.x -= this.pushx;
+				this.y -= this.pushy;
+				this.rot -= this.r;
+
+				if(this.pushx > 0) {
+
+					this.pushx -= this.acc;
+
+				}
+				if(this.pushy > 0) {
+
+					this.pushy -= this.acc;
+
+				}
+
+				if(this.pushx < 0) {
+
+					this.pushx += this.acc;
+
+				}
+				if(this.pushy < 0) {
+
+					this.pushy += this.acc;
+
+				}
+
+				if(Math.abs(this.pushx) < this.acc) {
+					this.pushx = 0;
+				}
+
+				if(Math.abs(this.pushy) < this.acc) {
+					this.pushy = 0;
+				}
+
+				this.h -= this.dh / 2;
+				this.dh /= 2;
+
+				if(this.h <= 0) {
+					this.dead = true;
+				}
+
+				if(this.x < -3115) {
+					this.x = -3115;
+				}
+				if(this.y < -3200) {
+					this.y = -3200;
+				}
+				if(this.x > 3200) {
+					this.x = 3200;
+				}
+				if(this.y > 3200) {
+					this.y = 3200;
+				}
+
+			};
+
+			this.gothit = function(other) {
+
+				switch(other.constructor.name) {
+
+					case "shape":
+                        var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
+                        this.pushx = Math.sin(pr) * 2;
+                        this.pushy = Math.cos(pr + 3.1416) * 2;
+						break;
+
+					case "bullet":
+						if(!other.dead) {
+							this.pushx += (other.dx / other.mag) * other.knockback;
+							this.pushy += (other.dy / other.mag) * other.knockback;
+							this.dh += other.d;
+						}
+						break;
+
+				}
+
+			};
+
+			this.die = function() {
+
+				if(this.dead) {
+
+					this.a -= 0.1;
+					this.s += 0.1;
+
+				}
+
+			};
+
+			this.show = function() {
+
+				c.save();
+				c.translate(this.x, this.y);
+				c.rotate(this.rot);
+				c.scale(this.s, this.s);
+
+				switch(this.id) {
+
+					case 0:
+						c.fillStyle = "rgba(250, 250, 150," + this.a + ")";
+						c.strokeStyle = "rgba(200, 200, 100," + this.a + ")";
+
+						c.fillRect(-18, -18, 36, 36);
+
+						c.beginPath();
+						c.moveTo(-18, -18);
+						c.lineTo(18, -18);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(18, -18);
+						c.lineTo(18, 18);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(18, 18);
+						c.lineTo(-18, 18);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(-18, 18);
+						c.lineTo(-18, -18);
+						c.stroke();
+						break;
+
+					case 1:
+						c.fillStyle = "rgba(250, 150, 150," + this.a + ")";
+						c.strokeStyle = "rgba(200, 100, 100," + this.a + ")";
+
+						c.beginPath();
+						c.moveTo(-20, 12);
+						c.lineTo(0, -23);
+						c.lineTo(20, 12);
+						c.fill();
+
+						c.beginPath();
+						c.moveTo(20, 12);
+						c.lineTo(0, -23);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(0, -23);
+						c.lineTo(-20, 12);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(-20, 12);
+						c.lineTo(20, 12);
+						c.stroke();
+						break;
+
+					case 2:
+						c.fillStyle = "rgba(150, 150, 250," + this.a + ")";
+						c.strokeStyle = "rgba(120, 120, 200," + this.a + ")";
+
+						c.beginPath();
+						c.moveTo(0, 30);
+						c.lineTo(29, 9);
+						c.lineTo(18, -24);
+						c.lineTo(-18, -24);
+						c.lineTo(-29, 9);
+						c.lineTo(0, 30);
+						c.fill();
+
+						c.beginPath();
+						c.moveTo(0, 30);
+						c.lineTo(29, 9);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(29, 9);
+						c.lineTo(18, -24);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(18, -24);
+						c.lineTo(-18, -24);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(-18, -24);
+						c.lineTo(-29, 9);
+						c.stroke();
+
+						c.beginPath();
+						c.moveTo(-29, 9);
+						c.lineTo(0, 30);
+						c.stroke();
+						break;
+
+				}
+
+				c.restore();
+
+				c.lineWidth = 8;
+				c.strokeStyle = "rgb(150, 150, 150)";
+				if(this.h < this.H && !this.dead) {
+					c.beginPath();
+					c.moveTo(this.x - 20, this.y + 30);
+					c.lineTo(this.x + 20, this.y + 30);
+					c.stroke();
+					c.lineWidth = 5;
+					c.strokeStyle = "rgb(150, 250, 150)";
+					c.beginPath();
+					c.moveTo(this.x - 20, this.y + 30);
+					c.lineTo((this.x - 20) + ((40 / this.H) * this.h), this.y + 30);
+					c.stroke();
+				}
+				c.lineWidth = 3;
+
+			};
+
+		}
+
+		function bullet(x, y, dx, dy, r, id, t, s, d, p, k) {
+
+			this.x = x;
+			this.y = y;
+			this.rot = 0;
+			this.dead = false;
+			this.a = 1;
+			this.s = 1;
+			this.dx = this.x - dx;
+			this.dy = this.y - dy;
+			this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+			this.r = r;
+			this.id = id;
+			this.t = t;
+			this.ms = s;
+			this.d = d;
+			this.p = p;
+			this.knockback = k;
+
+			this.update = function() {
+
+				this.die();
+
+				if(this.p <= 0) {
+					this.dead = true;
+				}
+
+				this.p -= 0.01;
+
+				if(this.id != 1) {
+					this.x -= (this.dx / this.mag) * this.ms;
+					this.y -= (this.dy / this.mag) * this.ms;
+				} else {
+					if(Math.abs(this.x - (-camx + mousex)) > 10) {
+						this.x -= (this.dx / this.mag) * this.ms;
+					}
+
+					if(Math.abs(this.y - (-camy + mousey)) > 10) {
+						this.y -= (this.dy / this.mag) * this.ms;
+					}
+
+					this.dx = this.x - (-camx + mousex);
+					this.dy = this.y - (-camy + mousey);
+					this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+					if(this.x < -3115) {
+						this.x = -3115;
+					}
+					if(this.y < -3200) {
+						this.y = -3200;
+					}
+					if(this.x > 3200) {
+						this.x = 3200;
+					}
+					if(this.y > 3200) {
+						this.y = 3200;
+					}
+
+					this.rot = Math.atan2(-(this.x - (mousex - camx)), (this.y - (mousey - camy)));
+
+				}
+			};
+
+			this.die = function() {
+
+				if(this.dead) {
+
+					this.a -= 0.1;
+					this.s += 0.1;
+
+				}
+
+			};
+
+			this.show = function() {
+
+				c.beginPath();
+
+				switch(this.id) {
+
+					case 0:
+
+						c.save();
+						c.translate(this.x, this.y);
+						c.scale(this.s, this.s);
+						switch(this.t) {
+							case 0:
+								c.fillStyle = "rgb(100, 200, 250," + this.a + ")";
+								c.strokeStyle = "rgb(50, 150, 200," + this.a + ")";
+								break;
+							case 1:
+								c.fillStyle = "rgb(250, 150, 150," + this.a + ")";
+								c.strokeStyle = "rgb(200, 100, 100," + this.a + ")";
+								break;
+							case 2:
+								c.fillStyle = "rgb(150, 250, 150," + this.a + ")";
+								c.strokeStyle = "rgb(100, 200, 100," + this.a + ")";
+								break;
+							case 3:
+								c.fillStyle = "rgb(250, 150, 250," + this.a + ")";
+								c.strokeStyle = "rgb(200, 100, 200," + this.a + ")";
+								break;
+						}
+						c.arc(0, 0, this.r + this.s, 0, 2 * Math.PI);
+						c.fill();
+						c.stroke();
+
+						c.restore();
+						break;
+
+
+					case 1:
+
+						c.save();
+						c.translate(this.x, this.y);
+						c.rotate(this.rot);
+						switch(this.t) {
+							case 0:
+								c.fillStyle = "rgb(100, 200, 250," + this.a + ")";
+								c.strokeStyle = "rgb(50, 150, 200," + this.a + ")";
+								break;
+							case 1:
+								c.fillStyle = "rgb(250, 150, 150," + this.a + ")";
+								c.strokeStyle = "rgb(200, 100, 100," + this.a + ")";
+								break;
+							case 2:
+								c.fillStyle = "rgb(150, 250, 150," + this.a + ")";
+								c.strokeStyle = "rgb(100, 200, 100," + this.a + ")";
+								break;
+							case 3:
+								c.fillStyle = "rgb(250, 150, 250," + this.a + ")";
+								c.strokeStyle = "rgb(200, 100, 200," + this.a + ")";
+								break;
+						}
+						c.moveTo(0, -10);
+						c.lineTo(9, 5);
+						c.lineTo(-9, 5);
+						c.fill();
+
+						c.beginPath();
+						c.moveTo(0, -10);
+						c.lineTo(9, 5);
+						c.stroke();
+						c.beginPath();
+						c.lineTo(9, 5);
+						c.lineTo(-9, 5);
+						c.stroke();
+						c.beginPath();
+						c.lineTo(-9, 5);
+						c.lineTo(0, -10);
+						c.stroke();
+
+						c.restore();
+						break;
+
+				}
+
+			};
+
+		}
+
+		function tank(x, y, r, t, n, xp, lvl, id, inv) {
+			this.x = x;
+			this.y = y;
+            this.barrel = 0;
+			this.lvl = 1;
+			this.xp = 0;
+			this.velx = 0;
+			this.vely = 0;
+			this.acc = 0.075;
+			this.maxSpeed = 3;
+			this.knockback = tankstats.basic.knockback;
+			this.spread = tankstats.basic.spread;
+			this.bulletS = tankstats.basic.bspeed;
+			this.reload = tankstats.basic.reload;
+			this.bulletP = 1;
+			this.bulletD = 3;
+			this.r = r;
+			this.t = t;
+			this.n = n;
+			this.xp = xp;
+			this.lvl = lvl;
+			this.id = id;
+			this.inv = inv;
+			this.reloading = false;
+			this.cooldown = this.reload;
+			this.timetill = 0;
+
+			this.update = function(r) {
+
+				this.r = r;
+
+				if(keys[87] && !keys[83]) {
+					this.vely -= this.acc;
+				}
+				if(keys[83] && !keys[87]) {
+					this.vely += this.acc;
+				}
+				if(keys[65] && !keys[68]) {
+					this.velx -= this.acc;
+				}
+				if(keys[68] && !keys[65]) {
+					this.velx += this.acc;
+				}
+
+				if(this.velx > this.maxSpeed) {
+					this.velx = this.maxSpeed;
+				}
+				if(this.velx < -this.maxSpeed) {
+					this.velx = -this.maxSpeed;
+				}
+				if(this.vely > this.maxSpeed) {
+					this.vely = this.maxSpeed;
+				}
+				if(this.vely < -this.maxSpeed) {
+					this.vely = -this.maxSpeed;
+				}
+
+				if(!keys[87] && !keys[83]) {
+					if(this.vely < 0) {
+						this.vely += this.acc;
+					}
+					if(this.vely > 0) {
+						this.vely -= this.acc;
+					}
+
+					if(Math.abs(this.vely) <= this.acc) {
+						this.vely = 0;
+					}
+				}
+				if(!keys[65] && !keys[68]) {
+					if(this.velx < 0) {
+						this.velx += this.acc;
+					}
+					if(this.velx > 0) {
+						this.velx -= this.acc;
+					}
+
+					if(Math.abs(this.velx) < this.acc) {
+						this.velx = 0;
+					}
+				}
+
+				this.x += this.velx;
+				this.y += this.vely;
+
+				if(mouseIsPressed || keys[32] || autofire) {
+
+					if(this.cooldown === this.reload && !this.reloading) {
+
+						switch(this.id) {
+
+							case 0:
+								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                this.reloading = true;
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = -Math.cos(this.r);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
+                            
+								break;
+
+							case 1:
+								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                this.reloading = true;
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = -Math.cos(this.r);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
+                            
+								break;
+
+							case 2:
+                                if(!this.bullet) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 0.29) * 50, this.y - Math.cos(this.r + 0.29) * 50, (this.x + Math.sin(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.bullet = 1;
+                                } else {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 0.29) * 50, this.y - Math.cos(this.r - 0.29) * 50, (this.x + Math.sin(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));                                  
+                                    this.bullet = 0;
+                                }
+                                this.reloading = true;
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = -Math.cos(this.r);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
+                            
+								break;
+
+							case 3:
+								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+								bullets.push(new bullet(this.x + Math.sin(this.r + (180 * (Math.PI / 180))) * 40, this.y - Math.cos(this.r + (180 * (Math.PI / 180))) * 40, this.x + Math.sin(this.r + (180 * (Math.PI / 180))) * 70, this.y - Math.cos(this.r + (180 * (Math.PI / 180))) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                this.reloading = true;
+								break;
+
+							case 4:
+								bullets.push(new bullet(this.x + Math.sin(this.r) * 40, this.y - Math.cos(this.r) * 40, (this.x + Math.sin(this.r) * 50) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 50) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                this.reloading = true;
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = -Math.cos(this.r);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
+                            
+								break;
+
+							case 5:
+                                switch(this.barrel) {
+                                    case 0:
+                                        bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                        this.barrel = 1;
+                                        break;
+                                    case 1:
+                                        bullets.push(new bullet(this.x + Math.sin(this.r - 0.1) * 50, this.y - Math.cos(this.r - 0.1) * 50, (this.x + Math.sin(this.r - 0.1) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.1) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                        bullets.push(new bullet(this.x + Math.sin(this.r + 0.1) * 50, this.y - Math.cos(this.r + 0.1) * 50, (this.x + Math.sin(this.r + 0.1) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.1) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                        this.barrel = 2;
+                                        break;
+                                    case 2:
+                                        bullets.push(new bullet(this.x + Math.sin(this.r - 0.25) * 50, this.y - Math.cos(this.r - 0.25) * 50, (this.x + Math.sin(this.r - 0.18) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.18) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                        bullets.push(new bullet(this.x + Math.sin(this.r + 0.25) * 50, this.y - Math.cos(this.r + 0.25) * 50, (this.x + Math.sin(this.r + 0.18) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.18) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                        this.barrel = 0;
+                                        break;
+                                }
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = Math.cos(this.r + 3.1416);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 3));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 3));
+                            
+								break;
+
+							case 6:
+								bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                this.reloading = true;
+								break;
+
+						}
+
+						return;
+
+					}
+
+				}
+
+				if(this.reloading) {
+					this.cooldown -= 100;
+					this.timetill = millis;
+				}
+
+				if(this.cooldown <= 0) {
+					this.cooldown = 0;
+					this.reloading = false;
+				}
+
+				if(this.cooldown !== this.reload && !this.reloading) {
+
+					if(this.cooldown < this.reload) {
+						this.cooldown = millis - this.timetill;
+					} else {
+						this.cooldown = this.reload;
+					}
+
+				}
+
+				if(this.x < -3115) {
+					this.x = -3115;
+					this.velx = 0;
+				}
+				if(this.y < -3200) {
+					this.y = -3200;
+					this.velx = 0;
+				}
+				if(this.x > 3200) {
+					this.x = 3200;
+					this.vely = 0;
+				}
+				if(this.y > 3200) {
+					this.y = 3200;
+					this.vely = 0;
+				}
+
+				if(this.xp > xpamt[this.lvl]) {
+					this.xp -= xpamt[this.lvl];
+					this.lvl++;
+				}
+              
+                if(mouseUP) {this.bullet = 0;}
+
+			};
+
+			this.show = function() {
+				c.save();
+				c.translate(this.x, this.y);
+				c.rotate(this.r);
+				c.fillStyle = "rgb(200, 200, 200)";
+				c.strokeStyle = "rgb(150, 150, 150)";
+
+				switch(this.id) {
+
+					case 0:
+						c.fillRect(-9, 0, 18, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.beginPath();
+						c.moveTo(-9, 0);
+						c.lineTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(9, 0);
+						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						break;
+
+					case 1:
+						c.fillRect(-9, 0, 18, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.beginPath();
+						c.moveTo(-9, 0);
+						c.lineTo(-9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(-9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.lineTo(9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(9, 0);
+						c.lineTo(9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						break;
+
+					case 2:
+                    
+                        if(!this.bullet) {
+                          
+                            c.fillRect(-24, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.beginPath();
+                            c.moveTo(-24, 0);
+                            c.lineTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-3, 0);
+                            c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                    
+                            c.fillRect(3, 0, 20, -50);
+                            c.beginPath();
+                            c.moveTo(3, 0);
+                            c.lineTo(3, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(3, -50);
+                            c.lineTo(24, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(24, 0);
+                            c.lineTo(24, -50);
+                            c.stroke();
+                          
+                        } else {
+                          
+                            c.fillRect(-24, 0, 20, -50);
+                            c.beginPath();
+                            c.moveTo(-24, 0);
+                            c.lineTo(-24, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-24, -50);
+                            c.lineTo(-3, -50);
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(-3, 0);
+                            c.lineTo(-3, -50);
+                            c.stroke();
+                    
+                            c.fillRect(3, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.beginPath();
+                            c.moveTo(3, 0);
+                            c.lineTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                            c.beginPath();
+                            c.moveTo(24, 0);
+                            c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+                            c.stroke();
+                          
+                        }
+                    
+						break;
+
+					case 3:
+						c.fillRect(-9, 0, 18, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.beginPath();
+						c.moveTo(-9, 0);
+						c.lineTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(9, 0);
+						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.fillRect(-9, 0, 18, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.beginPath();
+						c.moveTo(-9, 0);
+						c.lineTo(-9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(-9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.lineTo(9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						c.beginPath();
+						c.moveTo(9, 0);
+						c.lineTo(9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
+						c.stroke();
+						break;
+
+					case 4:
+						c.beginPath();
+						c.moveTo(0, 0);
+						c.lineTo(-20, -40);
+						c.lineTo(20, -40);
+						c.lineTo(0, 0);
+						c.fill();
+
+						c.beginPath();
+						c.moveTo(-5, 0);
+						c.lineTo(-20, -40);
+						c.stroke();
+
+						c.beginPath();
+						c.lineTo(-20, -40);
+						c.lineTo(20, -40);
+						c.stroke();
+
+						c.beginPath();
+						c.lineTo(20, -40);
+						c.lineTo(5, 0);
+						c.stroke();
+						break;
+
+					case 5:
+                    
+                        c.fillRect(-3, -50, 6, 45);
+                        c.strokeRect(-3, -50, 6, 45);
+                        c.fillRect(-9, -47, 6, 45);
+                        c.strokeRect(-9, -47, 6, 45);
+                        c.fillRect(3, -47, 6, 45);
+                        c.strokeRect(3, -47, 6, 45);
+                        c.fillRect(-15, -44, 6, 45);
+                        c.strokeRect(-15, -44, 6, 45);
+                        c.fillRect(9, -44, 6, 45);
+                        c.strokeRect(9, -44, 6, 45);
+						break;
+
+					case 6:
+						c.beginPath();
+						c.moveTo(0, 0);
+						c.lineTo(-20, -35);
+						c.lineTo(20, -35);
+						c.lineTo(0, 0);
+						c.fill();
+
+						c.beginPath();
+						c.moveTo(-5, 0);
+						c.lineTo(-20, -35);
+						c.stroke();
+
+						c.beginPath();
+						c.lineTo(-20, -35);
+						c.lineTo(20, -35);
+						c.stroke();
+
+						c.beginPath();
+						c.lineTo(20, -35);
+						c.lineTo(5, 0);
+						c.stroke();
+				}
+				switch(this.t) {
+					case 0:
+						c.fillStyle = "rgb(100, 200, 250)";
+						c.strokeStyle = "rgb(50, 150, 200)";
+						break;
+					case 1:
+						c.fillStyle = "rgb(250, 150, 150)";
+						c.strokeStyle = "rgb(200, 100, 100)";
+						break;
+					case 2:
+						c.fillStyle = "rgb(150, 250, 150)";
+						c.strokeStyle = "rgb(100, 200, 100)";
+						break;
+					case 3:
+						c.fillStyle = "rgb(250, 150, 250)";
+						c.strokeStyle = "rgb(200, 100, 200)";
+						break;
+				}
+				c.beginPath();
+				c.arc(0, 0, 25, 0, 2 * Math.PI);
+				c.fill();
+				c.stroke();
+				c.restore();
+			};
+		}
+		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, 1));
+
+		for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
+
+			shapes.push(new shape(Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 2)));
+
+		}
+
+		function draw() {
+
+			millis = new Date();
+			millis = millis.getTime();
+
+			if(autospin) {
+				mousex = (canvas.width / 2) + Math.sin(millis / 1500) * 200;
+				mousey = (canvas.height / 2) + Math.cos(millis / 1500) * 200;
+			}
+
+			camx = (canvas.width / 2) - tanks[0].x;
+			camy = (canvas.height / 2) - tanks[0].y;
+
+			c.strokeStyle = "rgb(180, 180, 180)";
+			c.lineWidth = 1;
+
+			c.fillStyle = "rgb(200, 200, 200, 1)";
+			c.fillRect(0, 0, canvas.width, canvas.height);
+
+			c.save();
+			c.translate(camx, camy);
+
+			c.fillStyle = "rgb(220, 220, 220, 1)";
+			c.fillRect(-2915, -3000, 6000, 6000);
+
+			c.resetTransform();
+
+			for(var i = 0; i < canvas.width / 20; i++) {
+				c.beginPath();
+				c.moveTo(0, (i * 25) - tanks[0].y % 25);
+				c.lineTo(canvas.width, (i * 25) - tanks[0].y % 25);
+				c.stroke();
+				c.beginPath();
+				c.moveTo((i * 25) - tanks[0].x % 25, 0);
+				c.lineTo((i * 25) - tanks[0].x % 25, canvas.height);
+				c.stroke();
+			}
+			c.translate(camx, camy);
+
+			c.lineWidth = 3;
+
+			for(var i = shapes.length - 1; i >= 0; i--) {
+
+				shapes[i].show();
+				shapes[i].update();
+
+				for(var j = shapes.length - 1; j >= 0; j--) {
+
+					if(i !== j) {
+
+						if(Math.abs(shapes[i].x - shapes[j].x) < 50 && Math.abs(shapes[i].y - shapes[j].y) < 50) {
+
+							shapes[i].gothit(shapes[j]);
+							shapes[j].gothit(shapes[i]);
+
+						}
+
+					}
+
+				}
+
+				for(var j = bullets.length - 1; j >= 0; j--) {
+
+					if(Math.abs(shapes[i].x - bullets[j].x) < 18 + bullets[j].r && Math.abs(shapes[i].y - bullets[j].y) < 18 + bullets[j].r) {
+
+						bullets[j].p--;
+						shapes[i].gothit(bullets[j]);
+
+					}
+
+				}
+
+				if(shapes[i].a <= 0) {
+
+					tanks[0].xp += shapes[i].xp;
+					shapes.splice(i, 1);
+
+				}
+
+			}
+
+			for(var i = bullets.length - 1; i >= 0; i--) {
+
+				bullets[i].show();
+				bullets[i].update();
+
+				if(bullets[i].a <= 0) {
+					bullets.splice(i, 1);
+				}
+			}
+
+			for(var i = tanks.length - 1; i >= 0; i--) {
+				tanks[i].show();
+				tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
+			}
+
+			c.restore();
+
+			c.lineWidth = 20;
+			c.strokeStyle = "rgba(50, 50, 50, 0.8)";
+			c.beginPath();
+			c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
+			c.lineTo((canvas.width / 2) + 250, canvas.height - 25);
+			c.stroke();
+
+			var xp = tanks[0].xp;
+			if(xp > 100) {
+				xp = 100;
+			}
+			if(xp < 0) {
+				xp = 1;
+			}
+
+			c.lineWidth = 14;
+			c.strokeStyle = "rgb(250, 250, 150)";
+			c.beginPath();
+			c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
+			c.lineTo(xp * (((canvas.width / 2) + 250) / xpamt[tanks[0].lvl]), canvas.height - 25);
+			c.stroke();
+
+			c.font = "bold 15px Arial";
+			c.fillStyle = "white";
+			c.strokeStyle = "black";
+			c.textAlign = "center";
+			c.textBaseline = "middle";
+			c.lineWidth = 1;
+			c.fillText(tanks[0].lvl + " | " + xp, canvas.width / 2, canvas.height - 25);
+			c.strokeText(tanks[0].lvl + " | " + xp, canvas.width / 2, canvas.height - 25);
+			c.font = "bold 25px Arial";
+			c.fillText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
+			c.strokeText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
+
+			mouseClicked = false;
+            mouseUP = false;
+
+			window.requestAnimationFrame(draw);
+
+		}
+
+		window.requestAnimationFrame(draw);
+		window.addEventListener("mousemove", function(e) {
+			if(!autospin) {
+				mousex = e.clientX;
+				mousey = e.clientY;
+			}
+		});
+		window.addEventListener("mousedown", function() {
+			mouseIsPressed = true;
+		});
+		window.addEventListener("mouseup", function() {
+			mouseIsPressed = false;
+            		mouseUP = true;
+			mouseClicked = true;
+		});
+		window.addEventListener("keydown", function(e) {
+			keys[e.keyCode] = true;
+		});
+		window.addEventListener("keyup", function(e) {
+			if(keys[69]) {
+				if(!autofire) autofire = true;
+				else autofire = false;
+			}
+			if(keys[67]) {
+				if(!autospin) autospin = true;
+				else autospin = false;
+			}
+			keys[e.keyCode] = false;
+		});
+	</script>
 </body>
 
 </html>
