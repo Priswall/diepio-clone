@@ -273,6 +273,16 @@
 						}
 						break;
 
+					case "tank":
+						if(!other.dead) {
+                            var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
+                            this.pushx = Math.sin(pr) * 2;
+                            this.pushy = Math.cos(pr + 3.1416) * 2;
+                            other.velx = Math.sin(pr);
+                            other.vely = Math.cos(pr + 3.1416);
+						}
+						break;
+
 				}
 
 			};
@@ -580,6 +590,7 @@
             this.barrel = 0;
 			this.lvl = 1;
 			this.xp = 0;
+			this.showxp = 0;
 			this.velx = 0;
 			this.vely = 0;
 			this.acc = 0.075;
@@ -1117,9 +1128,18 @@
 
 				}
 
+				for(var j = tanks.length - 1; j >= 0; j--) {
+
+					if(Math.abs(shapes[i].x - tanks[j].x) < 35 && Math.abs(shapes[i].y - tanks[j].y) < 35) {
+
+                        shapes[i].gothit(tanks[j]);
+                  
+                    }
+                }
+
 				if(shapes[i].a <= 0) {
 
-					tanks[0].xp += shapes[i].xp;
+					tanks[0].showxp += shapes[i].xp;
 					shapes.splice(i, 1);
 
 				}
@@ -1150,19 +1170,14 @@
 			c.lineTo((canvas.width / 2) + 250, canvas.height - 25);
 			c.stroke();
 
-			var xp = tanks[0].xp;
-			if(xp > 100) {
-				xp = 100;
-			}
-			if(xp < 0) {
-				xp = 1;
-			}
-
+            tanks[0].xp += tanks[0].showxp / 3;
+            tanks[0].showxp /= 3;
+          
 			c.lineWidth = 14;
 			c.strokeStyle = "rgb(250, 250, 150)";
 			c.beginPath();
 			c.lineTo((canvas.width / 2) - 250, canvas.height - 25);
-			c.lineTo(xp * (((canvas.width / 2) + 250) / xpamt[tanks[0].lvl]), canvas.height - 25);
+			c.lineTo(((canvas.width / 2) - 250) + (tanks[0].xp * (((canvas.width / 2) + 250) / xpamt[tanks[0].lvl])), canvas.height - 25);
 			c.stroke();
 
 			c.font = "bold 15px Arial";
@@ -1171,11 +1186,10 @@
 			c.textAlign = "center";
 			c.textBaseline = "middle";
 			c.lineWidth = 1;
-			c.fillText(tanks[0].lvl + " | " + xp, canvas.width / 2, canvas.height - 25);
-			c.strokeText(tanks[0].lvl + " | " + xp, canvas.width / 2, canvas.height - 25);
+			c.fillText("Level " + tanks[0].lvl + " " + classes[tanks[0].id], canvas.width / 2, canvas.height - 25);
 			c.font = "bold 25px Arial";
-			c.fillText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
-			c.strokeText(classes[tanks[0].id] + " | " + tanks[0].n, canvas.width / 2, canvas.height - 50);
+			c.fillText(tanks[0].n, canvas.width / 2, canvas.height - 50);
+			c.strokeText(tanks[0].n, canvas.width / 2, canvas.height - 50);
 
 			mouseClicked = false;
             mouseUP = false;
