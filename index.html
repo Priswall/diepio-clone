@@ -54,6 +54,31 @@
 		var autofire = false;
 		var autospin = false;
 		var f = firebase.database().ref();
+		var query = firebase.database().ref().orderByKey();
+		query.once("value")
+			.then(function(snapshot) {
+				snapshot.forEach(function(childSnapshot) {
+					var key = childSnapshot.key;
+                    var m = 0;
+                    var mm = firebase.database().ref();
+                    var mmm = firebase.database().ref().child(key);
+                    mm.on("value", function(c){
+                        c.forEach(function(cc){
+                            for(var i = 0; i < tanks.length; i++){
+                                if(tanks[i].userID === Number(cc.key)) {
+                                    m = i;
+                                }
+                        
+                            }
+                            cc.forEach(function(data) {
+                                tanks[m][data.key] = data.val();
+                            });
+                        });
+                    });
+					var childData = childSnapshot.val();
+                    tanks.push(new tank(Number(childData.x), Number(childData.y), Number(childData.r), 0, childData.n, 0, 0, Number(childData.id), Number(key)));
+			});
+		});
 		var tanks = [];
 		var keys = [];
 		var bullets = [];
@@ -756,7 +781,7 @@
 
 		}
 
-		function tank(x, y, r, t, n, xp, lvl, id, inv) {
+		function tank(x, y, r, t, n, xp, lvl, id, userID) {
 			this.x = x;
 			this.y = y;
 			this.barrel = 0;
@@ -787,7 +812,7 @@
 			this.xp = xp;
 			this.lvl = lvl;
 			this.id = id;
-			this.inv = inv;
+			this.userID = userID;
 			this.reloading = false;
 			this.cooldown = this.reload;
 			this.timetill = 0;
@@ -1041,7 +1066,7 @@
 				c.restore();
 			};
 		}
-		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, 1));
+		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, Math.round(Math.random() * 1000)));
 
 		for (var i = 0; i < 1000 - (shapes.length - 1); i++) {
 
@@ -1277,8 +1302,8 @@
 
 			for (var i = tanks.length - 1; i >= 0; i--) {
 				tanks[i].show();
-				tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
 			}
+			tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
 
 			c.restore();
 
@@ -1321,8 +1346,9 @@
 				"y": tanks[0].y,
 				"r": tanks[0].r,
 				"id": tanks[0].id,
+				"name": tanks[0].n
 			};
-			f.child(tanks[0].n).set(d);
+			f.child(tanks[0].userID).set(d);
 
 			window.requestAnimationFrame(draw);
 
@@ -1346,6 +1372,12 @@
 		window.addEventListener("keydown", function(e) {
 			keys[e.keyCode] = true;
 		});
+        window.addEventListener("beforeunload", function(event) {
+            event.returnValue = "Write something clever here..";
+        });
+        window.addEventListener("onunload", function() {
+            firebase.database().ref(tanks[0].userID).remove();
+        });
 		window.addEventListener("keyup", function(e) {
 			if (keys[69]) {
 				if (!autofire) autofire = true;
@@ -1357,6 +1389,7 @@
 			}
 			keys[e.keyCode] = false;
 		});
+        firebase.database().ref(tanks[0].userID).onDisconnect().remove();
 	</script>
 </body>
 
