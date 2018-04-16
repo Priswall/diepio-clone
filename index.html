@@ -59,9 +59,6 @@
 		var bullets = [];
 		var shapes = [];
 		var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Flamethrower", "Manager"];
-		for(var i = 0; i < 3; i++) {
-			f.child("test").set("etststst");
-		}
 
 		var tankshow = [
 			function() {
@@ -1318,6 +1315,14 @@
 
 			mouseClicked = false;
 			mouseUP = false;
+			
+			var d = {
+				"x": tanks[0].x,
+				"y": tanks[0].y,
+				"r": tanks[0].r,
+				"id": tanks[0].id,
+			};
+			f.child(tanks[0].n).set(d);
 
 			window.requestAnimationFrame(draw);
 
