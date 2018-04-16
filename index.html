@@ -54,12 +54,14 @@
 		var autofire = false;
 		var autospin = false;
 		var f = firebase.database().ref();
-		f.child("test").set("etststst");
 		var tanks = [];
 		var keys = [];
 		var bullets = [];
 		var shapes = [];
 		var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Flamethrower", "Manager"];
+		for(var i = 0; i < 3; i++) {
+			f.child("test").set("etststst");
+		}
 
 		var tankshow = [
 			function() {
