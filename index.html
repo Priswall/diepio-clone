@@ -749,6 +749,7 @@
 			this.barrel = 0;
 			this.xp = 0;
 			this.showxp = 0;
+            this.xppoints = 0;
 			this.velx = 0;
 			this.vely = 0;
 			this.acc = 0.075;
@@ -757,6 +758,14 @@
 			this.spread = tankstats.basic.spread;
 			this.bulletS = tankstats.basic.bspeed;
 			this.reload = tankstats.basic.reload;
+			this.healthpoints = 0;
+			this.regenpoints = 0;
+			this.bdamagepoints = 0;
+			this.bulletSpoints = 0;
+			this.bulletPpoints = 0;
+			this.bulletDpoints = 0;
+			this.reloadpoints = 0;
+			this.speedpoints = 0;
 			this.bulletP = 1;
 			this.bulletD = 3;
 			this.r = r;
@@ -977,6 +986,7 @@
 
 				if (this.xp > xpamt[this.lvl]) {
 					this.xp -= xpamt[this.lvl];
+                    this.xppoints++;
 					this.lvl++;
 				}
 
