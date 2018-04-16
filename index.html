@@ -11,6 +11,18 @@
 </head>
 
 <body>
+	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+	<script>
+		var config = {
+			apiKey: "AIzaSyBV_Ym3Ri84Ezmsob-u1thlAmxytI3HCgM",
+			authDomain: "test-bb2e4.firebaseapp.com",
+			databaseURL: "https://test-bb2e4.firebaseio.com",
+			projectId: "test-bb2e4",
+			storageBucket: "test-bb2e4.appspot.com",
+			messagingSenderId: "178503576166"
+		};
+		firebase.initializeApp(config);
+	</script>
 	<style>
 		@font-face {
 			font-family: 'Ubuntu';
@@ -41,6 +53,8 @@
 		var mouseClicked = false;
 		var autofire = false;
 		var autospin = false;
+		var f = firebase.database().ref();
+		f.child("test").set("etststst");
 		var tanks = [];
 		var keys = [];
 		var bullets = [];
