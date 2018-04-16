@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="An open-source diep.io clone made with HTML, JS, and CSS">
-    <meta name="keywords" content="HTML,CSS,diepio,clone,diep.io,JS,opensource,open-source,JavaScript">
-    <meta name="author" content="Priswall">
+	<meta charset="UTF-8">
+	<meta name="description" content="An open-source diep.io clone made with HTML, JS, and CSS">
+	<meta name="keywords" content="HTML,CSS,diepio,clone,diep.io,JS,opensource,open-source,JavaScript">
+	<meta name="author" content="Priswall">
 	<link rel="icon" href="icon.png"></link>
 	<title>peip.io</title>
 </head>
@@ -37,7 +37,7 @@
 		var c = canvas.getContext("2d");
 		c.lineCap = "round";
 		var mouseIsPressed = false;
-        	var mouseUP = false;
+		var mouseUP = false;
 		var mouseClicked = false;
 		var autofire = false;
 		var autospin = false;
@@ -46,6 +46,154 @@
 		var bullets = [];
 		var shapes = [];
 		var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Flamethrower", "Manager"];
+
+		var tankshow = [
+			function() {
+				c.fillRect(-9, 0, 18, -50);
+				c.beginPath();
+				c.moveTo(-9, 0);
+				c.lineTo(-9, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(-9, -50);
+				c.lineTo(9, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(9, 0);
+				c.lineTo(9, -50);
+				c.stroke();
+			},
+			function() {
+				c.fillRect(-9, 0, 18, -55);
+				c.beginPath();
+				c.moveTo(-9, 0);
+				c.lineTo(-9, -55);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(-9, -55);
+				c.lineTo(9, -55);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(9, 0);
+				c.lineTo(9, -55);
+				c.stroke();
+			},
+			function() {
+				c.fillRect(3, 0, 20, -50);
+				c.beginPath();
+				c.moveTo(3, 0);
+				c.lineTo(3, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(3, -50);
+				c.lineTo(24, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(24, 0);
+				c.lineTo(24, -50);
+				c.stroke();
+
+				c.fillRect(-24, 0, 20, -50);
+				c.beginPath();
+				c.moveTo(-24, 0);
+				c.lineTo(-24, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(-24, -50);
+				c.lineTo(-3, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(-3, -50);
+				c.lineTo(-3, 0);
+				c.stroke();
+			},
+			function() {
+				c.fillRect(-9, 0, 18, -50);
+				c.beginPath();
+				c.moveTo(-9, 0);
+				c.lineTo(-9, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(-9, -50);
+				c.lineTo(9, -50);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(9, 0);
+				c.lineTo(9, -50);
+				c.stroke();
+				c.fillRect(-9, 0, 18, 40);
+				c.beginPath();
+				c.moveTo(-9, 0);
+				c.lineTo(-9, 40);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(-9, 40);
+				c.lineTo(9, 40);
+				c.stroke();
+				c.beginPath();
+				c.moveTo(9, 0);
+				c.lineTo(9, 40);
+				c.stroke();
+			},
+			function() {
+				c.beginPath();
+				c.moveTo(0, 0);
+				c.lineTo(-20, -40);
+				c.lineTo(20, -40);
+				c.lineTo(0, 0);
+				c.fill();
+
+				c.beginPath();
+				c.moveTo(-5, 0);
+				c.lineTo(-20, -40);
+				c.stroke();
+
+				c.beginPath();
+				c.lineTo(-20, -40);
+				c.lineTo(20, -40);
+				c.stroke();
+
+				c.beginPath();
+				c.lineTo(20, -40);
+				c.lineTo(5, 0);
+				c.stroke();
+			},
+			function() {
+				c.fillRect(-3, -50, 6, 45);
+				c.strokeRect(-3, -50, 6, 45);
+				c.fillRect(-9, -47, 6, 45);
+				c.strokeRect(-9, -47, 6, 45);
+				c.fillRect(3, -47, 6, 45);
+				c.strokeRect(3, -47, 6, 45);
+				c.fillRect(-15, -44, 6, 45);
+				c.strokeRect(-15, -44, 6, 45);
+				c.fillRect(9, -44, 6, 45);
+				c.strokeRect(9, -44, 6, 45);
+			},
+			function() {
+				c.beginPath();
+				c.moveTo(0, 0);
+				c.lineTo(-20, -35);
+				c.lineTo(20, -35);
+				c.lineTo(0, 0);
+				c.fill();
+
+				c.beginPath();
+				c.moveTo(-5, 0);
+				c.lineTo(-20, -35);
+				c.stroke();
+
+				c.beginPath();
+				c.lineTo(-20, -35);
+				c.lineTo(20, -35);
+				c.stroke();
+
+				c.beginPath();
+				c.lineTo(20, -35);
+				c.lineTo(5, 0);
+				c.stroke();
+			}
+		];
 
 		var xpamt = [
 			0,
@@ -93,6 +241,17 @@
 			20094,
 			21762,
 			23545
+		];
+
+		var tankorder = [
+
+			[
+				2,
+				1,
+				4,
+				3
+			]
+
 		];
 
 		var tankstats = {
@@ -165,7 +324,7 @@
 			this.dead = false;
 			this.id = id;
 			this.dh = 0;
-			switch(this.id) {
+			switch (this.id) {
 				case 0:
 					this.H = 5;
 					this.h = 5;
@@ -203,53 +362,53 @@
 				this.y -= this.pushy;
 				this.rot -= this.r;
 
-				if(this.pushx > 0) {
+				if (this.pushx > 0) {
 
 					this.pushx -= this.acc;
 
 				}
-				if(this.pushy > 0) {
+				if (this.pushy > 0) {
 
 					this.pushy -= this.acc;
 
 				}
 
-				if(this.pushx < 0) {
+				if (this.pushx < 0) {
 
 					this.pushx += this.acc;
 
 				}
-				if(this.pushy < 0) {
+				if (this.pushy < 0) {
 
 					this.pushy += this.acc;
 
 				}
 
-				if(Math.abs(this.pushx) < this.acc) {
+				if (Math.abs(this.pushx) < this.acc) {
 					this.pushx = 0;
 				}
 
-				if(Math.abs(this.pushy) < this.acc) {
+				if (Math.abs(this.pushy) < this.acc) {
 					this.pushy = 0;
 				}
 
 				this.h -= this.dh / 2;
 				this.dh /= 2;
 
-				if(this.h <= 0) {
+				if (this.h <= 0) {
 					this.dead = true;
 				}
 
-				if(this.x < -3115) {
+				if (this.x < -3115) {
 					this.x = -3115;
 				}
-				if(this.y < -3200) {
+				if (this.y < -3200) {
 					this.y = -3200;
 				}
-				if(this.x > 3200) {
+				if (this.x > 3200) {
 					this.x = 3200;
 				}
-				if(this.y > 3200) {
+				if (this.y > 3200) {
 					this.y = 3200;
 				}
 
@@ -257,7 +416,7 @@
 
 			this.gothit = function(other) {
 
-				switch(other.constructor.name) {
+				switch (other.constructor.name) {
 
 					case "shape":
 						var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
@@ -266,7 +425,7 @@
 						break;
 
 					case "bullet":
-						if(!other.dead) {
+						if (!other.dead) {
 							this.pushx += (other.dx / other.mag) * other.knockback;
 							this.pushy += (other.dy / other.mag) * other.knockback;
 							this.dh += other.d;
@@ -274,7 +433,7 @@
 						break;
 
 					case "tank":
-						if(!other.dead) {
+						if (!other.dead) {
 							var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
 							this.pushx = Math.sin(pr) * 2;
 							this.pushy = Math.cos(pr + 3.1416) * 2;
@@ -289,7 +448,7 @@
 
 			this.die = function() {
 
-				if(this.dead) {
+				if (this.dead) {
 
 					this.a -= 0.1;
 					this.s += 0.1;
@@ -305,7 +464,7 @@
 				c.rotate(this.rot);
 				c.scale(this.s, this.s);
 
-				switch(this.id) {
+				switch (this.id) {
 
 					case 0:
 						c.fillStyle = "rgba(250, 250, 150," + this.a + ")";
@@ -405,7 +564,7 @@
 
 				c.lineWidth = 8;
 				c.strokeStyle = "rgb(150, 150, 150)";
-				if(this.h < this.H && !this.dead) {
+				if (this.h < this.H && !this.dead) {
 					c.beginPath();
 					c.moveTo(this.x - 20, this.y + 30);
 					c.lineTo(this.x + 20, this.y + 30);
@@ -446,21 +605,21 @@
 
 				this.die();
 
-				if(this.p <= 0) {
+				if (this.p <= 0) {
 					this.dead = true;
 				}
 
 				this.p -= 0.01;
 
-				if(this.id != 1) {
+				if (this.id != 1) {
 					this.x -= (this.dx / this.mag) * this.ms;
 					this.y -= (this.dy / this.mag) * this.ms;
 				} else {
-					if(Math.abs(this.x - (-camx + mousex)) > 10) {
+					if (Math.abs(this.x - (-camx + mousex)) > 10) {
 						this.x -= (this.dx / this.mag) * this.ms;
 					}
 
-					if(Math.abs(this.y - (-camy + mousey)) > 10) {
+					if (Math.abs(this.y - (-camy + mousey)) > 10) {
 						this.y -= (this.dy / this.mag) * this.ms;
 					}
 
@@ -468,16 +627,16 @@
 					this.dy = this.y - (-camy + mousey);
 					this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
 
-					if(this.x < -3115) {
+					if (this.x < -3115) {
 						this.x = -3115;
 					}
-					if(this.y < -3200) {
+					if (this.y < -3200) {
 						this.y = -3200;
 					}
-					if(this.x > 3200) {
+					if (this.x > 3200) {
 						this.x = 3200;
 					}
-					if(this.y > 3200) {
+					if (this.y > 3200) {
 						this.y = 3200;
 					}
 
@@ -488,7 +647,7 @@
 
 			this.die = function() {
 
-				if(this.dead) {
+				if (this.dead) {
 
 					this.a -= 0.1;
 					this.s += 0.1;
@@ -501,14 +660,14 @@
 
 				c.beginPath();
 
-				switch(this.id) {
+				switch (this.id) {
 
 					case 0:
 
 						c.save();
 						c.translate(this.x, this.y);
 						c.scale(this.s, this.s);
-						switch(this.t) {
+						switch (this.t) {
 							case 0:
 								c.fillStyle = "rgb(100, 200, 250," + this.a + ")";
 								c.strokeStyle = "rgb(50, 150, 200," + this.a + ")";
@@ -539,7 +698,7 @@
 						c.save();
 						c.translate(this.x, this.y);
 						c.rotate(this.rot);
-						switch(this.t) {
+						switch (this.t) {
 							case 0:
 								c.fillStyle = "rgb(100, 200, 250," + this.a + ")";
 								c.strokeStyle = "rgb(50, 150, 200," + this.a + ")";
@@ -587,8 +746,7 @@
 		function tank(x, y, r, t, n, xp, lvl, id, inv) {
 			this.x = x;
 			this.y = y;
-            		this.barrel = 0;
-			this.lvl = 1;
+			this.barrel = 0;
 			this.xp = 0;
 			this.showxp = 0;
 			this.velx = 0;
@@ -616,53 +774,53 @@
 
 				this.r = r;
 
-				if(keys[87] && !keys[83]) {
+				if (keys[87] && !keys[83]) {
 					this.vely -= this.acc;
 				}
-				if(keys[83] && !keys[87]) {
+				if (keys[83] && !keys[87]) {
 					this.vely += this.acc;
 				}
-				if(keys[65] && !keys[68]) {
+				if (keys[65] && !keys[68]) {
 					this.velx -= this.acc;
 				}
-				if(keys[68] && !keys[65]) {
+				if (keys[68] && !keys[65]) {
 					this.velx += this.acc;
 				}
 
-				if(this.velx > this.maxSpeed) {
+				if (this.velx > this.maxSpeed) {
 					this.velx = this.maxSpeed;
 				}
-				if(this.velx < -this.maxSpeed) {
+				if (this.velx < -this.maxSpeed) {
 					this.velx = -this.maxSpeed;
 				}
-				if(this.vely > this.maxSpeed) {
+				if (this.vely > this.maxSpeed) {
 					this.vely = this.maxSpeed;
 				}
-				if(this.vely < -this.maxSpeed) {
+				if (this.vely < -this.maxSpeed) {
 					this.vely = -this.maxSpeed;
 				}
 
-				if(!keys[87] && !keys[83]) {
-					if(this.vely < 0) {
+				if (!keys[87] && !keys[83]) {
+					if (this.vely < 0) {
 						this.vely += this.acc;
 					}
-					if(this.vely > 0) {
+					if (this.vely > 0) {
 						this.vely -= this.acc;
 					}
 
-					if(Math.abs(this.vely) <= this.acc) {
+					if (Math.abs(this.vely) <= this.acc) {
 						this.vely = 0;
 					}
 				}
-				if(!keys[65] && !keys[68]) {
-					if(this.velx < 0) {
+				if (!keys[65] && !keys[68]) {
+					if (this.velx < 0) {
 						this.velx += this.acc;
 					}
-					if(this.velx > 0) {
+					if (this.velx > 0) {
 						this.velx -= this.acc;
 					}
 
-					if(Math.abs(this.velx) < this.acc) {
+					if (Math.abs(this.velx) < this.acc) {
 						this.velx = 0;
 					}
 				}
@@ -670,11 +828,11 @@
 				this.x += this.velx;
 				this.y += this.vely;
 
-				if(mouseIsPressed || keys[32] || autofire) {
+				if (mouseIsPressed || keys[32] || autofire) {
 
-					if(this.cooldown === this.reload && !this.reloading) {
+					if (this.cooldown === this.reload && !this.reloading) {
 
-						switch(this.id) {
+						switch (this.id) {
 
 							case 0:
 								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
@@ -686,7 +844,7 @@
 
 								this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
 								this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
-                            
+
 								break;
 
 							case 1:
@@ -699,15 +857,15 @@
 
 								this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
 								this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
-                            
+
 								break;
 
 							case 2:
-								if(!this.bullet) {
+								if (!this.bullet) {
 									bullets.push(new bullet(this.x + Math.sin(this.r + 0.29) * 50, this.y - Math.cos(this.r + 0.29) * 50, (this.x + Math.sin(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
 									this.bullet = 1;
 								} else {
-									bullets.push(new bullet(this.x + Math.sin(this.r - 0.29) * 50, this.y - Math.cos(this.r - 0.29) * 50, (this.x + Math.sin(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));                                  
+									bullets.push(new bullet(this.x + Math.sin(this.r - 0.29) * 50, this.y - Math.cos(this.r - 0.29) * 50, (this.x + Math.sin(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
 									this.bullet = 0;
 								}
 								this.reloading = true;
@@ -718,13 +876,13 @@
 
 								this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
 								this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
-                            
+
 								break;
 
 							case 3:
 								bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, this.x + Math.sin(this.r) * 70, this.y - Math.cos(this.r) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
 								bullets.push(new bullet(this.x + Math.sin(this.r + (180 * (Math.PI / 180))) * 40, this.y - Math.cos(this.r + (180 * (Math.PI / 180))) * 40, this.x + Math.sin(this.r + (180 * (Math.PI / 180))) * 70, this.y - Math.cos(this.r + (180 * (Math.PI / 180))) * 70, 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                				this.reloading = true;
+								this.reloading = true;
 								break;
 
 							case 4:
@@ -737,11 +895,11 @@
 
 								this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
 								this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
-                            
+
 								break;
 
 							case 5:
-								switch(this.barrel) {
+								switch (this.barrel) {
 									case 0:
 										bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
 										this.barrel = 1;
@@ -764,12 +922,12 @@
 
 								this.velx -= ((this.dx / this.mag) * (this.knockback / 3));
 								this.vely -= ((this.dy / this.mag) * (this.knockback / 3));
-                            
+
 								break;
 
 							case 6:
 								bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                				this.reloading = true;
+								this.reloading = true;
 								break;
 
 						}
@@ -780,19 +938,19 @@
 
 				}
 
-				if(this.reloading) {
+				if (this.reloading) {
 					this.cooldown -= 100;
 					this.timetill = millis;
 				}
 
-				if(this.cooldown <= 0) {
+				if (this.cooldown <= 0) {
 					this.cooldown = 0;
 					this.reloading = false;
 				}
 
-				if(this.cooldown !== this.reload && !this.reloading) {
+				if (this.cooldown !== this.reload && !this.reloading) {
 
-					if(this.cooldown < this.reload) {
+					if (this.cooldown < this.reload) {
 						this.cooldown = millis - this.timetill;
 					} else {
 						this.cooldown = this.reload;
@@ -800,29 +958,31 @@
 
 				}
 
-				if(this.x < -3115) {
+				if (this.x < -3115) {
 					this.x = -3115;
 					this.velx = 0;
 				}
-				if(this.y < -3200) {
+				if (this.y < -3200) {
 					this.y = -3200;
 					this.velx = 0;
 				}
-				if(this.x > 3200) {
+				if (this.x > 3200) {
 					this.x = 3200;
 					this.vely = 0;
 				}
-				if(this.y > 3200) {
+				if (this.y > 3200) {
 					this.y = 3200;
 					this.vely = 0;
 				}
 
-				if(this.xp > xpamt[this.lvl]) {
+				if (this.xp > xpamt[this.lvl]) {
 					this.xp -= xpamt[this.lvl];
 					this.lvl++;
 				}
-              
-                		if(mouseUP) {this.bullet = 0;}
+
+				if (mouseUP) {
+					this.bullet = 0;
+				}
 
 			};
 
@@ -832,198 +992,8 @@
 				c.rotate(this.r);
 				c.fillStyle = "rgb(200, 200, 200)";
 				c.strokeStyle = "rgb(150, 150, 150)";
-
-				switch(this.id) {
-
-					case 0:
-						c.fillRect(-9, 0, 18, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.beginPath();
-						c.moveTo(-9, 0);
-						c.lineTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(9, 0);
-						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						break;
-
-					case 1:
-						c.fillRect(-9, 0, 18, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.beginPath();
-						c.moveTo(-9, 0);
-						c.lineTo(-9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(-9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.lineTo(9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(9, 0);
-						c.lineTo(9, -55 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						break;
-
-					case 2:
-                    
-                        			if(!this.bullet) {
-                          
-							c.fillRect(-24, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-							c.beginPath();
-							c.moveTo(-24, 0);
-							c.lineTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-							c.stroke();
-							c.beginPath();
-							c.moveTo(-24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-							c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-							c.stroke();
-							c.beginPath();
-							c.moveTo(-3, 0);
-							c.lineTo(-3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-							c.stroke();
-
-							c.fillRect(3, 0, 20, -50);
-						 	c.beginPath();
-							c.moveTo(3, 0);
-							c.lineTo(3, -50);
-							c.stroke();
-							c.beginPath();
-							c.moveTo(3, -50);
-							c.lineTo(24, -50);
-							c.stroke();
-							c.beginPath();
-							c.moveTo(24, 0);
-							c.lineTo(24, -50);
-							c.stroke();
-                          
-                        			} else {
-                          
-							c.fillRect(-24, 0, 20, -50);
-							c.beginPath();
-							c.moveTo(-24, 0);
-							c.lineTo(-24, -50);
-							c.stroke();
-							c.beginPath();
-							c.moveTo(-24, -50);
-							c.lineTo(-3, -50);
-							c.stroke();
-                            				c.beginPath();
-                            				c.moveTo(-3, 0);
-                            				c.lineTo(-3, -50);
-                            				c.stroke();
-                    
-                            				c.fillRect(3, 0, 20, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-                            				c.beginPath();
-                            				c.moveTo(3, 0);
-                            				c.lineTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-                            				c.stroke();
-                            				c.beginPath();
-                            				c.moveTo(3, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-                            				c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-                            				c.stroke();
-                            				c.beginPath();
-                           				c.moveTo(24, 0);
-                            				c.lineTo(24, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-                            				c.stroke();
-                          
-                        			}
-                    
-						break;
-
-					case 3:
-						c.fillRect(-9, 0, 18, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.beginPath();
-						c.moveTo(-9, 0);
-						c.lineTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(-9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(9, 0);
-						c.lineTo(9, -50 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.fillRect(-9, 0, 18, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.beginPath();
-						c.moveTo(-9, 0);
-						c.lineTo(-9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(-9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.lineTo(9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						c.beginPath();
-						c.moveTo(9, 0);
-						c.lineTo(9, 40 * (1 - (this.reload - this.cooldown) / (this.reload * 8)));
-						c.stroke();
-						break;
-
-					case 4:
-						c.beginPath();
-						c.moveTo(0, 0);
-						c.lineTo(-20, -40);
-						c.lineTo(20, -40);
-						c.lineTo(0, 0);
-						c.fill();
-
-						c.beginPath();
-						c.moveTo(-5, 0);
-						c.lineTo(-20, -40);
-						c.stroke();
-
-						c.beginPath();
-						c.lineTo(-20, -40);
-						c.lineTo(20, -40);
-						c.stroke();
-
-						c.beginPath();
-						c.lineTo(20, -40);
-						c.lineTo(5, 0);
-						c.stroke();
-						break;
-
-					case 5:
-                    
-                        			c.fillRect(-3, -50, 6, 45);
-                        			c.strokeRect(-3, -50, 6, 45);
-                        			c.fillRect(-9, -47, 6, 45);
-                        			c.strokeRect(-9, -47, 6, 45);
-                        			c.fillRect(3, -47, 6, 45);
-                        			c.strokeRect(3, -47, 6, 45);
-                        			c.fillRect(-15, -44, 6, 45);
-                        			c.strokeRect(-15, -44, 6, 45);
-                        			c.fillRect(9, -44, 6, 45);
-                        			c.strokeRect(9, -44, 6, 45);
-						break;
-
-					case 6:
-						c.beginPath();
-						c.moveTo(0, 0);
-						c.lineTo(-20, -35);
-						c.lineTo(20, -35);
-						c.lineTo(0, 0);
-						c.fill();
-
-						c.beginPath();
-						c.moveTo(-5, 0);
-						c.lineTo(-20, -35);
-						c.stroke();
-
-						c.beginPath();
-						c.lineTo(-20, -35);
-						c.lineTo(20, -35);
-						c.stroke();
-
-						c.beginPath();
-						c.lineTo(20, -35);
-						c.lineTo(5, 0);
-						c.stroke();
-				}
-				switch(this.t) {
+				tankshow[this.id]();
+				switch (this.t) {
 					case 0:
 						c.fillStyle = "rgb(100, 200, 250)";
 						c.strokeStyle = "rgb(50, 150, 200)";
@@ -1050,18 +1020,144 @@
 		}
 		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, 1));
 
-		for(var i = 0; i < 1000 - (shapes.length - 1); i++) {
+		for (var i = 0; i < 1000 - (shapes.length - 1); i++) {
 
 			shapes.push(new shape(Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 2)));
 
 		}
+
+		function upgradeScreen() {
+
+			canvas.style.cursor = "default";
+
+			if (tanks[0].lvl >= 15 && tanks[0].id === 0) {
+
+				c.lineWidth = 3;
+
+				for (var i = 0; i < tankorder[tanks[0].id].length; i++) {
+
+					switch (i) {
+
+						case 0:
+							c.fillStyle = "rgb(255, 100, 100)";
+							c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							c.fillStyle = "rgb(255, 50, 50)";
+							c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							break;
+
+						case 1:
+							c.fillStyle = "rgb(100, 100, 255)";
+							c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							c.fillStyle = "rgb(50, 50, 255)";
+							c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							break;
+
+						case 2:
+							c.fillStyle = "rgb(220, 220, 100)";
+							c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							c.fillStyle = "rgb(235, 235, 50)";
+							c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							break;
+
+						case 3:
+							c.fillStyle = "rgb(100, 255, 100)";
+							c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							c.fillStyle = "rgb(50, 255, 50)";
+							c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+							break;
+
+					}
+
+					if (mousex > 20 + ((i % 2) * 120) && mousey > 20 + ((Math.floor(i / 2) % 2) * 120) && mousex < 120 + ((i % 2) * 120) && mousey < 120 + ((Math.floor(i / 2) % 2) * 120)) {
+
+						canvas.style.cursor = "pointer";
+
+						if (mouseUP) {
+
+							tanks[0].id = Number(tankorder[tanks[0].id][i]);
+
+							switch (tanks[0].id) {
+
+								case 1:
+
+									tanks[0].knockback = tankstats.sniper.knockback;
+									tanks[0].spread = tankstats.sniper.spread;
+									tanks[0].bulletS = tankstats.sniper.bspeed;
+									tanks[0].reload = tankstats.sniper.reload;
+									break;
+
+								case 2:
+
+									tanks[0].knockback = tankstats.twin.knockback;
+									tanks[0].spread = tankstats.twin.spread;
+									tanks[0].bulletS = tankstats.twin.bspeed;
+									tanks[0].reload = tankstats.twin.reload;
+									break;
+
+								case 3:
+
+									tanks[0].knockback = tankstats.flankguard.knockback;
+									tanks[0].spread = tankstats.flankguard.spread;
+									tanks[0].bulletS = tankstats.flankguard.bspeed;
+									tanks[0].reload = tankstats.flankguard.reload;
+									break;
+
+								case 4:
+
+									tanks[0].knockback = tankstats.machinegun.knockback;
+									tanks[0].spread = tankstats.machinegun.spread;
+									tanks[0].bulletS = tankstats.machinegun.bspeed;
+									tanks[0].reload = tankstats.machinegun.reload;
+									break;
+
+							}
+
+							return;
+
+						}
+
+					}
+
+					c.fillStyle = "rgb(200, 200, 200)";
+					c.strokeStyle = "rgb(150, 150, 150)";
+
+					c.strokeRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 100);
+
+					c.save();
+					c.translate(70 + ((i % 2) * 120), 60 + ((Math.floor(i / 2) % 2) * 120));
+					c.scale(0.7, 0.7);
+					c.rotate((millis / 3000) % 360);
+
+					tankshow[tankorder[tanks[0].id][i]]();
+
+					c.fillStyle = "rgb(100, 200, 250)";
+					c.strokeStyle = "rgb(50, 150, 200)";
+
+					c.beginPath();
+					c.arc(0, 0, 25, 0, 2 * Math.PI);
+					c.fill();
+					c.stroke();
+
+					c.restore();
+
+					c.font = "bold 15px Arial";
+					c.fillStyle = "white";
+					c.fillText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
+					c.fillStyle = "black";
+					c.lineWidth = 1;
+					c.strokeText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
+
+				}
+
+			}
+		};
 
 		function draw() {
 
 			millis = new Date();
 			millis = millis.getTime();
 
-			if(autospin) {
+			if (autospin) {
 				mousex = (canvas.width / 2) + Math.sin(millis / 1500) * 200;
 				mousey = (canvas.height / 2) + Math.cos(millis / 1500) * 200;
 			}
@@ -1083,7 +1179,7 @@
 
 			c.resetTransform();
 
-			for(var i = 0; i < canvas.width / 20; i++) {
+			for (var i = 0; i < canvas.width / 20; i++) {
 				c.beginPath();
 				c.moveTo(0, (i * 25) - tanks[0].y % 25);
 				c.lineTo(canvas.width, (i * 25) - tanks[0].y % 25);
@@ -1097,16 +1193,16 @@
 
 			c.lineWidth = 3;
 
-			for(var i = shapes.length - 1; i >= 0; i--) {
+			for (var i = shapes.length - 1; i >= 0; i--) {
 
 				shapes[i].show();
 				shapes[i].update();
 
-				for(var j = shapes.length - 1; j >= 0; j--) {
+				for (var j = shapes.length - 1; j >= 0; j--) {
 
-					if(i !== j) {
+					if (i !== j) {
 
-						if(Math.abs(shapes[i].x - shapes[j].x) < 50 && Math.abs(shapes[i].y - shapes[j].y) < 50) {
+						if (Math.abs(shapes[i].x - shapes[j].x) < 50 && Math.abs(shapes[i].y - shapes[j].y) < 50) {
 
 							shapes[i].gothit(shapes[j]);
 							shapes[j].gothit(shapes[i]);
@@ -1117,9 +1213,9 @@
 
 				}
 
-				for(var j = bullets.length - 1; j >= 0; j--) {
+				for (var j = bullets.length - 1; j >= 0; j--) {
 
-					if(Math.abs(shapes[i].x - bullets[j].x) < 18 + bullets[j].r && Math.abs(shapes[i].y - bullets[j].y) < 18 + bullets[j].r) {
+					if (Math.abs(shapes[i].x - bullets[j].x) < 18 + bullets[j].r && Math.abs(shapes[i].y - bullets[j].y) < 18 + bullets[j].r) {
 
 						bullets[j].p--;
 						shapes[i].gothit(bullets[j]);
@@ -1128,16 +1224,16 @@
 
 				}
 
-				for(var j = tanks.length - 1; j >= 0; j--) {
+				for (var j = tanks.length - 1; j >= 0; j--) {
 
-					if(Math.abs(shapes[i].x - tanks[j].x) < 35 && Math.abs(shapes[i].y - tanks[j].y) < 35) {
+					if (Math.abs(shapes[i].x - tanks[j].x) < 35 && Math.abs(shapes[i].y - tanks[j].y) < 35) {
 
-                        			shapes[i].gothit(tanks[j]);
-                  
-                    			}
-                		}
+						shapes[i].gothit(tanks[j]);
 
-				if(shapes[i].a <= 0) {
+					}
+				}
+
+				if (shapes[i].a <= 0) {
 
 					tanks[0].showxp += shapes[i].xp;
 					shapes.splice(i, 1);
@@ -1146,17 +1242,17 @@
 
 			}
 
-			for(var i = bullets.length - 1; i >= 0; i--) {
+			for (var i = bullets.length - 1; i >= 0; i--) {
 
 				bullets[i].show();
 				bullets[i].update();
 
-				if(bullets[i].a <= 0) {
+				if (bullets[i].a <= 0) {
 					bullets.splice(i, 1);
 				}
 			}
 
-			for(var i = tanks.length - 1; i >= 0; i--) {
+			for (var i = tanks.length - 1; i >= 0; i--) {
 				tanks[i].show();
 				tanks[i].update(Math.atan2(-(tanks[i].x - (mousex - camx)), (tanks[i].y - (mousey - camy))));
 			}
@@ -1170,9 +1266,9 @@
 			c.lineTo((canvas.width / 2) + 250, canvas.height - 25);
 			c.stroke();
 
-            		tanks[0].xp += tanks[0].showxp / 5;
-            		tanks[0].showxp /= 5;
-          
+			tanks[0].xp += tanks[0].showxp / 5;
+			tanks[0].showxp /= 5;
+
 			c.lineWidth = 14;
 			c.strokeStyle = "rgb(250, 250, 150)";
 			c.beginPath();
@@ -1192,8 +1288,10 @@
 			c.fillText(tanks[0].n, canvas.width / 2, canvas.height - 50);
 			c.strokeText(tanks[0].n, canvas.width / 2, canvas.height - 50);
 
+			upgradeScreen();
+
 			mouseClicked = false;
-            		mouseUP = false;
+			mouseUP = false;
 
 			window.requestAnimationFrame(draw);
 
@@ -1201,7 +1299,7 @@
 
 		window.requestAnimationFrame(draw);
 		window.addEventListener("mousemove", function(e) {
-			if(!autospin) {
+			if (!autospin) {
 				mousex = e.clientX;
 				mousey = e.clientY;
 			}
@@ -1211,19 +1309,19 @@
 		});
 		window.addEventListener("mouseup", function() {
 			mouseIsPressed = false;
-            		mouseUP = true;
+			mouseUP = true;
 			mouseClicked = true;
 		});
 		window.addEventListener("keydown", function(e) {
 			keys[e.keyCode] = true;
 		});
 		window.addEventListener("keyup", function(e) {
-			if(keys[69]) {
-				if(!autofire) autofire = true;
+			if (keys[69]) {
+				if (!autofire) autofire = true;
 				else autofire = false;
 			}
-			if(keys[67]) {
-				if(!autospin) autospin = true;
+			if (keys[67]) {
+				if (!autospin) autospin = true;
 				else autospin = false;
 			}
 			keys[e.keyCode] = false;
