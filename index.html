@@ -448,13 +448,14 @@
 
 					case "bullet":
 						if (!other.dead && this.cooldown >= 100) {
-							this.pushx += (other.dx / other.mag) * other.knockback;
-							this.pushy += (other.dy / other.mag) * other.knockback;
+							this.pushx += (other.dx / other.mag) * (other.knockback / 5);
+							this.pushy += (other.dy / other.mag) * (other.knockback / 5);
 							this.dh += other.d;
                             this.cooldown = 0;
                             this.timetill = millis;
+                            other.p--;
+                            other.ms *= 0.8;
 						}
-                        other.ms *= 0.8;
 						break;
 
 					case "tank":
@@ -1262,7 +1263,6 @@
 
 					if (Math.abs(shapes[i].x - bullets[j].x) < 18 + bullets[j].r && Math.abs(shapes[i].y - bullets[j].y) < 18 + bullets[j].r) {
 
-						bullets[j].p--;
 						shapes[i].gothit(bullets[j]);
 
 					}
@@ -1513,13 +1513,13 @@
                 c.fill();
               
                 for(var i = 0; i < tanks[0].reloadpoints; i++){
-                    c.fillStyle = "rgb(250, 175, 100)";
+                    c.fillStyle = "rgb(100, 250, 100)";
                     if(i === 0) {c.beginPath();c.arc(21, canvas.height - 43, 7, 0, 2 * Math.PI);c.fill();}
                     c.fillRect(23 + (19 * i), canvas.height - 50, 17, 14);
                 }
                 c.fillStyle = "rgb(100, 100, 100)";
                 if(tanks[0].reloadpoints < 8){
-                    c.fillStyle = "rgb(250, 175, 100)";
+                    c.fillStyle = "rgb(100, 250, 100)";
                 }
                 c.beginPath();
                 c.arc(200, canvas.height - 43, 8, 0, 2 * Math.PI);
