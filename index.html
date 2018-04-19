@@ -415,17 +415,17 @@
 					this.dead = true;
 				}
 
-				if (this.x < -3115) {
-					this.x = -3115;
+				if (this.x < -1615) {
+					this.x = -1615;
 				}
-				if (this.y < -3200) {
-					this.y = -3200;
+				if (this.y < -1700) {
+					this.y = -1700;
 				}
-				if (this.x > 3200) {
-					this.x = 3200;
+				if (this.x > 1700) {
+					this.x = 1700;
 				}
-				if (this.y > 3200) {
-					this.y = 3200;
+				if (this.y > 1700) {
+					this.y = 1700;
 				}
               
                 if(this.cooldown < 500) {
@@ -653,17 +653,17 @@
 					this.dy = this.y - (-camy + mousey);
 					this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
 
-					if (this.x < -3115) {
-						this.x = -3115;
+					if (this.x < -1615) {
+						this.x = -1615;
 					}
-					if (this.y < -3200) {
-						this.y = -3200;
+					if (this.y < -1700) {
+						this.y = -1700;
 					}
-					if (this.x > 3200) {
-						this.x = 3200;
+					if (this.x > 1700) {
+						this.x = 1700;
 					}
-					if (this.y > 3200) {
-						this.y = 3200;
+					if (this.y > 1700) {
+						this.y = 1700;
 					}
 
 					this.rot = Math.atan2(-(this.x - (mousex - camx)), (this.y - (mousey - camy)));
@@ -1003,20 +1003,20 @@
 
 				}
 
-				if (this.x < -3115) {
-					this.x = -3115;
+				if (this.x < -1615) {
+					this.x = -1615;
 					this.velx = 0;
 				}
-				if (this.y < -3200) {
-					this.y = -3200;
-					this.velx = 0;
-				}
-				if (this.x > 3200) {
-					this.x = 3200;
+				if (this.y < -1700) {
+					this.y = -1700;
 					this.vely = 0;
 				}
-				if (this.y > 3200) {
-					this.y = 3200;
+				if (this.x > 1700) {
+					this.x = 1700;
+					this.velx = 0;
+				}
+				if (this.y > 1700) {
+					this.y = 1700;
 					this.vely = 0;
 				}
 
@@ -1064,11 +1064,11 @@
 				c.restore();
 			};
 		}
-		tanks.push(new tank((Math.random() * 6000) - 3000, (Math.random() * 6000) - 3000, 0, 0, "test", 0, 0, 0, Math.round(Math.random() * 1000)));
+		tanks.push(new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, "test", 0, 0, 0, Math.round(Math.random() * 1000)));
 
-		for (var i = 0; i < 1000 - (shapes.length - 1); i++) {
+		for (var i = 0; i < 500 - (shapes.length - 1); i++) {
 
-			shapes.push(new shape(Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 6000) - 3000, Math.round(Math.random() * 2)));
+			shapes.push(new shape(Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 2)));
 
 		}
 
@@ -1221,7 +1221,7 @@
 			c.translate(camx, camy);
 
 			c.fillStyle = "rgb(220, 220, 220, 1)";
-			c.fillRect(-2915, -3000, 6000, 6000);
+			c.fillRect(-1500, -1500, 3000, 3000);
 
 			c.resetTransform();
 
