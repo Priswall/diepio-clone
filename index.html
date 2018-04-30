@@ -344,14 +344,18 @@
             if(op > 0) {
                 op -= 30;
                 console.log(op);
+		c.save();
+		c.globalAlpha = (op + (Math.PI / 2)) / 1000;
+		c.drawImage(bgimg, (canvas.width / 2) - (bgimg.width / 2), (canvas.height / 2) - (bgimg.height / 2));
+		c.restore();
+                c.strokeStyle = "rgba(0, 0, 0, " + op / 1000 + ")";
+                c.lineWidth = 8;
+                c.strokeRect((canvas.width / 2) - (input.size * 5), (canvas.height / 3) + (50 * Math.sin((op / 13) / 50)), input.size * 5, 22);
                 input.style.opacity = (op + (Math.PI / 2)) / 1000;
                 input.style.left = ((canvas.width / 2) - (input.size * 5)) + "px";
                 input.style.top = ((canvas.height / 3) + (50 * Math.sin((op / 13) / 50))) + "px";
                 requestAnimationFrame(disappearInput);
             }
-            c.strokeStyle = "rgba(0, 0, 0, " + op / 1000 + ")";
-            c.lineWidth = 8;
-            c.strokeRect((canvas.width / 2) - (input.size * 5), (canvas.height / 3) + (50 * Math.sin((op / 13) / 50)), 202, 22);
         }
       
         function playGame() {
@@ -1379,6 +1383,13 @@
 
                 for (var i = tanks.length - 1; i >= 0; i--) {
                     tanks[i].show();
+		    if(i !== 0) {
+		    	c.fillStyle = "white";
+			c.strokeStyle = "black";
+			c.lineWidth = "2";
+			c.fillText(tanks[i].n, tanks[i].x - (c.measureText(tanks[i].n).width / 2), tanks[i].y + 50);
+			c.strokeText(tanks[i].n, tanks[i].x - (c.measureText(tanks[i].n).width / 2), tanks[i].y + 50);
+		    }
                 }
                 tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
 
