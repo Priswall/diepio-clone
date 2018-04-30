@@ -1269,7 +1269,7 @@
             }
           
             if(screen === "Menu") {
-		c.drawImage(bgimg, (canvas.width / 2) - (bgimg.width / 2), (canvas.height / 2) - (bgimg.height / 2));
+		c.drawImage(bgimg, (canvas.width / 2) - (bgimg.width / 2), (canvas.height / 2) - (bgimg.height / 2), bgimg.width, bgimg.height);
                 c.clearRect(0, 0, canvas.width, canvas.height);
                 if(input.style.opacity < 1) {
                     op = millis - start;
