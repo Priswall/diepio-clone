@@ -1681,13 +1681,14 @@
                 f.child(tanks[0].userID).set(d);
 
             }
+			
+		window.requestAnimationFrame(draw);
 
 		}
 		
 		var f = firebase.database().ref();
 		var query = firebase.database().ref().orderByKey();
 
-		window.requestAnimationFrame(draw);
 		window.addEventListener("mousemove", function(e) {
 			if (!autospin) {
 				mousex = e.clientX;
