@@ -49,13 +49,18 @@
 		canvas.height = window.innerHeight;
 		var c = canvas.getContext("2d");
 		c.lineCap = "round";
-        var input = document.getElementById("input");
-        var start = 0;
-        var transition = false;
-        var op = 0;
-        var screen = "Menu";
-        var mouseIsPressed = false;
-        var canClick = true;
+		var bgimg = new Image();
+		bgimg.onload = function(){
+			requestAnimationFrame(draw);
+		};
+		bgimg.src = "background.png";
+        	var input = document.getElementById("input");
+  	        var start = 0;
+  	        var transition = false;
+   	        var op = 0;
+ 	        var screen = "Menu";
+    	        var mouseIsPressed = false;
+        	var canClick = true;
 		var mouseUP = false;
 		var mouseClicked = false;
 		var autofire = false;
@@ -215,7 +220,7 @@
 		];
 
 		var xpamt = [
-            0,
+            		0,
 			0,
 			4,
 			13,
@@ -1264,6 +1269,7 @@
             }
           
             if(screen === "Menu") {
+		c.drawImage(bgimg, (canvas.width / 2) - (bgimg.width / 2), (canvas.height / 2) - (bgimg.height / 2));
                 c.clearRect(0, 0, canvas.width, canvas.height);
                 if(input.style.opacity < 1) {
                     op = millis - start;
@@ -1675,8 +1681,6 @@
                 f.child(tanks[0].userID).set(d);
 
             }
-			
-            window.requestAnimationFrame(draw);
 
 		}
 		
