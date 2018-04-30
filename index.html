@@ -390,8 +390,7 @@
                             });
                             });
                         var childData = childSnapshot.val();
-                        tanks.push(new tank(Number(childData.x), Number(childData.y), Number(childData.r), 0, childData.n, 0, 0, Number(childData.id), Number(key)));
-			console.log(childData.n);
+                        tanks.push(new tank(Number(childData.x), Number(childData.y), Number(childData.r), 0, childData.name, 0, 0, Number(childData.id), Number(key)));
                     });
                 });
           
