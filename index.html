@@ -1387,8 +1387,9 @@
 		    	c.fillStyle = "white";
 			c.strokeStyle = "black";
 			c.lineWidth = "2";
-			c.fillText(tanks[i].n, tanks[i].x, tanks[i].y + 50);
-			c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y + 50);
+			c.font = "bold 15px Arial";
+			c.fillText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
+			c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
 		    }
                 }
                 tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
