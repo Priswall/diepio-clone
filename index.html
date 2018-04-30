@@ -391,6 +391,7 @@
                             });
                         var childData = childSnapshot.val();
                         tanks.push(new tank(Number(childData.x), Number(childData.y), Number(childData.r), 0, childData.n, 0, 0, Number(childData.id), Number(key)));
+			consle.log(childData.n);
                     });
                 });
           
@@ -1387,8 +1388,8 @@
 		    	c.fillStyle = "white";
 			c.strokeStyle = "black";
 			c.lineWidth = "2";
-			c.fillText(tanks[i].n, tanks[i].x - (c.measureText(tanks[i].n).width / 2), tanks[i].y + 50);
-			c.strokeText(tanks[i].n, tanks[i].x - (c.measureText(tanks[i].n).width / 2), tanks[i].y + 50);
+			c.fillText(tanks[i].n, tanks[i].x, tanks[i].y + 50);
+			c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y + 50);
 		    }
                 }
                 tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
