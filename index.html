@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -42,7 +43,7 @@
 		}
 	</style>
 	<canvas id="canvas" width="800px" height="600px"></canvas>
-    <form autocomplete="off" onsubmit="playGame(); return false;"><input id="input" type="text" size="20" style="opacity:0; position: absolute; top: 50px; left: 50px" maxlength="13"></input></form>
+    <form id="form" autocomplete="off" onsubmit="playGame(); return false;"></form>
     <script>
         var canvas = document.getElementById("canvas");
         canvas.width = window.innerWidth;
@@ -51,10 +52,18 @@
         c.lineCap = "round";
         var bgimg = new Image();
         bgimg.onload = function() {
-            requestAnimationFrame(draw);
         };
-        bgimg.src = "https://github.com/Priswall/diepio-clone/blob/master/background.png?raw=true";
-        var input = document.getElementById("input");
+        bgimg.src = "https://raw.githubusercontent.com/Priswall/diepio-clone/master/background.png";
+        var input = document.createElement("input");
+        input.style.opacity = 0; 
+        input.style.position = "absolute";
+        input.style.top = "50px";
+        input.style.left = "50px";
+        input.id="input";
+        input.type="text";
+        input.size="20";
+        input.maxLength="13";
+      
         var start = 0;
         var op = 0;
         var s = "Menu";
@@ -68,7 +77,7 @@
         var keys = [];
         var bullets = [];
         var shapes = [];
-        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Flamethrower", "Manager"];
+        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Flamethrower", "Manager"];
 
         var tankshow = [
                     function() {
@@ -182,6 +191,95 @@
                 c.stroke();
                     },
                     function() {
+                c.fillRect(-9, 0, 18, -65);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -65);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -65);
+                c.lineTo(9, -65);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -65);
+                c.stroke();
+                    },
+                    function() {
+                c.beginPath();
+                c.moveTo(0, 0);
+                c.lineTo(-35, -20);
+                c.lineTo(-35, 20);
+                c.lineTo(0, 10);
+                c.fill();
+
+                c.beginPath();
+                c.moveTo(0, -5);
+                c.lineTo(-35, -20);
+                c.stroke();
+
+                c.beginPath();
+                c.lineTo(-35, -20);
+                c.lineTo(-35, 20);
+                c.stroke();
+
+                c.beginPath();
+                c.lineTo(-35, 20);
+                c.lineTo(0, 5);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(0, 10);
+                c.lineTo(35, 20);
+                c.lineTo(35, -20);
+                c.lineTo(0, -5);
+                c.fill();
+
+                c.beginPath();
+                c.moveTo(0, 10);
+                c.lineTo(35, 20);
+                c.stroke();
+
+                c.beginPath();
+                c.lineTo(35, 20);
+                c.lineTo(35, -20);
+                c.stroke();
+
+                c.beginPath();
+                c.lineTo(35, -20);
+                c.lineTo(0, -5);
+                c.stroke();
+                    },
+                    function() {
+                c.fillRect(-9, 0, 18, -55);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -55);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -55);
+                c.lineTo(9, -55);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -55);
+                c.stroke();
+                      
+                c.fillRect(-13, 0, 26, -48);
+                c.beginPath();
+                c.moveTo(-13, 0);
+                c.lineTo(-13, -48);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-13, -48);
+                c.lineTo(13, -48);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(13, 0);
+                c.lineTo(13, -48);
+                c.stroke();
+                    },
+                    function() {
                 c.fillRect(-3, -50, 6, 45);
                 c.strokeRect(-3, -50, 6, 45);
                 c.fillRect(-9, -47, 6, 45);
@@ -274,28 +372,108 @@
                         1,
                         4,
                         3
-                    ]
+                    ],
+
+                    [
+                        5,
+                        6,
+                        7
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
+          
+                    [
+                        2,
+                        1,
+                        4,
+                        3
+                    ],
 
                 ];
 
         var tankstats = {
 
             basic: {
-                knockback: 3,
+                knockback: 2,
                 reload: 500,
                 bspeed: 5,
                 spread: 5
             },
 
             sniper: {
-                knockback: 1,
+                knockback: 3,
                 reload: 1000,
                 bspeed: 5,
                 spread: 2
             },
 
             twin: {
-                knockback: 3,
+                knockback: 1,
                 reload: 200,
                 bspeed: 5,
                 bdamage: 3,
@@ -308,6 +486,27 @@
                 reload: 500,
                 bspeed: 5,
                 spread: 2
+            },
+
+            assassin: {
+                knockback: 5,
+                reload: 1500,
+                bspeed: 8,
+                spread: 1
+            },
+
+            predator: {
+                knockback: 3,
+                reload: 750,
+                bspeed: 5,
+                spread: 2
+            },
+
+            overseer: {
+                knockback: 3,
+                reload: 3000,
+                bspeed: 5,
+                spread: 0
             },
 
             machinegun: {
@@ -338,6 +537,8 @@
         var mousex = 0;
         var mousey = 0;
         var millis = 0;
+      
+        document.getElementById("form").appendChild(input);
 
         function disappearInput() {
             if(op > 0) {
@@ -357,6 +558,51 @@
                 input.style.left = ((canvas.width / 2) - (input.size * 5)) + "px";
                 input.style.top = ((canvas.height / 3) + (50 * Math.sin((op / 13) / 50))) + "px";
                 requestAnimationFrame(disappearInput);
+            } else {
+              
+               document.getElementById("form").removeChild(input);
+              
+            }
+        }
+      
+        requestAnimationFrame(draw);
+
+        function returnMenu() {
+          
+            if(op < 1000 && op > 0) {
+                if(document.getElementById("input") === null) {
+                  document.getElementById("form").appendChild(input);
+                  document.getElementById("form").onsubmit = function() {
+                    playGame(); 
+                    return false;
+                  };
+                }
+                op ++;
+                c.save();
+                var opp = (op + (Math.PI / 2)) / 1000;
+                if(opp > 1000) {
+                    opp = 1000;
+                }
+                c.globalAlpha = opp;
+                c.drawImage(bgimg, (canvas.width / 2) - (bgimg.width / 2), (canvas.height / 2) - (bgimg.height / 2));
+                c.strokeStyle = "rgba(0, 0, 0, " + op / 1000 + ")";
+                c.lineWidth = 8;
+                c.strokeRect((canvas.width / 2) - (input.size * 5), (canvas.height / 3) + (50 * Math.sin((op / 13) / 50)), 202, 22);
+                c.restore();
+                input.style.opacity = op / 1000;
+                input.style.left = ((canvas.width / 2) - (input.size * 5)) + "px";
+                input.style.top = ((canvas.height / 3) + (50 * Math.sin((op / 13) / 50))) + "px";
+                requestAnimationFrame(returnMenu);
+              
+            } else if (op === 1000){
+                s = "Menu";
+                tanks = [];
+                shapes = [];
+                bullets = [];
+            } else if(op < 0) {
+              
+                op = 100;
+              
             }
         }
 
@@ -369,7 +615,18 @@
             if(name === "") {
                 name = "Unnamed Tank";
             }
-            tanks.push(new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000)));
+
+            if(shapes.length === 0) {
+                for(var i = 0; i < 100; i++) {
+
+                    shapes.push(new shape(Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 2)));
+
+                }
+            }
+          
+            document.getElementById("form").onsubmit = "";
+          
+            tanks[0] = new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000));
 
             firebase.database().ref(tanks[0].userID).onDisconnect().remove();
             query.once("value")
@@ -402,6 +659,17 @@
 
             this.x = x;
             this.y = y;
+            if(this.x < 500 && this.x > -500 && this.y < 500 && this.y > -500) {
+              
+                this.id = 2
+                
+                if(Math.random() < 0.3) {
+                  
+                    this.id = 3;
+                  
+                }
+              
+            }
             this.s = 1;
             this.a = 1;
             this.cooldown = 500;
@@ -409,6 +677,9 @@
             this.dead = false;
             this.id = id;
             this.dh = 0;
+            this.r = (Math.random() / 30) - 0.015;
+            this.velx = (Math.random() / 2) - 0.25;
+            this.vely = (Math.random() / 2) - 0.25;
             switch(this.id) {
                 case 0:
                     this.H = 5;
@@ -427,11 +698,17 @@
                     this.h = 30;
                     this.xp = 130;
                     break;
+
+                case 3:
+                    this.H = 1000;
+                    this.h = 1000;
+                    this.xp = 10000;
+                    this.r = this.r / 5;
+                    this.velx = 0;
+                    this.vely = 0;
+                    break;
             }
-            this.r = (Math.random() / 30) - 0.015;
             this.rot = 0;
-            this.velx = (Math.random() / 2) - 0.25;
-            this.vely = (Math.random() / 2) - 0.25;
             this.pushx = 0;
             this.pushy = 0;
             this.acc = 0.1;
@@ -510,18 +787,22 @@
                 switch(other.constructor.name) {
 
                     case "shape":
-                        var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
-                        this.pushx = Math.sin(pr) * 2;
-                        this.pushy = Math.cos(pr + 3.1416) * 2;
+                        if(this.id !== 3){
+                            var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
+                            this.pushx = Math.sin(pr) * 2;
+                            this.pushy = Math.cos(pr + 3.1416) * 2;
+                        }
                         break;
 
                     case "bullet":
                         if(!other.dead && this.cooldown >= 100) {
-                            this.pushx += (other.dx / other.mag) * (other.knockback / 5);
-                            this.pushy += (other.dy / other.mag) * (other.knockback / 5);
-                            this.dh += other.d;
-                            this.cooldown = 0;
-                            this.timetill = millis;
+                            if(this.id !== 3){
+                                this.pushx += (other.dx / other.mag) * (other.knockback / 5);
+                                this.pushy += (other.dy / other.mag) * (other.knockback / 5);
+                                this.dh += other.d;
+                                this.cooldown = 0;
+                                this.timetill = millis;
+                            }
                             other.p--;
                             other.ms *= 0.8;
                         }
@@ -530,10 +811,12 @@
                     case "tank":
                         if(!other.dead) {
                             var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
-                            this.pushx = Math.sin(pr) * 2;
-                            this.pushy = Math.cos(pr + 3.1416) * 2;
-                            other.velx = Math.sin(pr);
-                            other.vely = Math.cos(pr + 3.1416);
+                            if(this.id !== 3) {
+                                this.pushx = Math.sin(pr) * 2;
+                                this.pushy = Math.cos(pr + 3.1416) * 2;
+                                other.velx = Math.sin(pr);
+                                other.vely = Math.cos(pr + 3.1416);
+                            }
                         }
                         break;
 
@@ -706,12 +989,15 @@
                     this.dead = true;
                 }
 
-                this.p -= 0.01;
-
-                if(this.id != 1) {
+                if(this.id !== 1) {
+                  
                     this.x -= (this.dx / this.mag) * this.ms;
                     this.y -= (this.dy / this.mag) * this.ms;
+                  
+                    this.p -= 0.01;
+                  
                 } else {
+                  
                     if(Math.abs(this.x - (-camx + mousex)) > 10) {
                         this.x -= (this.dx / this.mag) * this.ms;
                     }
@@ -813,22 +1099,22 @@
                                 c.strokeStyle = "rgb(200, 100, 200," + this.a + ")";
                                 break;
                         }
-                        c.moveTo(0, -10);
-                        c.lineTo(9, 5);
-                        c.lineTo(-9, 5);
+                        c.moveTo(0, -6);
+                        c.lineTo(12, 13);
+                        c.lineTo(-12, 13);
                         c.fill();
 
                         c.beginPath();
-                        c.moveTo(0, -10);
-                        c.lineTo(9, 5);
+                        c.moveTo(0, -6);
+                        c.lineTo(12, 13);
                         c.stroke();
                         c.beginPath();
-                        c.lineTo(9, 5);
-                        c.lineTo(-9, 5);
+                        c.lineTo(12, 13);
+                        c.lineTo(-12, 13);
                         c.stroke();
                         c.beginPath();
-                        c.lineTo(-9, 5);
-                        c.lineTo(0, -10);
+                        c.lineTo(-12, 13);
+                        c.lineTo(0, -6);
                         c.stroke();
 
                         c.restore();
@@ -872,13 +1158,13 @@
             this.bulletDpoints = 0;
             this.reloadpoints = 0;
             this.movementspeedpoints = 0;
-            this.H = 5;
-            this.h = this.H;
+            this.H = 20;
+            this.h = 19;
             this.r = r;
             this.t = t;
             this.n = n;
             this.xp = xp;
-            this.lvl = lvl;
+            this.lvl = 50;
             this.id = id;
             this.userID = userID;
             this.reloading = false;
@@ -891,6 +1177,12 @@
                   
                     this.a -= 0.05;
                     this.ss+=0.05;
+                  
+                }
+              
+                if(this.a < 0) {
+                  
+                    this.a = 0;
                   
                 }
               
@@ -972,19 +1264,8 @@
                         switch(this.id) {
 
                             case 0:
-                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                this.reloading = true;
-
-                                this.dx = Math.sin(this.r);
-                                this.dy = -Math.cos(this.r);
-                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
-
-                                this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
-                                this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
-
-                                break;
-
                             case 1:
+                            case 5:
                                 bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
                                 this.reloading = true;
 
@@ -1035,7 +1316,7 @@
 
                                 break;
 
-                            case 5:
+                            case 16:
                                 switch(this.barrel) {
                                     case 0:
                                         bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
@@ -1063,7 +1344,8 @@
                                 break;
 
                             case 6:
-                                bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                bullets.push(new bullet(this.x + Math.sin(this.r - 1.57) * 30, this.y - Math.cos(this.r - 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                bullets.push(new bullet(this.x + Math.sin(this.r + 1.57) * 30, this.y - Math.cos(this.r + 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
                                 this.reloading = true;
                                 break;
 
@@ -1143,7 +1425,7 @@
                     c.lineWidth = 4;
                     c.beginPath();
                     c.moveTo(-25, 35);
-                    c.lineTo(((25 / this.H) * (this.h * 2)) - (this.H * 5), 35);
+                    c.lineTo(((25 / this.H) * (this.h * 2)) - 25, 35);
                     c.stroke();
 
                 }
@@ -1177,29 +1459,23 @@
                 c.arc(0, 0, 25, 0, 2 * Math.PI);
                 c.fill();
                 c.stroke();
+              
                 c.restore();
             };
         }
-
-        for(var i = 0; i < 500 - (shapes.length - 1); i++) {
-
-            shapes.push(new shape(Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 2)));
-
-        }
-
+      
         function upgradeScreen() {
 
             canvas.style.cursor = "default";
 
             if(tanks[0].lvl >= 15 && tanks[0].id === 0) {
 
-                c.lineWidth = 3;
-
                 for(var i = 0; i < tankorder[tanks[0].id].length; i++) {
 
                     switch(i) {
 
                         case 0:
+                            c.lineWidth = 3;
                             c.fillStyle = "rgb(255, 100, 100)";
                             c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
                             c.fillStyle = "rgb(255, 50, 50)";
@@ -1207,6 +1483,7 @@
                             break;
 
                         case 1:
+                            c.lineWidth = 3;
                             c.fillStyle = "rgb(100, 100, 255)";
                             c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
                             c.fillStyle = "rgb(50, 50, 255)";
@@ -1214,6 +1491,7 @@
                             break;
 
                         case 2:
+                            c.lineWidth = 3;
                             c.fillStyle = "rgb(220, 220, 100)";
                             c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
                             c.fillStyle = "rgb(235, 235, 50)";
@@ -1221,6 +1499,7 @@
                             break;
 
                         case 3:
+                            c.lineWidth = 3;
                             c.fillStyle = "rgb(100, 255, 100)";
                             c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
                             c.fillStyle = "rgb(50, 255, 50)";
@@ -1243,32 +1522,32 @@
 
                                     tanks[0].knockback = tankstats.sniper.knockback;
                                     tanks[0].spread = tankstats.sniper.spread;
-                                    tanks[0].bulletS = tankstats.sniper.bspeed;
-                                    tanks[0].reload = tankstats.sniper.reload;
+                                    tanks[0].BulletS = tankstats.sniper.bspeed;
+                                    tanks[0].Reload = tankstats.sniper.reload;
                                     break;
 
                                 case 2:
 
                                     tanks[0].knockback = tankstats.twin.knockback;
                                     tanks[0].spread = tankstats.twin.spread;
-                                    tanks[0].bulletS = tankstats.twin.bspeed;
-                                    tanks[0].reload = tankstats.twin.reload;
+                                    tanks[0].BulletS = tankstats.twin.bspeed;
+                                    tanks[0].Reload = tankstats.twin.reload;
                                     break;
 
                                 case 3:
 
                                     tanks[0].knockback = tankstats.flankguard.knockback;
                                     tanks[0].spread = tankstats.flankguard.spread;
-                                    tanks[0].bulletS = tankstats.flankguard.bspeed;
-                                    tanks[0].reload = tankstats.flankguard.reload;
+                                    tanks[0].BulletS = tankstats.flankguard.bspeed;
+                                    tanks[0].Reload = tankstats.flankguard.reload;
                                     break;
 
                                 case 4:
 
                                     tanks[0].knockback = tankstats.machinegun.knockback;
                                     tanks[0].spread = tankstats.machinegun.spread;
-                                    tanks[0].bulletS = tankstats.machinegun.bspeed;
-                                    tanks[0].reload = tankstats.machinegun.reload;
+                                    tanks[0].BulletS = tankstats.machinegun.bspeed;
+                                    tanks[0].Reload = tankstats.machinegun.reload;
                                     break;
 
                             }
@@ -1310,7 +1589,250 @@
 
                 }
 
+            } else if(tanks[0].lvl >= 30 && tanks[0].id < 5) {
+              
+                for(var i = 0; i < tankorder[tanks[0].id].length; i++) {
+
+                    switch(i) {
+
+                        case 0:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(255, 100, 100)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(255, 50, 50)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                        case 1:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(100, 100, 255)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(50, 50, 255)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                        case 2:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(220, 220, 100)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(235, 235, 50)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                        case 3:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(100, 255, 100)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(50, 255, 50)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                    }
+
+                    if(mousex > 20 + ((i % 2) * 120) && mousey > 20 + ((Math.floor(i / 2) % 2) * 120) && mousex < 120 + ((i % 2) * 120) && mousey < 120 + ((Math.floor(i / 2) % 2) * 120)) {
+
+                        canvas.style.cursor = "pointer";
+
+                        if(mouseUP) {
+
+                            tanks[0].id = Number(tankorder[tanks[0].id][i]);
+
+                            switch(tanks[0].id) {
+
+                                case 5:
+
+                                    tanks[0].knockback = tankstats.assassin.knockback;
+                                    tanks[0].spread = tankstats.assassin.spread;
+                                    tanks[0].BulletS = tankstats.assassin.bspeed;
+                                    tanks[0].Reload = tankstats.assassin.reload;
+                                    break;
+
+                                case 6:
+
+                                    tanks[0].knockback = tankstats.overseer.knockback;
+                                    tanks[0].spread = tankstats.overseer.spread;
+                                    tanks[0].BulletS = tankstats.overseer.bspeed;
+                                    tanks[0].Reload = tankstats.overseer.reload;
+                                    break;
+
+                                case 1:
+
+                                    tanks[0].knockback = tankstats.predator.knockback;
+                                    tanks[0].spread = tankstats.predator.spread;
+                                    tanks[0].BulletS = tankstats.predator.bspeed;
+                                    tanks[0].Reload = tankstats.predator.reload;
+                                    break;
+
+                                case 2:
+
+                                    tanks[0].knockback = tankstats.machinegun.knockback;
+                                    tanks[0].spread = tankstats.machinegun.spread;
+                                    tanks[0].BulletS = tankstats.machinegun.bspeed;
+                                    tanks[0].Reload = tankstats.machinegun.reload;
+                                    break;
+
+                            }
+
+                            return;
+
+                        }
+
+                    }
+
+                    c.fillStyle = "rgb(200, 200, 200)";
+                    c.strokeStyle = "rgb(150, 150, 150)";
+
+                    c.strokeRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 100);
+
+                    c.save();
+                    c.translate(70 + ((i % 2) * 120), 60 + ((Math.floor(i / 2) % 2) * 120));
+                    c.scale(0.7, 0.7);
+                    c.rotate((millis / 3000) % 360);
+
+                    tankshow[tankorder[tanks[0].id][i]]();
+
+                    c.fillStyle = "rgb(100, 200, 250)";
+                    c.strokeStyle = "rgb(50, 150, 200)";
+
+                    c.beginPath();
+                    c.arc(0, 0, 25, 0, 2 * Math.PI);
+                    c.fill();
+                    c.stroke();
+
+                    c.restore();
+
+                    c.font = "bold 15px Arial";
+                    c.fillStyle = "white";
+                    c.fillText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
+                    c.fillStyle = "black";
+                    c.lineWidth = 1;
+                    c.strokeText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
+                  
+                }
+              
+            } else if(tanks[0].lvl >= 45 && tanks[0].id < 17) {
+              
+                for(var i = 0; i < tankorder[tanks[0].id].length; i++) {
+
+                    switch(i) {
+
+                        case 0:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(255, 100, 100)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(255, 50, 50)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                        case 1:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(100, 100, 255)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(50, 50, 255)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                        case 2:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(220, 220, 100)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(235, 235, 50)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                        case 3:
+                            c.lineWidth = 3;
+                            c.fillStyle = "rgb(100, 255, 100)";
+                            c.fillRect(20 + ((i % 2) * 120), 70 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            c.fillStyle = "rgb(50, 255, 50)";
+                            c.fillRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 50);
+                            break;
+
+                    }
+
+                    if(mousex > 20 + ((i % 2) * 120) && mousey > 20 + ((Math.floor(i / 2) % 2) * 120) && mousex < 120 + ((i % 2) * 120) && mousey < 120 + ((Math.floor(i / 2) % 2) * 120)) {
+
+                        canvas.style.cursor = "pointer";
+
+                        if(mouseUP) {
+
+                            tanks[0].id = Number(tankorder[tanks[0].id][i]);
+
+                            switch(tanks[0].id) {
+
+                                case 5:
+
+                                    tanks[0].knockback = tankstats.flamethrower.knockback;
+                                    tanks[0].spread = tankstats.flamethrower.spread;
+                                    tanks[0].BulletS = tankstats.flamethrower.bspeed;
+                                    tanks[0].Reload = tankstats.flamethrower.reload;
+                                    break;
+
+                                case 6:
+
+                                    tanks[0].knockback = tankstats.manager.knockback;
+                                    tanks[0].spread = tankstats.manager.spread;
+                                    tanks[0].BulletS = tankstats.manager.bspeed;
+                                    tanks[0].Reload = tankstats.manager.reload;
+                                    break;
+
+                                case 1:
+
+                                    tanks[0].knockback = tankstats.flankguard.knockback;
+                                    tanks[0].spread = tankstats.flankguard.spread;
+                                    tanks[0].BulletS = tankstats.flankguard.bspeed;
+                                    tanks[0].Reload = tankstats.flankguard.reload;
+                                    break;
+
+                                case 2:
+
+                                    tanks[0].knockback = tankstats.machinegun.knockback;
+                                    tanks[0].spread = tankstats.machinegun.spread;
+                                    tanks[0].BulletS = tankstats.machinegun.bspeed;
+                                    tanks[0].Reload = tankstats.machinegun.reload;
+                                    break;
+
+                            }
+
+                            return;
+
+                        }
+
+                    }
+
+                    c.fillStyle = "rgb(200, 200, 200)";
+                    c.strokeStyle = "rgb(150, 150, 150)";
+
+                    c.strokeRect(20 + ((i % 2) * 120), 20 + ((Math.floor(i / 2) % 2) * 120), 100, 100);
+
+                    c.save();
+                    c.translate(70 + ((i % 2) * 120), 60 + ((Math.floor(i / 2) % 2) * 120));
+                    c.scale(0.7, 0.7);
+                    c.rotate((millis / 3000) % 360);
+
+                    tankshow[tankorder[tanks[0].id][i]]();
+
+                    c.fillStyle = "rgb(100, 200, 250)";
+                    c.strokeStyle = "rgb(50, 150, 200)";
+
+                    c.beginPath();
+                    c.arc(0, 0, 25, 0, 2 * Math.PI);
+                    c.fill();
+                    c.stroke();
+
+                    c.restore();
+
+                    c.font = "bold 15px Arial";
+                    c.fillStyle = "white";
+                    c.fillText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
+                    c.fillStyle = "black";
+                    c.lineWidth = 1;
+                    c.strokeText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
+                  
+                }
+              
             }
+          
         }
 
         function draw() {
@@ -1336,6 +1858,7 @@
                 c.strokeRect((canvas.width / 2) - (input.size * 5), (canvas.height / 3) + (50 * Math.sin((op / 13) / 50)), 202, 22);
 
             } else if(s === "FFA") {
+
                 if(autospin) {
                     mousex = (canvas.width / 2) + Math.sin(millis / 1500) * 200;
                     mousey = (canvas.height / 2) + Math.cos(millis / 1500) * 200;
@@ -1347,7 +1870,7 @@
                 c.strokeStyle = "rgb(180, 180, 180)";
                 c.lineWidth = 1;
 
-                c.fillStyle = "rgb(200, 200, 200, 1)";
+                c.fillStyle = "rgb(200, 200, 200)";
                 c.fillRect(0, 0, canvas.width, canvas.height);
 
                 c.save();
@@ -1407,7 +1930,7 @@
                         if(Math.abs(shapes[i].x - tanks[j].x) < 35 && Math.abs(shapes[i].y - tanks[j].y) < 35) {
 
                             shapes[i].gothit(tanks[j]);
-                            //tanks[j].h--;
+                            tanks[j].h--;
 
                         }
                     }
@@ -1443,12 +1966,6 @@
                     }
                 }
                 tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
-                if(tanks[0].a <= 0) {
-                    tanks = [];
-                    s = "Menu";
-                    requestAnimationFrame(draw);
-                    return;
-                }
 
                 c.restore();
 
@@ -1482,8 +1999,6 @@
                 c.strokeText(tanks[0].n, canvas.width / 2, canvas.height - 50);
 
                 upgradeScreen();
-
-                canvas.style.cursor = "default";
 
                 if(tanks[0].xppoints > 0) {
 
@@ -1778,11 +2293,16 @@
                     "id": tanks[0].id,
                     "name": tanks[0].n
                 };
-                f.child(tanks[0].userID).set(d);
+                //f.child(tanks[0].userID).set(d);
+              
+                if(tanks[0].dead) {
+                    returnMenu();
+                }
 
             }
 
-            window.requestAnimationFrame(draw);
+          	mouseUP = false;
+            requestAnimationFrame(draw);
 
         }
 
@@ -1809,13 +2329,12 @@
             mouseIsPressed = false;
             mouseUP = true;
             canClick = true;
-            mouseUP = false;
         });
         window.addEventListener("keydown", function(e) {
             keys[e.keyCode] = true;
         });
-        window.addEventListener("beforeunload", function(event) {
-            event.returnValue = "Write something clever here..";
+        window.addEventListener("beforeunload", function(e) {
+            e.returnValue = "true";
         });
         window.addEventListener("onunload", function() {
             firebase.database().ref(tanks[0].userID).remove();
@@ -1828,6 +2347,9 @@
             if(keys[67]) {
                 if(!autospin) autospin = true;
                 else autospin = false;
+            }
+            if(keys[79]) {
+              tanks[0].dead = true;
             }
             keys[e.keyCode] = false;
         });
