@@ -595,6 +595,7 @@
                 requestAnimationFrame(returnMenu);
               
             } else if (op === 1000){
+		firebase.database().ref(tanks[0].userID).remove()
                 s = "Menu";
                 tanks = [];
                 shapes = [];
@@ -626,7 +627,7 @@
           
             document.getElementById("form").onsubmit = "";
           
-            tanks[0] = new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000));
+            tanks.unshift(new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000)));
 
             firebase.database().ref(tanks[0].userID).onDisconnect().remove();
             query.once("value")
@@ -2337,7 +2338,9 @@
             e.returnValue = "true";
         });
         window.addEventListener("onunload", function() {
-            firebase.database().ref(tanks[0].userID).remove();
+	    if(s === "FFA") {
+	        firebase.database().ref(tanks[0].userID).remove();
+	    }
         });
         window.addEventListener("keyup", function(e) {
             if(keys[69]) {
