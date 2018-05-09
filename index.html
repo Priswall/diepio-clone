@@ -14,7 +14,7 @@
 <body>
 	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 	<script>
-		var config = {
+		var configFFA = {
 			apiKey: "AIzaSyBV_Ym3Ri84Ezmsob-u1thlAmxytI3HCgM",
 			authDomain: "test-bb2e4.firebaseapp.com",
 			databaseURL: "https://test-bb2e4.firebaseio.com",
@@ -22,7 +22,16 @@
 			storageBucket: "test-bb2e4.appspot.com",
 			messagingSenderId: "178503576166"
 		};
-		firebase.initializeApp(config);
+      
+        var configTeams = {
+            apiKey: "AIzaSyBU7KcmaKGz46OKoiN3kMCtEhfaVossLLU",
+            authDomain: "peipio-1.firebaseapp.com",
+            databaseURL: "https://peipio-1.firebaseio.com",
+            projectId: "peipio-1",
+            storageBucket: "peipio-1.appspot.com",
+            messagingSenderId: "138085039704"
+        };
+        firebase.initializeApp(configFFA);
 	</script>
 	<style>
 		@font-face {
@@ -61,10 +70,12 @@
         input.style.left = "50px";
         input.id="input";
         input.type="text";
-        input.size="20";
+        input.size= canvas.width / 30;
         input.maxLength="13";
       
         var start = 0;
+        var gamemodes = ["FFA", "Teams"];
+        var gamemode = 0;
         var op = 0;
         var s = "Menu";
         var mouseIsPressed = false;
@@ -77,7 +88,7 @@
         var keys = [];
         var bullets = [];
         var shapes = [];
-        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Flamethrower", "Manager"];
+        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager"];
 
         var tankshow = [
                     function() {
@@ -280,6 +291,346 @@
                 c.stroke();
                     },
                     function() {
+                c.fillRect(3, 0, 20, -50);
+                c.beginPath();
+                c.moveTo(3, 0);
+                c.lineTo(3, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(3, -50);
+                c.lineTo(24, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(24, 0);
+                c.lineTo(24, -50);
+                c.stroke();
+
+                c.fillRect(-24, 0, 20, -50);
+                c.beginPath();
+                c.moveTo(-24, 0);
+                c.lineTo(-24, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-24, -50);
+                c.lineTo(-3, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-3, -50);
+                c.lineTo(-3, 0);
+                c.stroke();
+                      
+                c.fillRect(3, 0, 20, 50);
+                c.beginPath();
+                c.moveTo(3, 0);
+                c.lineTo(3, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(3, 50);
+                c.lineTo(24, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(24, 0);
+                c.lineTo(24, 50);
+                c.stroke();
+
+                c.fillRect(-24, 0, 20, 50);
+                c.beginPath();
+                c.moveTo(-24, 0);
+                c.lineTo(-24, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-24, 50);
+                c.lineTo(-3, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-3, 50);
+                c.lineTo(-3, 0);
+                c.stroke();
+                    },
+                    function() {
+                c.fillRect(-10, 0, 18, -50);
+                c.beginPath();
+                c.moveTo(-10, 0);
+                c.lineTo(-10, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-10, -50);
+                c.lineTo(10, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(10, 0);
+                c.lineTo(10, -50);
+                c.stroke();
+
+                c.save();
+                c.translate(-10, 0);
+                c.rotate(0.75);
+                c.fillRect(0, 0, 18, -55);
+                c.beginPath();
+                c.moveTo(0, 0);
+                c.lineTo(0, -55);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(0, -55);
+                c.lineTo(20, -55);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(20, 0);
+                c.lineTo(20, -55);
+                c.stroke();
+                c.restore();
+                      
+                c.save();
+                c.translate(-10, 0);
+                c.rotate(-0.75);
+                c.fillRect(-5, 0, 18, -40);
+                c.beginPath();
+                c.moveTo(-5, 0);
+                c.lineTo(-5, -40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-5, -40);
+                c.lineTo(15, -40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(15, 0);
+                c.lineTo(15, -40);
+                c.stroke();
+                c.restore();
+                    },
+                    function() {
+                c.fillRect(-9, 0, 18, -50);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -50);
+                c.lineTo(9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -50);
+                c.stroke();
+                      
+                c.fillRect(9, 0, -18, 50);
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 50);
+                c.lineTo(-9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 50);
+                c.stroke();
+                      
+                c.fillRect(0, -9, -50, 18);
+                c.beginPath();
+                c.moveTo(0, -9);
+                c.lineTo(-50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, -9);
+                c.lineTo(-50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, 9);
+                c.lineTo(0, 9);
+                c.stroke();
+                      
+                c.fillRect(0, 9, 50, -18);
+                c.beginPath();
+                c.moveTo(0, 9);
+                c.lineTo(50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, 9);
+                c.lineTo(50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, -9);
+                c.lineTo(0, -9);
+                c.stroke();
+                    },
+                    function() {
+                c.fillRect(-9, 0, 18, -50);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -50);
+                c.lineTo(9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -50);
+                c.stroke();
+                      
+                c.fillRect(9, 0, -18, 50);
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 50);
+                c.lineTo(-9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 50);
+                c.stroke();
+                      
+                c.fillRect(0, -9, -50, 18);
+                c.beginPath();
+                c.moveTo(0, -9);
+                c.lineTo(-50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, -9);
+                c.lineTo(-50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, 9);
+                c.lineTo(0, 9);
+                c.stroke();
+                      
+                c.fillRect(0, 9, 50, -18);
+                c.beginPath();
+                c.moveTo(0, 9);
+                c.lineTo(50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, 9);
+                c.lineTo(50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, -9);
+                c.lineTo(0, -9);
+                c.stroke();
+                    },
+                    function() {
+                c.fillRect(-9, 0, 18, -50);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -50);
+                c.lineTo(9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -50);
+                c.stroke();
+                      
+                c.fillRect(9, 0, -18, 50);
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 50);
+                c.lineTo(-9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 50);
+                c.stroke();
+                      
+                c.fillRect(0, -9, -50, 18);
+                c.beginPath();
+                c.moveTo(0, -9);
+                c.lineTo(-50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, -9);
+                c.lineTo(-50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, 9);
+                c.lineTo(0, 9);
+                c.stroke();
+                      
+                c.fillRect(0, 9, 50, -18);
+                c.beginPath();
+                c.moveTo(0, 9);
+                c.lineTo(50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, 9);
+                c.lineTo(50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, -9);
+                c.lineTo(0, -9);
+                c.stroke();
+                      
+                c.save();
+                c.translate(0, 0);
+                c.rotate(0.7854);
+                      
+                c.fillRect(-9, 0, 18, -50);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -50);
+                c.lineTo(9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -50);
+                c.stroke();
+                      
+                c.fillRect(9, 0, -18, 50);
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 50);
+                c.lineTo(-9, 50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 50);
+                c.stroke();
+                      
+                c.fillRect(0, -9, -50, 18);
+                c.beginPath();
+                c.moveTo(0, -9);
+                c.lineTo(-50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, -9);
+                c.lineTo(-50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-50, 9);
+                c.lineTo(0, 9);
+                c.stroke();
+                      
+                c.fillRect(0, 9, 50, -18);
+                c.beginPath();
+                c.moveTo(0, 9);
+                c.lineTo(50, 9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, 9);
+                c.lineTo(50, -9);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(50, -9);
+                c.lineTo(0, -9);
+                c.stroke();
+                c.restore();
+                    },
+                    function() {
                 c.fillRect(-3, -50, 6, 45);
                 c.strokeRect(-3, -50, 6, 45);
                 c.fillRect(-9, -47, 6, 45);
@@ -381,6 +732,9 @@
                     ],
           
                     [
+                        8,
+                        9,
+                        10
                     ],
           
                     [
@@ -399,59 +753,30 @@
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
+                      
+                        12
+                      
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
                     ],
           
                     [
-                        2,
-                        1,
-                        4,
-                        3
                     ],
 
                 ];
@@ -550,11 +875,9 @@
                 }
                 c.globalAlpha = opp;
                 c.drawImage(bgimg, (canvas.width / 2) - (bgimg.width / 2), (canvas.height / 2) - (bgimg.height / 2));
-                c.strokeStyle = "rgba(0, 0, 0, " + op / 1000 + ")";
-                c.lineWidth = 8;
-                c.strokeRect((canvas.width / 2) - (input.size * 5), (canvas.height / 3) + (50 * Math.sin((op / 13) / 50)), 202, 22);
                 c.restore();
                 input.style.opacity = (op + (Math.PI / 2)) / 1000;
+                input.style.border = "5px solid black";
                 input.style.left = ((canvas.width / 2) - (input.size * 5)) + "px";
                 input.style.top = ((canvas.height / 3) + (50 * Math.sin((op / 13) / 50))) + "px";
                 requestAnimationFrame(disappearInput);
@@ -585,17 +908,15 @@
                 }
                 c.globalAlpha = opp;
                 c.drawImage(bgimg, (canvas.width / 2) - (bgimg.width / 2), (canvas.height / 2) - (bgimg.height / 2));
-                c.strokeStyle = "rgba(0, 0, 0, " + op / 1000 + ")";
-                c.lineWidth = 8;
-                c.strokeRect((canvas.width / 2) - (input.size * 5), (canvas.height / 3) + (50 * Math.sin((op / 13) / 50)), 202, 22);
                 c.restore();
                 input.style.opacity = op / 1000;
+                input.style.border = "5px solid black";
                 input.style.left = ((canvas.width / 2) - (input.size * 5)) + "px";
                 input.style.top = ((canvas.height / 3) + (50 * Math.sin((op / 13) / 50))) + "px";
                 requestAnimationFrame(returnMenu);
               
             } else if (op === 1000){
-		firebase.database().ref(tanks[0].userID).remove()
+                firebase.database().ref(tanks[0].userID).remove()
                 s = "Menu";
                 tanks = [];
                 shapes = [];
@@ -1137,12 +1458,12 @@
             this.reloadpoints = 0;
             this.movementspeedpoints = 0;
             this.H = 20;
-            this.h = 19;
+            this.h = 20;
             this.r = r;
             this.t = t;
             this.n = n;
             this.xp = xp;
-            this.lvl = lvl;
+            this.lvl = 50;
             this.id = id;
             this.userID = userID;
             this.reloading = false;
@@ -1294,6 +1615,10 @@
 
                                 break;
 
+                            
+                            //add 8: twin flank    9: triple spread    10: quad tank   12: octo tank
+                            
+                            
                             case 16:
                                 switch(this.barrel) {
                                     case 0:
@@ -1827,14 +2152,12 @@
                 if(input.style.opacity < 1) {
                     op = millis - start;
                     input.style.opacity = op / 1000;
+                    input.style.border = "5px solid black";
                     input.style.left = ((canvas.width / 2) - (input.size * 5)) + "px";
                     input.style.top = ((canvas.height / 3) + (50 * Math.sin((op / 13) / 50))) + "px";
 
                 }
-                c.strokeStyle = "rgba(0, 0, 0, " + op / 1000 + ")";
-                c.lineWidth = 8;
-                c.strokeRect((canvas.width / 2) - (input.size * 5), (canvas.height / 3) + (50 * Math.sin((op / 13) / 50)), 202, 22);
-
+              
             } else if(s === "FFA") {
 
                 if(autospin) {
@@ -1859,7 +2182,7 @@
 
                 c.resetTransform();
 
-                for(var i = 0; i < canvas.width / 20; i++) {
+                for(var i = 0; i < canvas.width / 10; i++) {
                     c.beginPath();
                     c.moveTo(0, (i * 25) - tanks[0].y % 25);
                     c.lineTo(canvas.width, (i * 25) - tanks[0].y % 25);
@@ -1917,10 +2240,24 @@
 
                         tanks[0].showxp += shapes[i].xp;
                         shapes.splice(i, 1);
+                        shapes.push(new shape(Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 3000) - 1500, Math.round(Math.random() * 2)));
 
                     }
 
                 }
+
+                for(var i = tanks.length - 1; i >= 0; i--) {
+                    tanks[i].show();
+                    if(i !== 0) {
+                        c.fillStyle = "white";
+                        c.strokeStyle = "black";
+                        c.lineWidth = "1";
+                        c.font = "bold 15px Arial";
+                        c.fillText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
+                        c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
+                    }
+                }
+                tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
 
                 for(var i = bullets.length - 1; i >= 0; i--) {
 
@@ -1931,20 +2268,7 @@
                         bullets.splice(i, 1);
                     }
                 }
-
-                for(var i = tanks.length - 1; i >= 0; i--) {
-                    tanks[i].show();
-                    if(i !== 0) {
-                        c.fillStyle = "white";
-                        c.strokeStyle = "black";
-                        c.lineWidth = "2";
-                        c.font = "bold 15px Arial";
-                        c.fillText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
-                        c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
-                    }
-                }
-                tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
-
+              
                 c.restore();
 
                 c.lineWidth = 20;
@@ -2290,7 +2614,7 @@
             data.forEach(function(dd) {
               
                 if(Number(data.key) !== tanks[0].userID) {
-                    tanks.push(new tank(data.val().x, data.val().y, data.val().r, 1, data.val().name, 0, 0, data.val().id, Number(data.key)));
+                    tanks.push(new tank(Number(data.val().x), Number(data.val().y), Number(data.val().r), 1, data.val().name, 0, 0, Number(data.val().id), Number(data.key)));
                 }
                          
             });
@@ -2352,7 +2676,12 @@
 	        firebase.database().ref(tanks[0].userID).remove();
 	    }
         });
+        window.addEventListener("resize", function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
         window.addEventListener("keyup", function(e) {
+            e.preventDefault();
             if(keys[69]) {
                 if(!autofire) autofire = true;
                 else autofire = false;
@@ -2363,6 +2692,15 @@
             }
             if(keys[79]) {
               tanks[0].dead = true;
+            }
+            if(keys[9]) {
+                gamemode = gamemode + 1 % gamemodes.length;
+                if(gamemodes[gamemode] === "FFA") {
+                    firebase.initializeApp(configFFA);
+                }
+                if(gamemodes[gamemode] === "Teams") {
+                    //firebase.initializeApp(configTeams);
+                }
             }
             keys[e.keyCode] = false;
         });
