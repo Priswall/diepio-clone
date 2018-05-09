@@ -630,29 +630,6 @@
             tanks.unshift(new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000)));
 
             firebase.database().ref(tanks[0].userID).onDisconnect().remove();
-            query.once("value")
-                .then(function(snapshot) {
-                    snapshot.forEach(function(childSnapshot) {
-                        var key = childSnapshot.key;
-                        var m = 0;
-                        var mm = firebase.database().ref();
-                        mm.on("value", function(c) {
-                            c.forEach(function(cc) {
-                                for(var i = 0; i < tanks.length; i++) {
-                                    if(tanks[i].userID === Number(cc.key)) {
-                                        m = i;
-                                    }
-
-                                }
-                                cc.forEach(function(data) {
-                                    tanks[m][data.key] = data.val();
-                                });
-                            });
-                        });
-                        var childData = childSnapshot.val();
-                        tanks.push(new tank(Number(childData.x), Number(childData.y), Number(childData.r), 0, childData.name, 0, 0, Number(childData.id), Number(key)));
-                    });
-                });
 
         }
 
@@ -1165,7 +1142,7 @@
             this.t = t;
             this.n = n;
             this.xp = xp;
-            this.lvl = 50;
+            this.lvl = lvl;
             this.id = id;
             this.userID = userID;
             this.reloading = false;
@@ -2308,7 +2285,40 @@
         }
 
         var f = firebase.database().ref();
+        firebase.database().ref().on("child_added", function(data) {
+        
+            data.forEach(function(dd) {
+              
+                if(Number(data.key) !== tanks[0].userID) {
+                    tanks.push(new tank(data.val().x, data.val().y, data.val().r, 1, data.val().name, 0, 0, data.val().id, Number(data.key)));
+                }
+                         
+            });
+        })
         var query = firebase.database().ref().orderByKey();
+            query.once("value")
+                .then(function(snapshot) {
+                    snapshot.forEach(function(childSnapshot) {
+                        var key = childSnapshot.key;
+                        var m = 0;
+                        var mm = firebase.database().ref();
+                        mm.on("value", function(c) {
+                            c.forEach(function(cc) {
+                                for(var i = 0; i < tanks.length; i++) {
+                                    if(tanks[i].userID === Number(cc.key)) {
+                                        m = i;
+                                    }
+
+                                }
+                                cc.forEach(function(data) {
+                                    tanks[m][data.key] = data.val();
+                                });
+                            });
+                        });
+                        var childData = childSnapshot.val();
+                        tanks.push(new tank(Number(childData.x), Number(childData.y), Number(childData.r), 0, childData.name, 0, 0, Number(childData.id), Number(key)));
+                    });
+                });
 
         window.addEventListener("mousemove", function(e) {
             if(!autospin) {
