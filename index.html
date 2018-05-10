@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 
@@ -756,6 +757,7 @@
                     ],
           
                     [
+			11
                     ],
           
                     [
@@ -1616,8 +1618,95 @@
                                 break;
 
                             
-                            //add 8: twin flank    9: triple spread    10: quad tank   12: octo tank
-                            
+                            case 8:
+                                if(!this.bullet) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 0.29) * 50, this.y - Math.cos(this.r + 0.29) * 50, (this.x + Math.sin(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 3.4316) * 50, this.y - Math.cos(this.r + 3.4316) * 50, (this.x + Math.sin(this.r + 3.3466) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 3.3466) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.bullet = 1;
+                                } else {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 3.4316) * 50, this.y - Math.cos(this.r - 3.4316) * 50, (this.x + Math.sin(this.r - 3.3466) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 3.3466) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 0.29) * 50, this.y - Math.cos(this.r - 0.29) * 50, (this.x + Math.sin(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.bullet = 0;
+                                }
+                                this.reloading = true;
+				break;
+
+			    case 9:
+				switch(this.bullet) {
+				    case 0:
+	                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+        	                        this.reloading = true;
+					this.bullet = 1;
+					break;
+
+				    case 1:
+	                                bullets.push(new bullet(this.x + Math.sin(this.r + 0.78534) * 50, this.y - Math.cos(this.r + 0.78534) * 50, (this.x + Math.sin(this.r + 0.78534) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.78534) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r - 0.78534) * 50, this.y - Math.cos(this.r - 0.78534) * 50, (this.x + Math.sin(this.r - 0.78534) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.78534) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+        	                        this.reloading = true;
+					this.bullet = 0;
+					break;
+				}
+				break;
+
+			    case 10:
+				switch(this.bullet) {
+				    case 0:
+	                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r + 3.1416) * 50, this.y - Math.cos(this.r + 3.1416) * 50, (this.x + Math.sin(this.r + 3.1416) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 3.1416) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+        	                        this.reloading = true;
+					this.bullet = 1;
+					break;
+
+				    case 1:
+	                                bullets.push(new bullet(this.x + Math.sin(this.r + 1.57) * 50, this.y - Math.cos(this.r + 1.57) * 50, (this.x + Math.sin(this.r + 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r - 1.57) * 50, this.y - Math.cos(this.r - 1.57) * 50, (this.x + Math.sin(this.r - 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+        	                        this.reloading = true;
+					this.bullet = 0;
+					break;
+				}
+				break;
+
+                            case 11:
+                                if(!this.bullet) {
+	                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.bullet = 1;
+                                } else {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 0.29) * 50, this.y - Math.cos(this.r - 0.29) * 50, (this.x + Math.sin(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 0.29) * 50, this.y - Math.cos(this.r + 0.29) * 50, (this.x + Math.sin(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.205) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.bullet = 0;
+                                }
+                                this.reloading = true;
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = -Math.cos(this.r);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 2));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 2));
+
+                                break;
+
+			    case 12:
+				switch(this.bullet) {
+				    case 0:
+	                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r + 3.1416) * 50, this.y - Math.cos(this.r + 3.1416) * 50, (this.x + Math.sin(this.r + 3.1416) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 3.1416) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r + 1.57) * 50, this.y - Math.cos(this.r + 1.57) * 50, (this.x + Math.sin(this.r + 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r - 1.57) * 50, this.y - Math.cos(this.r - 1.57) * 50, (this.x + Math.sin(this.r - 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 1.57) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+        	                        this.reloading = true;
+					this.bullet = 1;
+					break;
+
+				    case 1:
+	                                bullets.push(new bullet(this.x + Math.sin(this.r + 0.7854) * 50, this.y - Math.cos(this.r + 0.7854) * 50, (this.x + Math.sin(this.r + 0.7854) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.7854) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r - 0.7854) * 50, this.y - Math.cos(this.r - 0.7854) * 50, (this.x + Math.sin(this.r - 0.7854) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.7854) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r + 2.3562) * 50, this.y - Math.cos(this.r + 2.3562) * 50, (this.x + Math.sin(this.r + 2.3562) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 2.3562) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+	                                bullets.push(new bullet(this.x + Math.sin(this.r - 2.3562) * 50, this.y - Math.cos(this.r - 2.3562) * 50, (this.x + Math.sin(this.r - 2.3562) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 2.3562) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+        	                        this.reloading = true;
+					this.bullet = 0;
+					break;
+				}
+				break;
                             
                             case 16:
                                 switch(this.barrel) {
