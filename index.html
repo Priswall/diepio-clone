@@ -2919,7 +2919,7 @@
                     "id": tanks[0].id,
                     "name": tanks[0].n
                 };
-                //f.child(tanks[0].userID).set(d);
+                f.child(tanks[0].userID).set(d);
               
                 if(tanks[0].dead) {
                     returnMenu();
@@ -3016,7 +3016,7 @@
             }
             if(keys[79]) {
               tanks[0].dead = true;
-            }
+            }/*
             if(keys[9]) {
                 gamemode = gamemode + 1 % gamemodes.length;
                 if(gamemodes[gamemode] === "FFA") {
@@ -3025,7 +3025,7 @@
                 if(gamemodes[gamemode] === "Teams") {
                     firebase.initializeApp(configTeams);
                 }
-            }
+            }*/
             if(keys[49]) {
               
                 if(tanks[0].xppoints > 0 && tanks[0].healthpoints < 8) {
