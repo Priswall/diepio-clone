@@ -89,7 +89,7 @@
         var keys = [];
         var bullets = [];
         var shapes = [];
-        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner", "Trapper", "Mega Trapper", "Tri-trapper"];
+        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner", "Trapper", "Mega Trapper", "Tri-trapper", "Destroyer", "Annihilator"];
 
         var tankshow = [
                     function() {
@@ -979,6 +979,36 @@
                 c.stroke();
                 c.restore();
                 
+                    },
+                    function() {
+                c.fillRect(-20, 0, 40, -50);
+                c.beginPath();
+                c.moveTo(-20, 0);
+                c.lineTo(-20, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-20, -50);
+                c.lineTo(20, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(20, 0);
+                c.lineTo(20, -50);
+                c.stroke();
+                    },
+                    function() {
+                c.fillRect(-25, 0, 50, -50);
+                c.beginPath();
+                c.moveTo(-25, 0);
+                c.lineTo(-25, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-25, -50);
+                c.lineTo(25, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(25, 0);
+                c.lineTo(25, -50);
+                c.stroke();
                     }
                 ];
 
@@ -1643,32 +1673,62 @@
                   
                 } else {
                   
-                    if(Math.abs(this.x - (-camx + mousex)) > 10) {
-                        this.x -= (this.dx / this.mag) * this.ms;
-                    }
+                  
+                    if(mouseIsPressed || autofire){
+                        if(Math.abs(this.x - (-camx + mousex)) > 10) {
+                            this.x -= (this.dx / this.mag) * this.ms;
+                        }
 
-                    if(Math.abs(this.y - (-camy + mousey)) > 10) {
-                        this.y -= (this.dy / this.mag) * this.ms;
-                    }
+                        if(Math.abs(this.y - (-camy + mousey)) > 10) {
+                            this.y -= (this.dy / this.mag) * this.ms;
+                        }
 
-                    this.dx = this.x - (-camx + mousex);
-                    this.dy = this.y - (-camy + mousey);
-                    this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+                        this.dx = this.x - (-camx + mousex);
+                        this.dy = this.y - (-camy + mousey);
+                        this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
 
-                    if(this.x < -1615) {
-                        this.x = -1615;
-                    }
-                    if(this.y < -1700) {
-                        this.y = -1700;
-                    }
-                    if(this.x > 1700) {
-                        this.x = 1700;
-                    }
-                    if(this.y > 1700) {
-                        this.y = 1700;
-                    }
+                        if(this.x < -1615) {
+                            this.x = -1615;
+                        }
+                        if(this.y < -1700) {
+                            this.y = -1700;
+                        }
+                        if(this.x > 1700) {
+                            this.x = 1700;
+                        }
+                        if(this.y > 1700) {
+                            this.y = 1700;
+                        }
 
-                    this.rot = Math.atan2(-(this.x - (mousex - camx)), (this.y - (mousey - camy)));
+                        this.rot = Math.atan2(-(this.x - (mousex - camx)), (this.y - (mousey - camy)));
+                    } else {
+                        if(Math.abs(this.x - (-camx + (canvas.width / 2) + Math.sin(millis / 3000) * 75)) > 10) {
+                            this.x -= (this.dx / this.mag) * (Math.abs(this.x - (-camx + (canvas.width / 2) + Math.sin(millis / 3000) * 75)) / 20);
+                        }
+
+                        if(Math.abs(this.y - (-camy + (canvas.width / 2) + Math.cos(millis / 3000) * 75)) > 10) {
+                            this.y -= (this.dy / this.mag) * (Math.abs(this.y - (-camy + (canvas.height / 2) + Math.cos(millis / 3000) * 75)) / 20);
+                        }
+
+                        this.dx = this.x - (-camx + (canvas.width / 2) + Math.sin(millis / 3000) * 75);
+                        this.dy = this.y - (-camy + (canvas.height / 2) + Math.cos(millis / 3000) * 75);
+                        this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                        if(this.x < -1615) {
+                            this.x = -1615;
+                        }
+                        if(this.y < -1700) {
+                            this.y = -1700;
+                        }
+                        if(this.x > 1700) {
+                            this.x = 1700;
+                        }
+                        if(this.y > 1700) {
+                            this.y = 1700;
+                        }
+
+                        this.rot = Math.atan2(-(this.x - ((canvas.width / 2) + Math.sin(millis / 3000) * 75 - camx)), (this.y - ((canvas.width / 2) + Math.cos(millis / 3000) * 75 - camy)));
+                    }
 
                 }
                 if(this.id === 2 || this.id === 3) {
@@ -1857,6 +1917,7 @@
             this.y = y;
             this.a = 1;
             this.ss = 1;
+            this.dr = 0;
             this.barrel = 0;
             this.showxp = 0;
             this.xppoints = 50;
@@ -2043,9 +2104,18 @@
                                 break;
 
                             case 6:
-                                bullets.push(new bullet(this.x + Math.sin(this.r - 1.57) * 30, this.y - Math.cos(this.r - 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                bullets.push(new bullet(this.x + Math.sin(this.r + 1.57) * 30, this.y - Math.cos(this.r + 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                this.reloading = true;
+                                if(this.dr < 8) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 1.57) * 30, this.y - Math.cos(this.r - 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 1.57) * 30, this.y - Math.cos(this.r + 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.dr += 2;
+                                    this.reloading = true;
+                                }
+                                if(this.dr > 8) {
+                                  
+                                    this.dr -= this.dr - 7;
+                                    bullets.length = 8;
+                                  
+                                }
                                 break;
 
                             case 7:
@@ -2164,11 +2234,20 @@
                                 break;
 
                             case 16:
-                                bullets.push(new bullet(this.x + Math.sin(this.r - 1.57) * 30, this.y - Math.cos(this.r - 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                bullets.push(new bullet(this.x + Math.sin(this.r + 1.57) * 30, this.y - Math.cos(this.r + 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r - 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                bullets.push(new bullet(this.x + Math.sin(this.r + Math.PI) * 30, this.y - Math.cos(this.r + Math.PI) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
-                                this.reloading = true;
+                                if(this.dr < 8) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 1.57) * 30, this.y - Math.cos(this.r - 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 1.57) * 30, this.y - Math.cos(this.r + 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r - 1.57) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + Math.PI) * 30, this.y - Math.cos(this.r + Math.PI) * 30, mousex, mousey, 10, 1, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                    this.dr += 4;
+                                    this.reloading = true;
+                                }
+                                if(this.dr > 8) {
+                                  
+                                    this.dr -= this.dr - 7;
+                                    bullets.length = 8;
+                                  
+                                }
                                 break;
                             
                             case 17:
@@ -2869,6 +2948,11 @@
                             bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(4.1888), bullets[i].y - Math.cos(4.1888), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
                             bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-4.1888), bullets[i].y - Math.cos(-4.1888), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
                         }
+                        if(bullets[i].id === 1) {
+                          
+                            tanks[0].dr--;
+                          
+                        }
                         bullets.splice(i, 1);
                     }
                 }
@@ -3199,7 +3283,7 @@
                     "id": tanks[0].id,
                     "name": tanks[0].n
                 };
-                f.child(tanks[0].userID).set(d);
+                //f.child(tanks[0].userID).set(d);
               
                 if(tanks[0].dead) {
                     returnMenu();
