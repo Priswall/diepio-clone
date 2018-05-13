@@ -1,61 +1,60 @@
-
-
 <!DOCTYPE html>
+
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="An open-source diep.io clone made with HTML, JS, and CSS">
-	<meta name="keywords" content="HTML,CSS,diepio,clone,diep.io,JS,opensource,open-source,JavaScript">
-	<meta name="author" content="Priswall">
-	<link rel="icon" href="https://raw.githubusercontent.com/Priswall/diepio-clone/master/icon.png"></link>
-	<title>peip.io</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="An open-source diep.io clone made with HTML, JS, and CSS">
+  <meta name="keywords" content="HTML,CSS,diepio,clone,diep.io,JS,opensource,open-source,JavaScript">
+  <meta name="author" content="Priswall">
+  <link rel="icon" href="https://raw.githubusercontent.com/Priswall/diepio-clone/master/icon.png"></link>
+  <title>peip.io</title>
 </head>
 
 <body>
-	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-	<script>
-		var configFFA = {
-			apiKey: "AIzaSyBV_Ym3Ri84Ezmsob-u1thlAmxytI3HCgM",
-			authDomain: "test-bb2e4.firebaseapp.com",
-			databaseURL: "https://test-bb2e4.firebaseio.com",
-			projectId: "test-bb2e4",
-			storageBucket: "test-bb2e4.appspot.com",
-			messagingSenderId: "178503576166"
-		};
-      
-        var configTeams = {
-            apiKey: "AIzaSyBU7KcmaKGz46OKoiN3kMCtEhfaVossLLU",
-            authDomain: "peipio-1.firebaseapp.com",
-            databaseURL: "https://peipio-1.firebaseio.com",
-            projectId: "peipio-1",
-            storageBucket: "peipio-1.appspot.com",
-            messagingSenderId: "138085039704"
-        };
-        firebase.initializeApp(configFFA);
-	</script>
-	<style>
-		@font-face {
-			font-family: 'Ubuntu';
-			src: url("Ubuntu-B.ttf") format('ttf');
-		}
-
-		html,
-		body,
-		canvas,
-		p {
-
-			margin: 0;
-			font-family: "Ubuntu";
-			padding: 0;
-			overflow: hidden;
-
-		}
-	</style>
-	<canvas id="canvas" width="800px" height="600px"></canvas>
-    <form id="form" autocomplete="off" onsubmit="playGame(); return false;"></form>
-    <script>
-        var canvas = document.getElementById("canvas");
+  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+  <script>
+    var configFFA = {
+    			apiKey: "AIzaSyBV_Ym3Ri84Ezmsob-u1thlAmxytI3HCgM",
+    			authDomain: "test-bb2e4.firebaseapp.com",
+    			databaseURL: "https://test-bb2e4.firebaseio.com",
+    			projectId: "test-bb2e4",
+    			storageBucket: "test-bb2e4.appspot.com",
+    			messagingSenderId: "178503576166"
+    		};
+          
+            var configTeams = {
+                apiKey: "AIzaSyBU7KcmaKGz46OKoiN3kMCtEhfaVossLLU",
+                authDomain: "peipio-1.firebaseapp.com",
+                databaseURL: "https://peipio-1.firebaseio.com",
+                projectId: "peipio-1",
+                storageBucket: "peipio-1.appspot.com",
+                messagingSenderId: "138085039704"
+            };
+            firebase.initializeApp(configFFA);
+  </script>
+  <style>
+    @font-face {
+    			font-family: 'Ubuntu';
+    			src: url("Ubuntu-B.ttf") format('ttf');
+    		}
+    
+    		html,
+    		body,
+    		canvas,
+    		p {
+    
+    			margin: 0;
+    			font-family: "Ubuntu";
+    			padding: 0;
+    			overflow: hidden;
+    
+    		}
+  </style>
+  <canvas id="canvas" width="800px" height="600px"></canvas>
+  <form id="form" autocomplete="off" onsubmit="playGame(); return false;"></form>
+  <script>
+    var canvas = document.getElementById("canvas");
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         var c = canvas.getContext("2d");
@@ -66,6 +65,7 @@
         bgimg.src = "https://raw.githubusercontent.com/Priswall/diepio-clone/master/background.png";
         var input = document.createElement("input");
         input.style.opacity = 0; 
+        input.autofocus = true;
         input.style.position = "absolute";
         input.style.top = "50px";
         input.style.left = "50px";
@@ -89,7 +89,7 @@
         var keys = [];
         var bullets = [];
         var shapes = [];
-        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner"];
+        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner", "Trapper", "Mega Trapper", "Tri-trapper"];
 
         var tankshow = [
                     function() {
@@ -264,28 +264,34 @@
                     },
                     function() {
                 c.fillRect(-9, 0, 18, -55);
+                      
                 c.beginPath();
                 c.moveTo(-9, 0);
                 c.lineTo(-9, -55);
                 c.stroke();
+                      
                 c.beginPath();
                 c.moveTo(-9, -55);
                 c.lineTo(9, -55);
                 c.stroke();
+                      
                 c.beginPath();
                 c.moveTo(9, 0);
                 c.lineTo(9, -55);
                 c.stroke();
                       
                 c.fillRect(-13, 0, 26, -48);
+                      
                 c.beginPath();
                 c.moveTo(-13, 0);
                 c.lineTo(-13, -48);
                 c.stroke();
+                      
                 c.beginPath();
                 c.moveTo(-13, -48);
                 c.lineTo(13, -48);
                 c.stroke();
+                      
                 c.beginPath();
                 c.moveTo(13, 0);
                 c.lineTo(13, -48);
@@ -844,7 +850,7 @@
                       
                 c.restore();
                     },
-              function () {
+                    function () {
                 
                 c.rect(-15, -30, 30, 30);
                 c.fill();
@@ -854,7 +860,126 @@
                 c.fill();
                 c.stroke();
                 
-              }
+                    },
+                    function () {
+                
+                c.rect(-10, -30, 20, 30);
+                c.fill();
+                c.stroke();
+                
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(20, -35);
+                c.lineTo(-20, -35);
+                c.lineTo(-10, -30);
+                c.fill();
+                
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(15, -35);
+                c.lineTo(-15, -35);
+                c.lineTo(-10, -30);
+                c.stroke();
+                
+                    },
+                    function () {
+                
+                c.rect(-15, -30, 30, 30);
+                c.fill();
+                c.stroke();
+                
+                c.beginPath();
+                c.moveTo(-15, -30);
+                c.lineTo(15, -30);
+                c.lineTo(25, -40);
+                c.lineTo(-25, -40);
+                c.lineTo(-15, -30);
+                c.fill();
+                
+                c.beginPath();
+                c.moveTo(-15, -30);
+                c.lineTo(15, -30);
+                c.lineTo(25, -40);
+                c.lineTo(-25, -40);
+                c.lineTo(-15, -30);
+                c.stroke();
+                
+                    },
+                    function () {
+                
+                c.rect(-10, -30, 20, 30);
+                c.fill();
+                c.stroke();
+                
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(20, -35);
+                c.lineTo(-20, -35);
+                c.lineTo(-10, -30);
+                c.fill();
+                
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(15, -35);
+                c.lineTo(-15, -35);
+                c.lineTo(-10, -30);
+                c.stroke();
+                
+                c.save();
+                c.translate(0, 0);
+                c.rotate(2.0944);
+                
+                c.rect(-10, -30, 20, 30);
+                c.fill();
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(20, -35);
+                c.lineTo(-20, -35);
+                c.lineTo(-10, -30);
+                c.fill();
+                
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(15, -35);
+                c.lineTo(-15, -35);
+                c.lineTo(-10, -30);
+                c.stroke();
+                c.restore();
+                
+                c.save();
+                c.translate(0, 0);
+                c.rotate(-2.0944);
+                
+                c.rect(-10, -30, 20, 30);
+                c.fill();
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(20, -35);
+                c.lineTo(-20, -35);
+                c.lineTo(-10, -30);
+                c.fill();
+                
+                c.beginPath();
+                c.moveTo(-10, -30);
+                c.lineTo(10, -30);
+                c.lineTo(15, -35);
+                c.lineTo(-15, -35);
+                c.lineTo(-10, -30);
+                c.stroke();
+                c.restore();
+                
+                    }
                 ];
 
         var xpamt = [
@@ -919,7 +1044,7 @@
                         5,
                         6,
                         7,
-                        17
+                        18
                     ],
           
                     [
@@ -968,6 +1093,21 @@
                     ],
           
                     [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                    ],
+          
+                    [
+                        19,
+                        20,
+                        17
                     ],
           
                     [
@@ -1092,6 +1232,7 @@
         function returnMenu() {
           
             if(op < 1000 && op > 0) {
+                input.focus();
                 if(document.getElementById("input") === null) {
                   document.getElementById("form").appendChild(input);
                   document.getElementById("form").onsubmit = function() {
@@ -1145,7 +1286,7 @@
                 }
             }
           
-            document.getElementById("form").onsubmit = "";
+            document.getElementById("form").onsubmit = function(){return false;};
           
             tanks.unshift(new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000)));
 
@@ -1294,13 +1435,13 @@
 
                     case "bullet":
                         if(!other.dead && this.cooldown >= 100) {
-                            if(this.id !== 3 && other.id !== 2){
+                            if(this.id !== 3 && (other.id !== 2 && other.id !== 3)){
                                 this.pushx += (other.dx / other.mag) * (other.knockback / 5);
                                 this.pushy += (other.dy / other.mag) * (other.knockback / 5);
                                 this.dh += other.d;
                                 this.cooldown = 0;
                                 this.timetill = millis;
-                            } else if(other.id === 2) {
+                            } else if(other.id === 2 || other.id === 3) {
                                 this.pushx += (other.dx / other.mag) * other.knockback;
                                 this.pushy += (other.dy / other.mag) * other.knockback;
                                 this.dh += other.d;
@@ -1530,7 +1671,7 @@
                     this.rot = Math.atan2(-(this.x - (mousex - camx)), (this.y - (mousey - camy)));
 
                 }
-                if(this.id === 2) {
+                if(this.id === 2 || this.id === 3) {
                   
                     this.ms -= 0.1;
                   
@@ -1563,7 +1704,7 @@
 
                         c.save();
                         c.translate(this.x, this.y);
-                        c.scale(this.s, this.s);
+                        c.lineWidth = 3;
                         switch(this.t) {
                             case 0:
                                 c.fillStyle = "rgb(100, 200, 250," + this.a + ")";
@@ -1595,6 +1736,7 @@
                         c.save();
                         c.translate(this.x, this.y);
                         c.rotate(this.rot);
+                        c.lineWidth = 3;
                         switch(this.t) {
                             case 0:
                                 c.fillStyle = "rgb(100, 200, 250," + this.a + ")";
@@ -1635,10 +1777,13 @@
                         break;
                     
                   case 2:
+                  case 3:
                     
                       c.save();
                       c.translate(this.x, this.y);
                       c.rotate(this.rot);
+                      c.lineWidth = 3;
+                      c.scale(this.r, this.r);
                       switch(this.t) {
                           case 0:
                               c.fillStyle = "rgb(100, 200, 250," + this.a + ")";
@@ -2028,7 +2173,27 @@
                             
                             case 17:
                             
-                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 10, 2, this.t, this.bulletS, this.bulletD, this.bulletP * 3, this.knockback));
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 0.8, 2, this.t, this.bulletS, this.bulletD * 1.5, this.bulletP * 1.5, this.knockback));
+                                this.reloading = true;
+                                break;
+                            
+                            case 18:
+                            
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r) * 30, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 0.5, 3, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                this.reloading = true;
+                                break;
+                            
+                            case 19:
+                            
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 1, 3, this.t, this.bulletS, this.bulletD * 2, this.bulletP * 2, this.knockback));
+                                this.reloading = true;
+                                break;
+                            
+                            case 20:
+                            
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r) * 30, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 0.5, 3, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                bullets.push(new bullet(this.x + Math.sin(this.r + 2.0944) * 30, this.y - Math.cos(this.r + 2.0944) * 30, (this.x + Math.sin(this.r + 2.0944) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 2.0944) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 0.5, 3, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
+                                bullets.push(new bullet(this.x + Math.sin(this.r - 2.0944) * 30, this.y - Math.cos(this.r - 2.0944) * 30, (this.x + Math.sin(this.r - 2.0944) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 2.0944) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 0.5, 3, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
                                 this.reloading = true;
                                 break;
                             
@@ -2381,12 +2546,12 @@
                                     tanks[0].Reload = tankstats.machinegun.reload;
                                     break;
                                 
-                              case 17:
+                              case 18:
 
-                                    tanks[0].knockback = tankstats.landminer.knockback;
-                                    tanks[0].spread = tankstats.landminer.spread;
-                                    tanks[0].BulletS = tankstats.landminer.bspeed;
-                                    tanks[0].Reload = tankstats.landminer.reload;
+                                    tanks[0].knockback = tankstats.twin.knockback;
+                                    tanks[0].spread = tankstats.basic.spread;
+                                    tanks[0].BulletS = tankstats.basic.bspeed;
+                                    tanks[0].Reload = tankstats.sniper.reload;
                                     break;
 
                             }
@@ -2428,7 +2593,7 @@
                   
                 }
               
-            } else if(tanks[0].lvl >= 45 && tanks[0].id < 17) {
+            } else if(tanks[0].lvl >= 45 && (tanks[0].id < 17 || tanks[0].id === 18)) {
               
                 for(var i = 0; i < tankorder[tanks[0].id].length; i++) {
 
@@ -2477,37 +2642,14 @@
                             tanks[0].id = Number(tankorder[tanks[0].id][i]);
 
                             switch(tanks[0].id) {
+                                
+                              case 17:
+                              case 19:
 
-                                case 5:
-
-                                    tanks[0].knockback = tankstats.flamethrower.knockback;
-                                    tanks[0].spread = tankstats.flamethrower.spread;
-                                    tanks[0].BulletS = tankstats.flamethrower.bspeed;
-                                    tanks[0].Reload = tankstats.flamethrower.reload;
-                                    break;
-
-                                case 6:
-
-                                    tanks[0].knockback = tankstats.manager.knockback;
-                                    tanks[0].spread = tankstats.manager.spread;
-                                    tanks[0].BulletS = tankstats.manager.bspeed;
-                                    tanks[0].Reload = tankstats.manager.reload;
-                                    break;
-
-                                case 1:
-
-                                    tanks[0].knockback = tankstats.flankguard.knockback;
-                                    tanks[0].spread = tankstats.flankguard.spread;
-                                    tanks[0].BulletS = tankstats.flankguard.bspeed;
-                                    tanks[0].Reload = tankstats.flankguard.reload;
-                                    break;
-
-                                case 2:
-
-                                    tanks[0].knockback = tankstats.machinegun.knockback;
-                                    tanks[0].spread = tankstats.machinegun.spread;
-                                    tanks[0].BulletS = tankstats.machinegun.bspeed;
-                                    tanks[0].Reload = tankstats.machinegun.reload;
+                                    tanks[0].knockback = tankstats.landminer.knockback;
+                                    tanks[0].spread = tankstats.landminer.spread;
+                                    tanks[0].BulletS = tankstats.landminer.bspeed;
+                                    tanks[0].Reload = tankstats.landminer.reload;
                                     break;
 
                             }
@@ -2529,7 +2671,7 @@
                     c.rotate((millis / 3000) % 360);
 
                     tankshow[tankorder[tanks[0].id][i]]();
-
+                  
                     c.fillStyle = "rgb(100, 200, 250)";
                     c.strokeStyle = "rgb(50, 150, 200)";
 
@@ -2693,7 +2835,10 @@
                               
                             }
                           
-                            if(Math.abs(bullets[i].x - bullets[j].x) < 50 && Math.abs(bullets[i].y - bullets[j].y) < 50 && bullets[i].id === 2 && bullets[j].id === 2 && bullets[i].p > 4 && bullets[j].p > 4) {
+                            if(Math.abs(bullets[i].x - bullets[j].x) < 15 && Math.abs(bullets[i].y - bullets[j].y) < 15 && ((bullets[i].id === 2 && bullets[j].id === 2) || (bullets[i].id === 3 && bullets[j].id === 3)) && bullets[i].p > 1 && bullets[j].p > 4) {
+                              
+                                bullets[i].ms *= 0.8;
+                                bullets[j].ms *= 0.8;
                                 
                                 var pr = Math.atan2(-(bullets[i].x - bullets[j].x), bullets[i].y - bullets[j].y);
                                 bullets[i].x -= Math.sin(pr);
@@ -2710,19 +2855,19 @@
                     if(bullets[i].a <= 0) {
                         if(bullets[i].id === 2) {
                             bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(0), bullets[i].y - Math.cos(0), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(Math.PI), bullets[i].y - Math.cos(Math.PI), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(0.5236), bullets[i].y - Math.cos(0.5236), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-0.5236), bullets[i].y - Math.cos(-0.5236), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(1.0472), bullets[i].y - Math.cos(1.0472), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-1.0472), bullets[i].y - Math.cos(-1.0472), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(1.5708), bullets[i].y - Math.cos(1.5708), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-1.5708), bullets[i].y - Math.cos(-1.5708), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(2.0944), bullets[i].y - Math.cos(2.0944), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-2.0944), bullets[i].y - Math.cos(-2.0944), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(2.618), bullets[i].y - Math.cos(2.618), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-2.618), bullets[i].y - Math.cos(-2.618), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(4.1888), bullets[i].y - Math.cos(4.1888), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
-                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-4.1888), bullets[i].y - Math.cos(-4.1888), 3, 0, bullets[i].t, 2, bullets[i].d / 3, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(Math.PI), bullets[i].y - Math.cos(Math.PI), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(0.5236), bullets[i].y - Math.cos(0.5236), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-0.5236), bullets[i].y - Math.cos(-0.5236), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(1.0472), bullets[i].y - Math.cos(1.0472), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-1.0472), bullets[i].y - Math.cos(-1.0472), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(1.5708), bullets[i].y - Math.cos(1.5708), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-1.5708), bullets[i].y - Math.cos(-1.5708), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(2.0944), bullets[i].y - Math.cos(2.0944), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-2.0944), bullets[i].y - Math.cos(-2.0944), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(2.618), bullets[i].y - Math.cos(2.618), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-2.618), bullets[i].y - Math.cos(-2.618), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(4.1888), bullets[i].y - Math.cos(4.1888), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
+                            bullets.push(new bullet(bullets[i].x, bullets[i].y, bullets[i].x + Math.sin(-4.1888), bullets[i].y - Math.cos(-4.1888), 3, 0, bullets[i].t, 2, bullets[i].d, 0.5, 1));
                         }
                         bullets.splice(i, 1);
                     }
@@ -3054,7 +3199,7 @@
                     "id": tanks[0].id,
                     "name": tanks[0].n
                 };
-                //f.child(tanks[0].userID).set(d);
+                f.child(tanks[0].userID).set(d);
               
                 if(tanks[0].dead) {
                     returnMenu();
@@ -3243,7 +3388,7 @@
             }
             keys[e.keyCode] = false;
         });
-	</script>
+  </script>
 </body>
 
 </html>
