@@ -1087,6 +1087,7 @@
                     ],
           
                     [
+                        21
                     ],
           
                     [
@@ -1144,6 +1145,11 @@
                     ],
           
                     [
+                        22
+                    ],
+          
+                    [
+                        22
                     ],
 
                 ];
@@ -1220,6 +1226,27 @@
                 reload: 3000,
                 bspeed: 3,
                 spread: 2
+            },
+          
+            trapper: {
+                knockback: 2,
+                reload: 750,
+                bspeed: 2,
+                spread: 3
+            },
+          
+            destroyer: {
+                knockback: 3,
+                reload: 1500,
+                bspeed: 2,
+                spread: 2
+            },
+          
+            annihilator: {
+                knockback: 5,
+                reload: 2000,
+                bspeed: 3,
+                spread: 1
             }
 
         };
@@ -1487,10 +1514,11 @@
                         if(!other.dead) {
                             var pr = Math.atan2(-(this.x - other.x), this.y - other.y);
                             if(this.id !== 3) {
-                                this.pushx = Math.sin(pr) * 2;
-                                this.pushy = Math.cos(pr + 3.1416) * 2;
-                                other.velx = Math.sin(pr);
-                                other.vely = Math.cos(pr + 3.1416);
+                                this.pushx = Math.sin(pr);
+                                this.pushy = Math.cos(pr + 3.1416);
+                                other.velx = Math.sin(pr) / 2;
+                                other.vely = Math.cos(pr + 3.1416) / 2;
+                                this.dh += other.bodydamagepoints + 1;
                             }
                         }
                         break;
@@ -2276,6 +2304,34 @@
                                 this.reloading = true;
                                 break;
                             
+                            case 21:
+                            
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r) * 30, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 20, 0, this.t, this.bulletS, this.bulletD * 1.1, this.bulletP * 1.1, this.knockback));
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = Math.cos(this.r + 3.1416);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback * 2.3));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback * 2.3));
+                            
+                                this.reloading = true;
+                                break;
+                            
+                            case 22:
+                            
+                                bullets.push(new bullet(this.x + Math.sin(this.r) * 30, this.y - Math.cos(this.r) * 30, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 25, 0, this.t, this.bulletS, this.bulletD * 1.3, this.bulletP * 1.3, this.knockback));
+
+                                this.dx = Math.sin(this.r);
+                                this.dy = Math.cos(this.r + 3.1416);
+                                this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+
+                                this.velx -= ((this.dx / this.mag) * (this.knockback * 3));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback * 3));
+                            
+                                this.reloading = true;
+                                break;
+                            
                             case 100:
                                 switch(this.barrel) {
                                     case 0:
@@ -2625,13 +2681,21 @@
                                     tanks[0].Reload = tankstats.machinegun.reload;
                                     break;
                                 
-                              case 18:
+                                case 18:
 
-                                    tanks[0].knockback = tankstats.twin.knockback;
-                                    tanks[0].spread = tankstats.basic.spread;
-                                    tanks[0].BulletS = tankstats.basic.bspeed;
-                                    tanks[0].Reload = tankstats.sniper.reload;
-                                    break;
+                                      tanks[0].knockback = tankstats.trapper.knockback;
+                                      tanks[0].spread = tankstats.trapper.spread;
+                                      tanks[0].BulletS = tankstats.trapper.bspeed;
+                                      tanks[0].Reload = tankstats.trapper.reload;
+                                      break;
+
+                                case 21:
+
+                                      tanks[0].knockback = tankstats.destroyer.knockback;
+                                      tanks[0].spread = tankstats.destroyer.spread;
+                                      tanks[0].BulletS = tankstats.destroyer.bspeed;
+                                      tanks[0].Reload = tankstats.destroyer.reload;
+                                      break;
 
                             }
 
@@ -2672,7 +2736,7 @@
                   
                 }
               
-            } else if(tanks[0].lvl >= 45 && (tanks[0].id < 17 || tanks[0].id === 18)) {
+            } else if(tanks[0].lvl >= 45 && (tanks[0].id < 17 || tanks[0].id === 18 || tanks[0].id === 21)) {
               
                 for(var i = 0; i < tankorder[tanks[0].id].length; i++) {
 
@@ -2721,15 +2785,23 @@
                             tanks[0].id = Number(tankorder[tanks[0].id][i]);
 
                             switch(tanks[0].id) {
-                                
-                              case 17:
-                              case 19:
 
-                                    tanks[0].knockback = tankstats.landminer.knockback;
-                                    tanks[0].spread = tankstats.landminer.spread;
-                                    tanks[0].BulletS = tankstats.landminer.bspeed;
-                                    tanks[0].Reload = tankstats.landminer.reload;
-                                    break;
+                                case 17:
+                                case 19:
+
+                                      tanks[0].knockback = tankstats.landminer.knockback;
+                                      tanks[0].spread = tankstats.landminer.spread;
+                                      tanks[0].BulletS = tankstats.landminer.bspeed;
+                                      tanks[0].Reload = tankstats.landminer.reload;
+                                      break;
+                                
+                                case 22:
+
+                                      tanks[0].knockback = tankstats.annihilator.knockback;
+                                      tanks[0].spread = tankstats.annihilator.spread;
+                                      tanks[0].BulletS = tankstats.annihilator.bspeed;
+                                      tanks[0].Reload = tankstats.annihilator.reload;
+                                      break;
 
                             }
 
