@@ -60,8 +60,7 @@
         var c = canvas.getContext("2d");
         c.lineCap = "round";
         var bgimg = new Image();
-        bgimg.onload = function() {
-        };
+        bgimg.onload = function() {};
         bgimg.src = "https://raw.githubusercontent.com/Priswall/diepio-clone/master/background.png";
         var input = document.createElement("input");
         input.style.opacity = 0; 
@@ -89,7 +88,7 @@
         var keys = [];
         var bullets = [];
         var shapes = [];
-        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner", "Trapper", "Mega Trapper", "Tri-trapper", "Destroyer", "Annihilator"];
+        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner", "Trapper", "Mega Trapper", "Tri-trapper", "Destroyer", "Annihilator", "Gunner"];
 
         var tankshow = [
                     function() {
@@ -1009,6 +1008,74 @@
                 c.moveTo(25, 0);
                 c.lineTo(25, -50);
                 c.stroke();
+                    },
+                    function() {
+                      
+                c.fillRect(-25, 0, 10, -40);
+                c.fillRect(-12.5, 0, 10, -50);
+                c.fillRect(2.5, 0, 10, -50);
+                c.fillRect(15, 0, 10, -40);
+                      
+                c.beginPath();
+                c.moveTo(-25, 0);
+                c.lineTo(-25, -40);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(-25, -40);
+                c.lineTo(-15, -40);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(-15, -40);
+                c.lineTo(-15, 0);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(-12.5, 0);
+                c.lineTo(-12.5, -50);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(-12.5, -50);
+                c.lineTo(-2.5, -50);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(-2.5, -50);
+                c.lineTo(-2.5, 0);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(12.5, 0);
+                c.lineTo(12.5, -50);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(12.5, -50);
+                c.lineTo(2.5, -50);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(2.5, -50);
+                c.lineTo(2.5, 0);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(25, 0);
+                c.lineTo(25, -40);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(25, -40);
+                c.lineTo(15, -40);
+                c.stroke();
+                      
+                c.beginPath();
+                c.moveTo(15, -40);
+                c.lineTo(15, 0);
+                c.stroke();
+                      
                     }
                 ];
 
@@ -1058,7 +1125,22 @@
                     18526,
                     20094,
                     21762,
-                    23545
+                    23545,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000
                 ];
 
         var tankorder = [
@@ -1087,7 +1169,8 @@
                     ],
           
                     [
-                        21
+                        21,
+                        23
                     ],
           
                     [
@@ -1247,6 +1330,13 @@
                 reload: 2000,
                 bspeed: 3,
                 spread: 1
+            },
+            
+            gunner: {
+                knockback: 1,
+                reload: 250,
+                bspeed: 4,
+                spread: 0
             }
 
         };
@@ -1279,7 +1369,8 @@
                 requestAnimationFrame(disappearInput);
             } else {
               
-               document.getElementById("form").removeChild(input);
+                document.getElementById("form").removeChild(input);
+                tanks.splice(1, 1);
               
             }
         }
@@ -1292,10 +1383,6 @@
                 input.focus();
                 if(document.getElementById("input") === null) {
                   document.getElementById("form").appendChild(input);
-                  document.getElementById("form").onsubmit = function() {
-                    playGame(); 
-                    return false;
-                  };
                 }
                 op ++;
                 c.save();
@@ -1327,9 +1414,9 @@
 
         function playGame() {
 
-            disappearInput();
-
             s = "FFA";
+
+            disappearInput();
             var name = input.value;
             if(name === "") {
                 name = "Unnamed Tank";
@@ -1343,9 +1430,8 @@
                 }
             }
           
-            document.getElementById("form").onsubmit = function(){return false;};
-          
             tanks.unshift(new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000)));
+            tanks.length = 1;
 
             firebase.database().ref(tanks[0].userID).onDisconnect().remove();
 
@@ -2332,7 +2418,25 @@
                                 this.reloading = true;
                                 break;
                             
-                            case 100:
+                            case 23:
+                                
+                                if(this.bullet === 0) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 0.12) * 50, this.y - Math.cos(this.r - 0.12) * 50, (this.x + Math.sin(this.r - 0.09) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.09) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 5, 0, this.t, this.bulletS, this.bulletD * 0.7, this.bulletP * 0.7, this.knockback * 0.4));
+                                    this.bullet = 1;
+                                }else if(this.bullet === 1) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 0.12) * 50, this.y - Math.cos(this.r + 0.12) * 50, (this.x + Math.sin(this.r + 0.09) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.09) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 5, 0, this.t, this.bulletS, this.bulletD * 0.7, this.bulletP * 0.7, this.knockback * 0.4));
+                                    this.bullet = 2;
+                                }else if(this.bullet === 2) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r - 0.5) * 40, this.y - Math.cos(this.r - 0.5) * 40, (this.x + Math.sin(this.r - 0.28) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r - 0.28) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 5, 0, this.t, this.bulletS, this.bulletD * 0.7, this.bulletP * 0.7, this.knockback * 0.4));
+                                    this.bullet = 3;
+                                }else if(this.bullet === 3) {
+                                    bullets.push(new bullet(this.x + Math.sin(this.r + 0.5) * 40, this.y - Math.cos(this.r + 0.5) * 40, (this.x + Math.sin(this.r + 0.28) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r + 0.28) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 5, 0, this.t, this.bulletS, this.bulletD * 0.7, this.bulletP * 0.7, this.knockback * 0.4));
+                                    this.bullet = 0;
+                                }
+                                this.reloading = true;
+                                break;
+                            
+                            case 13:
                                 switch(this.barrel) {
                                     case 0:
                                         bullets.push(new bullet(this.x + Math.sin(this.r) * 50, this.y - Math.cos(this.r) * 50, (this.x + Math.sin(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), (this.y - Math.cos(this.r) * 70) - ((Math.random() * this.spread) - (this.spread / 2)), 2, 0, this.t, this.bulletS, this.bulletD, this.bulletP, this.knockback));
@@ -2354,8 +2458,8 @@
                                 this.dy = Math.cos(this.r + 3.1416);
                                 this.mag = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
 
-                                this.velx -= ((this.dx / this.mag) * (this.knockback / 3));
-                                this.vely -= ((this.dy / this.mag) * (this.knockback / 3));
+                                this.velx -= ((this.dx / this.mag) * (this.knockback / 30));
+                                this.vely -= ((this.dy / this.mag) * (this.knockback / 30));
 
                                 break;
 
@@ -2953,20 +3057,7 @@
                     }
 
                 }
-
-                for(var i = tanks.length - 1; i >= 0; i--) {
-                    tanks[i].show();
-                    if(i !== 0) {
-                        c.fillStyle = "white";
-                        c.strokeStyle = "black";
-                        c.lineWidth = "1";
-                        c.font = "bold 15px Arial";
-                        c.fillText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
-                        c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
-                    }
-                }
-                tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
-
+              
                 for(var i = bullets.length - 1; i >= 0; i--) {
 
                     bullets[i].show();
@@ -3028,7 +3119,20 @@
                         bullets.splice(i, 1);
                     }
                 }
-              
+
+                for(var i = tanks.length - 1; i >= 0; i--) {
+                    tanks[i].show();
+                    if(i !== 0) {
+                        c.fillStyle = "white";
+                        c.strokeStyle = "black";
+                        c.lineWidth = "1";
+                        c.font = "bold 15px Arial";
+                        c.fillText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
+                        c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
+                    }
+                }
+                tanks[0].update(Math.atan2(-(tanks[0].x - (mousex - camx)), (tanks[0].y - (mousey - camy))));
+
                 c.restore();
 
                 c.lineWidth = 20;
@@ -3369,16 +3473,6 @@
         }
 
         var f = firebase.database().ref();
-        firebase.database().ref().on("child_added", function(data) {
-        
-            data.forEach(function(dd) {
-              
-                if(Number(data.key) !== tanks[0].userID) {
-                    tanks.push(new tank(Number(data.val().x), Number(data.val().y), Number(data.val().r), 1, data.val().name, 0, 0, Number(data.val().id), Number(data.key)));
-                }
-                         
-            });
-        })
         var query = firebase.database().ref().orderByKey();
             query.once("value")
                 .then(function(snapshot) {
@@ -3399,8 +3493,24 @@
                                 });
                             });
                         });
-                        var childData = childSnapshot.val();
-                        tanks.push(new tank(Number(childData.x), Number(childData.y), Number(childData.r), 0, childData.name, 0, 0, Number(childData.id), Number(key)));
+                        mm.on("child_removed", function(child) {
+                          
+                            for(var i = 0; i < tanks.length; i++) {
+                              
+                                if(tanks[i].userID === Number(child.key)){
+                                  
+                                    tanks.splice(i, 1);
+                                    return;
+                                  
+                                }
+                              
+                            }
+                          
+                        })
+                        mm.on("child_added", function(child) {
+                            tanks.push(new tank(Number(child.x), Number(child.y), Number(child.r), 0, child.name, 0, 0, 1, Number(child.key)));
+                            return;
+                        })
                     });
                 });
 
@@ -3426,6 +3536,7 @@
             canClick = true;
         });
         window.addEventListener("keydown", function(e) {
+            e.preventDefault();
             keys[e.keyCode] = true;
         });
         window.addEventListener("beforeunload", function(e) {
@@ -3442,6 +3553,11 @@
         });
         window.addEventListener("keyup", function(e) {
             e.preventDefault();
+            if(keys[13] && s === "Menu") {
+              
+                playGame();
+              
+            }
             if(keys[69]) {
                 if(!autofire) autofire = true;
                 else autofire = false;
@@ -3544,6 +3660,16 @@
             }
             keys[e.keyCode] = false;
         });
+
+        if (document.addEventListener) {
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            }, false);
+        } else {
+            document.attachEvent('oncontextmenu', function() {
+                window.event.returnValue = false;
+            });
+        }
   </script>
 </body>
 
