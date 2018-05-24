@@ -34,10 +34,8 @@
             firebase.initializeApp(configFFA);
   </script>
   <style>
-    @font-face {
-    			font-family: 'Ubuntu';
-    			src: url("Ubuntu-B.ttf") format('ttf');
-    		}
+    
+            @import url('https://fonts.googleapis.com/css?family=Ubuntu');
     
     		html,
     		body,
@@ -65,6 +63,7 @@
         var input = document.createElement("input");
         input.style.opacity = 0; 
         input.autofocus = true;
+        input.style.fontFamily = "Ubuntu";
         input.style.position = "absolute";
         input.style.top = "50px";
         input.style.left = "50px";
@@ -88,7 +87,7 @@
         var keys = [];
         var bullets = [];
         var shapes = [];
-        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner", "Trapper", "Mega Trapper", "Tri-trapper", "Destroyer", "Annihilator", "Gunner"];
+        var classes = ["Basic Tank", "Sniper", "Twin", "Flank Guard", "Machine Gun", "Assassin", "Overseer", "Predator", "Twin Flank", "Triple spread", "Quad Tank", "Triplet", "Octo Tank", "Flamethrower", "Manager", "Triple Twin", "Overlord", "Land-miner", "Trapper", "Mega Trapper", "Tri-trapper", "Destroyer", "Annihilator", "Gunner", "Triangle", "Booster"];
 
         var tankshow = [
                     function() {
@@ -164,6 +163,7 @@
                 c.moveTo(9, 0);
                 c.lineTo(9, -50);
                 c.stroke();
+                      
                 c.fillRect(-9, 0, 18, 40);
                 c.beginPath();
                 c.moveTo(-9, 0);
@@ -1076,6 +1076,138 @@
                 c.lineTo(15, 0);
                 c.stroke();
                       
+                    },
+                    function() {
+                c.fillRect(-9, 0, 18, -50);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -50);
+                c.lineTo(9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -50);
+                c.stroke();
+                      
+                c.save();
+                c.rotate(0.5236);
+                c.fillRect(-9, 0, 18, 40);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 40);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.restore();
+                      
+                c.save();
+                c.rotate(-0.5236);
+                c.fillRect(-9, 0, 18, 40);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 40);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.restore();
+                    },
+                    function() {
+                c.fillRect(-9, 0, 18, -50);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, -50);
+                c.lineTo(9, -50);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, -50);
+                c.stroke();
+                      
+                c.save();
+                c.rotate(0.4);
+                c.fillRect(-9, 0, 18, 40);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 40);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.restore();
+                      
+                c.save();
+                c.rotate(-0.4);
+                c.fillRect(-9, 0, 18, 40);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 40);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.restore();
+                      
+                c.save();
+                c.rotate(0.6);
+                c.fillRect(-9, 0, 18, 40);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 40);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.restore();
+                      
+                c.save();
+                c.rotate(-0.6);
+                c.fillRect(-9, 0, 18, 40);
+                c.beginPath();
+                c.moveTo(-9, 0);
+                c.lineTo(-9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-9, 40);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(9, 0);
+                c.lineTo(9, 40);
+                c.stroke();
+                c.restore();
                     }
                 ];
 
@@ -1166,6 +1298,8 @@
                     ],
           
                     [
+                        //24,
+                        //25
                     ],
           
                     [
@@ -1437,7 +1571,6 @@
             }
           
             tanks.unshift(new tank((Math.random() * 3000) - 1500, (Math.random() * 3000) - 1500, 0, 0, name, 0, 0, 0, Math.round(Math.random() * 1000)));
-            tanks.length = 1;
 
             firebase.database().ref(tanks[0].userID).onDisconnect().remove();
 
@@ -2693,7 +2826,7 @@
 
                     c.restore();
 
-                    c.font = "bold 15px Arial";
+                    c.font = "bold 15px Ubuntu";
                     c.fillStyle = "white";
                     c.fillText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
                     c.fillStyle = "black";
@@ -2830,7 +2963,7 @@
 
                     c.restore();
 
-                    c.font = "bold 15px Arial";
+                    c.font = "bold 15px Ubuntu";
                     c.fillStyle = "white";
                     c.fillText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
                     c.fillStyle = "black";
@@ -2944,7 +3077,7 @@
 
                     c.restore();
 
-                    c.font = "bold 15px Arial";
+                    c.font = "bold 15px Ubuntu";
                     c.fillStyle = "white";
                     c.fillText(classes[tankorder[tanks[0].id][i]], 70 + ((i % 2) * 120), 105 + ((Math.floor(i / 2) % 2) * 120));
                     c.fillStyle = "black";
@@ -3133,7 +3266,7 @@
                         c.fillStyle = "white";
                         c.strokeStyle = "black";
                         c.lineWidth = "1";
-                        c.font = "bold 15px Arial";
+                        c.font = "bold 15px Ubuntu";
                         c.fillText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
                         c.strokeText(tanks[i].n, tanks[i].x, tanks[i].y - 50);
                     }
@@ -3159,15 +3292,14 @@
                 c.lineTo(((canvas.width / 2) - 250) + (tanks[0].xp * (((canvas.width / 2) + 250) / (xpamt[tanks[0].lvl] * 1.199))), canvas.height - 25);
                 c.stroke();
 
-                c.font = "bold 15px Arial";
                 c.fillStyle = "white";
                 c.strokeStyle = "black";
                 c.textAlign = "center";
                 c.textBaseline = "middle";
+                c.font = "bold 15px Ubuntu";
                 c.lineWidth = 1;
                 c.fillText("Level " + tanks[0].lvl + " " + classes[tanks[0].id], canvas.width / 2, canvas.height - 25);
-                c.strokeText("Level " + tanks[0].lvl + " " + classes[tanks[0].id], canvas.width / 2, canvas.height - 25);
-                c.font = "bold 25px Arial";
+                c.font = "bold 25px Ubuntu";
                 c.fillText(tanks[0].n, canvas.width / 2, canvas.height - 50);
                 c.strokeText(tanks[0].n, canvas.width / 2, canvas.height - 50);
 
@@ -3429,7 +3561,7 @@
                     c.strokeText("+", 190, canvas.height - 43);
                     c.strokeText("+", 190, canvas.height - 20);
 
-                    c.font = "bold 10px Arial";
+                    c.font = "bold 10px Ubuntu";
                     c.fillText("Max Health [1]", 100, canvas.height - 181);
                     c.fillText("Health Regen [2]", 100, canvas.height - 158);
                     c.fillText("Body Damage [3]", 100, canvas.height - 135);
@@ -3451,7 +3583,7 @@
                     c.save();
                     c.translate(210, canvas.height - 200);
                     c.rotate(0.3);
-                    c.font = "bold 20px Arial";
+                    c.font = "bold 20px Ubuntu";
                     c.lineWidth = 1;
                     c.fillText("x" + tanks[0].xppoints, 0, 0);
                     c.strokeText("x" + tanks[0].xppoints, 0, 0);
@@ -3543,7 +3675,6 @@
             canClick = true;
         });
         window.addEventListener("keydown", function(e) {
-            e.preventDefault();
             keys[e.keyCode] = true;
         });
         window.addEventListener("beforeunload", function(e) {
